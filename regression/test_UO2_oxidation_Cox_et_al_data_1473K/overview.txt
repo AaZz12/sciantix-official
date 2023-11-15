@@ -3,8 +3,8 @@ Model #1: 	Effective burnup	: G. Khvostov et al., WRFPM-2005, Kyoto, Japan, 2005
 Model #2: 	Environment composition	Lewis et al. JNM 227 (1995) 83-109, D.R. Olander, Nucl. Technol. 74 (1986) 215.
 Model #3: 	UO2 thermochemistry	Blackburn (1973) J. Nucl. Mater., 46, 244-252.
 Model #4: 	Stoichiometry deviation	
-Model #5: 	High-burnup structure formation	: not considered.
-Model #6: 	High-burnup structure porosity	not considered
+Model #5: 	High burnup structure formation	: not considered.
+Model #6: 	High burnup structure porosity	not considered
 Model #7: 	Grain growth	constant grain radius.
 Model #8: 	Grain-boundary sweeping	Not considered
 Model #9: 	Gas production - Xe in UO2	 
@@ -76,8 +76,9 @@ Input setting #14: 	iHelium = 0
 Input setting #15: 	iHeDiffusivity = 0
 Input setting #16: 	iGrainBoundarySweeping = 0
 Input setting #17: 	iHighBurnupStructureFormation = 0
-Input setting #18: 	iHighBurnupStructurePorosity = 0
-Input setting #19: 	iHeliumProductionRate = 0
-Input setting #20: 	iStoichiometryDeviation = 5
-Input setting #21: 	iBubbleDiffusivity = 0
+Input setting #18: 	iHBS_FGDiffusionCoefficient = 0
+Input setting #19: 	iHighBurnupStructurePorosity = 0
+Input setting #20: 	iHeliumProductionRate = 0
+Input setting #21: 	iStoichiometryDeviation = 5
+Input setting #22: 	iBubbleDiffusivity = 0
 

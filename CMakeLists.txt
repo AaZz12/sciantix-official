@@ -33,7 +33,7 @@ enable_language (CXX)
 
 # Specify SCIANTIX directories
 set(include "include/*.h")
-set(src "src/*.C")
+set(src "src/*.cpp")
 
 include(CTest)
 enable_testing()
