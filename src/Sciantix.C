@@ -24,73 +24,77 @@ void Sciantix(int Sciantix_options[],
 {
 	SetVariables(Sciantix_options, Sciantix_history, Sciantix_variables, Sciantix_scaling_factors, Sciantix_diffusion_modes);
 
-	SetMatrix();
-
 	SetGas();
+
+	SetMatrix();
 
 	SetSystem();
 
 	Simulation sciantix_simulation;
 
-	// std::cout << "lauree" << std::endl;
-
-	// std::cout << sciantix_variable[sv["Fabrication porosity"]].getFinalValue() << std::endl;
-
-	Burnup(); 									  									MapModel();
+	Burnup();
+	MapModel();
 	sciantix_simulation.Burnup();
 
-	EffectiveBurnup();                             	MapModel();
+	EffectiveBurnup();
+	MapModel();
 	sciantix_simulation.EffectiveBurnup();
 
-	//std::cout << "HBD Alessio Magni" << std::endl;
+	EnvironmentComposition();
+	MapModel();
 
-	Densification();																MapModel();
-	sciantix_simulation.Densification();
+	UO2Thermochemistry();
+	MapModel();
+	sciantix_simulation.UO2Thermochemistry();
 
-	Porosity();																		  MapModel();
+	StoichiometryDeviation();
+	MapModel();
+	sciantix_simulation.StoichiometryDeviation(); 
 
-	GrainGrowth();                                 	MapModel();
+	HighBurnupStructureFormation();
+	MapModel();
+	sciantix_simulation.HighBurnupStructureFormation();
+
+	HighBurnupStructurePorosity();
+	MapModel();
+	sciantix_simulation.HighBurnupStructurePorosity();
+
+	GrainGrowth();
+	MapModel();
 	sciantix_simulation.GrainGrowth();
 
-	GrainBoundarySweeping();                       	MapModel();
+	GrainBoundarySweeping();
+	MapModel();
 	sciantix_simulation.GrainBoundarySweeping();
 
-	GasProduction();                            		MapModel();
+	GasProduction();
+	MapModel();
 	sciantix_simulation.GasProduction();
 
 	sciantix_simulation.GasDecay();
 
-	IntraGranularBubbleEvolution();          				MapModel();
+	IntraGranularBubbleEvolution();
+	MapModel();
 	sciantix_simulation.IntraGranularBubbleBehaviour();
 
-	GasDiffusion();                                	MapModel();
+	GasDiffusion();
+	MapModel();
 	sciantix_simulation.GasDiffusion();
 
-	//std::cout << "HBD Alessio Magni" << std::endl;
-	sciantix_simulation.AthermalRelease();
-
-	//std::cout << "HBD Alessio Magni" << std::endl;
-
-	SolidSwelling();																MapModel();
-	sciantix_simulation.SolidSwelling();
-
-	GrainBoundaryMicroCracking();                  	MapModel();
+	GrainBoundaryMicroCracking();
+	MapModel();
 	sciantix_simulation.GrainBoundaryMicroCracking();
 
-	GrainBoundaryVenting();                        	MapModel();
+	GrainBoundaryVenting();
+	MapModel();
 	sciantix_simulation.GrainBoundaryVenting();
 
-	InterGranularBubbleEvolution();                	MapModel();
-	sciantix_simulation.InterGranularBubbleBehaviour();	
-
-	/*std::cout << sciantix_variable[sv["Solid swelling"]].getFinalValue() << std::endl;*/
-	/*std::cout << sciantix_variable[sv["Intragranular gas swelling"]].getFinalValue() << std::endl;*/
-	/*std::cout << history_variable[hv["Fission rate"]].getFinalValue() << std::endl;*/
-
-	DensityUpdate();                             		MapModel();
+	InterGranularBubbleEvolution();
+	MapModel();
+	sciantix_simulation.InterGranularBubbleBehaviour();
 
 	FiguresOfMerit();
-
+	
 	UpdateVariables(Sciantix_variables, Sciantix_diffusion_modes);
 
 	Output();

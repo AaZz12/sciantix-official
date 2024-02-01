@@ -19,16 +19,23 @@ from sklearn.linear_model import LinearRegression
 
 """ ------------------- Global Variables ------------------- """
 
+# Data from SCIANTIX 1.0
+igSwelling1 = [0.033, 0.048]
+# Data generated from SCIANTIX 2.0
+igSwelling2 = []
+
+# Intragranular bubble density from Baker 1977 experiments
+igDensityKashibe = [9.0, 6.7] #1e23 bub/m3
+igDensity2 = []
+
+igRadiusKashibe = [1.1e-9, 1.95e-9]
+igRadius2 = []
+
+FGR2 = []
+
 number_of_tests_failed = 0
-
-
-time = []
-temperature = []
-FGR = []
-bbconc = []
-burnup = []
-
-##sample_number = len(igSwelling1)
+gold = []
+sample_number = len(igSwelling1)
 
 
 """ ------------------- Functions ------------------- """
@@ -87,29 +94,47 @@ def do_gold():
     print(f"output.txt not found in {file}")
 
 # Plot the regression test results
-def do_plot(x,y):
-  # SCIANTIX 1.0 vs. SCIANTIX 2.0
+def do_plot():
+  # Data vs. SCIANTIX 2.0
   fig, ax = plt.subplots()
 
-  ax.scatter(x, y, c = '#98E18D', edgecolors= '#999AA2', marker = 'o', s=20, label='SCIANTIX 2.0')
+  ax.scatter(igDensityKashibe, igDensity2, c = '#FA82B4', edgecolors= '#999AA2', marker = '^', s=20, label='SCIANTIX 2.0')
 
-  # ax.plot([1e-3, 1e2],[1e-3, 1e2], '-', color = '#757575')
-  # ax.plot([1e-3, 1e2],[2e-3, 2e2],'--', color = '#757575')
-  # ax.plot([1e-3, 1e2],[5e-4, 5e1],'--', color = '#757575')
-  # ax.set_xlim(1e-2, 1e1)
-  # ax.set_ylim(1e-2, 1e1)
+  ax.plot([0.1, 100],[0.1, 100], '-', color = '#757575')
+  ax.plot([0.1, 100],[0.05, 50],'--', color = '#757575')
+  ax.plot([0.1, 100],[0.2, 200],'--', color = '#757575')
+  ax.set_xlim(0.1, 100)
+  ax.set_ylim(0.1, 100)
 
-  # ax.set_xscale('log')
-  # ax.set_yscale('log')
+  ax.set_xscale('log')
+  ax.set_yscale('log')
 
   # ax.set_title('Intragranular gaseous swelling')
-  ax.set_xlabel('Burnup (MWd/kg)')
-  ax.set_ylabel('Intragranular bubble concentratrion (bub/m3)')
+  ax.set_xlabel('Experimental (%)')
+  ax.set_ylabel('Calculated (%)')
   ax.legend()
 
   plt.show()
 
+  fig, ax = plt.subplots()
 
+  ax.scatter(igRadiusKashibe, igRadius2, c = '#FA82B4', edgecolors= '#999AA2', marker = '^', s=20, label='SCIANTIX 2.0')
+
+  ax.plot([0.1e-9, 100e-9],[0.1e-9, 100e-9], '-', color = '#757575')
+  ax.plot([0.1e-9, 100e-9],[0.05e-9, 50e-9],'--', color = '#757575')
+  ax.plot([0.1e-9, 100e-9],[0.2e-9, 200e-9],'--', color = '#757575')
+  ax.set_xlim(0.1e-9, 100e-9)
+  ax.set_ylim(0.1e-9, 100e-9)
+
+  ax.set_xscale('log')
+  ax.set_yscale('log')
+
+  # ax.set_title('Intragranular gaseous swelling')
+  ax.set_xlabel('Experimental (%)')
+  ax.set_ylabel('Calculated (%)')
+  ax.legend()
+
+  plt.show()
 
 # Main function of the baker regression
 def regression_kashibe(wpath, mode_Kashibe, mode_gold, mode_plot, folderList, number_of_tests, number_of_tests_failed):
@@ -162,37 +187,28 @@ def regression_kashibe(wpath, mode_Kashibe, mode_gold, mode_plot, folderList, nu
         print("...golding existing results.")
         do_gold()
 
-      # Retrieve the generated data of Time
-      timePos = findSciantixVariablePosition(data, "Time (h)")
-      time.append(data[-1:,timePos].astype(float))
-      
-      #Retrieve the generated data of Temperature
-      temperaturePos = findSciantixVariablePosition(data, "Temperature (K)")
-      temperature.append(data[-1, temperaturePos].astype(float))
-
-      #Retrieve the generated data of Burnup
-      burnupPos = findSciantixVariablePosition(data, "Burnup (MWd/kgUO2)")
-      burnup.append(data[-1, burnupPos].astype(float))
-
       # Retrieve the generated data of Fission gas release
       FGRPos = findSciantixVariablePosition(data, "Fission gas release (/)")
-      FGR.append(data[-1,FGRPos].astype(float))
+      FGR2.append(100*data[-1,FGRPos].astype(float))
 
-      # Retrieve the generated data of Intragranular bubble concentration (bub/m3)
-      bbconcPos = findSciantixVariablePosition(data, "Intragranular bubble concentration (bub/m3)")
-      bbconc.append(data[-1,bbconcPos].astype(float))
+      # Retrieve the generated data of Intragranular gas swelling
+      intraGranularSwellingPos = findSciantixVariablePosition(data, "Intragranular gas swelling (/)")
+      igSwelling2.append(100*data[-1,intraGranularSwellingPos].astype(float))
 
-      # arrays
-      # time = data[1:,timePos].astype(float)
-      # temperature = data[1:,temperaturePos].astype(float)
-      # burnup = data[1:,burnupPos].astype(float) / 0.8814
-      # FGR = data[1:,FGRPos].astype(float)
-      # bbconc = data[1:,bbconcPos].astype(float)
+      # Retrieve the gold data of Intragranular gas swelling
+      intraGranularSwellingGoldPos = findSciantixVariablePosition(data_gold, "Intragranular gas swelling (/)")
+      gold.append(100*data_gold[-1,intraGranularSwellingGoldPos].astype(float))
+
+      pos = findSciantixVariablePosition(data, "Intragranular bubble concentration (bub/m3)")
+      igDensity2.append(1e-23*data[-1,pos].astype(float))
+
+      pos = findSciantixVariablePosition(data, "Intragranular bubble radius (m)")
+      igRadius2.append(data[-1,pos].astype(float))
 
       os.chdir('..')
 
   # Check if the user has chosen to display the various plots
   if mode_plot == 1:
-    do_plot(burnup, bbconc)
+    do_plot()
 
   return folderList, number_of_tests, number_of_tests_failed

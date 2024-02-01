@@ -18,8 +18,10 @@
 #include "HistoryVariableDeclaration.h"
 #include "ModelDeclaration.h"
 #include "SciantixScalingFactorDeclaration.h"
-
+#include "SolverDeclaration.h"
 #include "MapSciantixVariable.h"
 #include "MapHistoryVariable.h"
 
 void GrainBoundaryVenting();
+double openPorosity(double fabrication_porosity);
+double athermalVentingFactor(double open_p, double theta, double p, double l, double bu, double T, double F);

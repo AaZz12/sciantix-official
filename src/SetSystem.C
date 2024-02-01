@@ -20,19 +20,80 @@
 
 void SetSystem()
 {
-	for (int k = 0; k < 10; ++k)
+	switch (int(input_variable[iv["iFuelMatrix"]].getValue()))
 	{
-		switch (k)
+		case 0: 
 		{
-		case 0: Xe_in_UO2();             		MapSystem();    	break;
-		case 1: Kr_in_UO2();            	 	MapSystem();    	break;
-		case 2: He_in_UO2();           			MapSystem();    	break;
-		case 3: Xe133_in_UO2();							MapSystem();    	break;
-		case 4: Kr85m_in_UO2();							MapSystem();    	break;
+			Xe_in_UO2();
+			MapSystem();
 
-		default:                                            	break;
+			Kr_in_UO2();
+			MapSystem();
+
+			He_in_UO2();
+			MapSystem();
+
+			Xe133_in_UO2();
+			MapSystem();
+
+			Kr85m_in_UO2();
+			MapSystem();
+						
+			break;
 		}
+
+		case 1: 
+		{
+			Xe_in_UO2HBS();
+			MapSystem();
+
+			break;
+		}
+		
+		default:
+			break;
 	}
+}
+
+void System::setBubbleDiffusivity(int input_value)
+{
+	const double boltzmann_constant = 8.6173e-5; // eV
+	const double pi = CONSTANT_NUMBERS_H::MathConstants::pi;
+
+	switch(input_value)
+	{
+		case 0:
+		{
+			bubble_diffusivity = 0;
+			break;
+		}
+
+		case 1:
+		{	
+			if(sciantix_variable[sv["Intragranular bubble radius"]].getInitialValue() == 0)
+				bubble_diffusivity = 0;
+
+			else
+			{
+				// Assuming that the bubble motion during irradiation is controlled by the volume diffusion mechanism,
+				// the bubble diffusivty takes the form Db = (V_atom_in_lattice/bubble_volume) * volume_self_diffusivity
+				// @ref Evans, JNM 210 (1994) 21-29
+				// @ref Van Uffelen et al. NET 43-6 (2011)
+
+				double volume_self_diffusivity = 3.0e-5*exp(-4.5/(boltzmann_constant*history_variable[hv["Temperature"]].getFinalValue()));
+				double bubble_radius = sciantix_variable[sv["Intragranular bubble radius"]].getInitialValue();
+
+				bubble_diffusivity = 3 * matrix[0].getSchottkyVolume() * volume_self_diffusivity / (4.0 * pi * pow(bubble_radius,3.0));
+			}
+			
+			break;
+		}
+
+		default:
+			ErrorMessages::Switch("SetSystem.cpp", "iBubbleDiffusivity", input_value);
+			break;
+	}
+
 }
 
 void System::setFissionGasDiffusivity(int input_value)
@@ -63,7 +124,7 @@ void System::setFissionGasDiffusivity(int input_value)
 	case 1:
 	{
 		/**
-		 * @brief iFGDiffusionCoefficient = 1 set the fission gas (xenon and krypton) single-stom intragranular diffusivity equal to the expression 
+		 * @brief iFGDiffusionCoefficient = 1 set the fission gas (xenon and krypton) single-atom intragranular diffusivity equal to the expression 
 		 * in @ref *Turnbull et al (1988), IWGFPT-32, Preston, UK, Sep 18-22*.
 		 * 
 		 */
@@ -86,7 +147,7 @@ void System::setFissionGasDiffusivity(int input_value)
 	case 2:
 	{
 		/**
-		 * @brief iFGDiffusionCoefficient = 2 set the xenon single-stom intragranular diffusivity equal to the expression 
+		 * @brief iFGDiffusionCoefficient = 2 set the xenon effective intragranular diffusivity equal to the expression 
 		 * in @ref *Matzke (1980), Radiation Effects, 53, 219-242*.
 		 * 
 		 */
@@ -101,7 +162,7 @@ void System::setFissionGasDiffusivity(int input_value)
 	case 3:
 	{
 		/**
-		 * @brief iFGDiffusionCoefficient = 3 set the xenon single-stom intragranular diffusivity equal to the expression 
+		 * @brief iFGDiffusionCoefficient = 3 set the xenon single-atom intragranular diffusivity equal to the expression 
 		 * in @ref *Turnbull et al., (2010), Background and Derivation of ANS-5.4 Standard Fission Product Release Model*.
 		 * 
 		 */
@@ -124,7 +185,7 @@ void System::setFissionGasDiffusivity(int input_value)
 	case 4:
 	{
 		/**
-		 * @brief iFGDiffusionCoefficient = 4 set the xenon single-stom intragranular diffusivity equal to the expression 
+		 * @brief iFGDiffusionCoefficient = 4 set the xenon single-atom intragranular diffusivity equal to the expression 
 		 * in @ref *iFGDiffusionCoefficient: Ronchi, C. High Temp 45, 552-571 (2007)*.
 		 * 
 		 */
@@ -158,11 +219,40 @@ void System::setFissionGasDiffusivity(int input_value)
 		break;
 	}
 
+	case 6:
+	{
+		/**
+		 * @brief this case is for 
+		 * 
+		 */
+		double x = sciantix_variable[sv["Stoichiometry deviation"]].getFinalValue();
+		double temperature = history_variable[hv["Temperature"]].getFinalValue();
+		double fission_rate = history_variable[hv["Fission rate"]].getFinalValue();
+
+		double d1 = 7.6e-10 * exp(-4.86e-19 / (boltzmann_constant * temperature));
+		double d2 = 4.0 * 1.41e-25 * sqrt(fission_rate) * exp(-1.91e-19 / (boltzmann_constant * temperature));
+		double d3 = 8.0e-40 * fission_rate;
+
+		double S = exp(-74100/temperature);
+		double G = exp(-35800/temperature);
+		double uranium_vacancies = 0.0;
+
+		uranium_vacancies = S/pow(G,2.0) * (0.5*pow(x,2.0) + G + 0.5*pow((pow(x,4.0) + 4*G*pow(x,2.0)),0.5));
+
+		double d4 = pow(3e-10,2)*1e13*exp(-27800/temperature)*uranium_vacancies;
+
+		diffusivity = d1 + d2 + d3 + d4;
+
+		diffusivity *= sf_diffusivity;
+
+		break;		
+	}
+
 
 	case 99:
 	{
 		/**
-		 * @brief iFGDiffusionCoefficient = 99 set the xenon single-stom intragranular diffusivity to zero.
+		 * @brief iFGDiffusionCoefficient = 99 set the xenon single-atom intragranular diffusivity to zero.
 		 * 
 		 */
 
@@ -191,12 +281,12 @@ void System::setHeliumDiffusivity(int input_value)
 	case 0:
 	{
 		/**
-		 * @brief iHeDiffusivity = 0 corresponds to a zero intra-granular diffusivity value
+		 * @brief iHeDiffusivity = 0 corresponds to a constant intra-granular diffusivity value
 		 * 
 		 */
 		
-		reference += "iHeDiffusivity: null intragranular diffusivity.\n\t";
-		diffusivity = 0.0;
+		reference += "iHeDiffusivity: constant intragranular diffusivity.\n\t";
+		diffusivity = 7e-19;
 		break;
 	}
 
@@ -241,15 +331,15 @@ void System::setHeliumDiffusivity(int input_value)
 		break;
 	}
 
-	case 4:
+	case 99:
 	{
 		/**
-		 * @brief iHeDiffusivity = 3 corresponds to a constant intra-granular diffusivity value
+		 * @brief iHeDiffusivity = 4 corresponds to a null intra-granular diffusivity value
 		 * 
 		 */
 		
-		reference += "iHeDiffusivity: constant intragranular diffusivity.\n\t";
-		diffusivity = 1e-20;
+		reference += "iHeDiffusivity: null intragranular diffusivity.\n\t";
+		diffusivity = 0.0;
 		break;
 	}
 
@@ -294,7 +384,7 @@ void System::setResolutionRate(int input_value)
 		 */
 
 		reference += "iResolutionRate: J.A. Turnbull, JNM, 38 (1971), 203.\n\t";
-		resolution_rate = 2.0 * pi * matrix[sma["UO2"]].getFFrange() * pow(matrix[sma["UO2"]].getFFinfluenceRadius()
+		resolution_rate = 2.0 * pi * matrix[0].getFFrange() * pow(matrix[0].getFFinfluenceRadius()
 			+ sciantix_variable[sv["Intragranular bubble radius"]].getFinalValue(), 2) * history_variable[hv["Fission rate"]].getFinalValue();
 		resolution_rate *= sf_resolution_rate;
 
@@ -327,12 +417,12 @@ void System::setResolutionRate(int input_value)
 		reference += "iResolutionRate: Cognini et al. NET 53 (2021) 562-571.\n\t";
 
 		/// @param irradiation_resolution_rate
-		double irradiation_resolution_rate = 2.0 * pi * matrix[sma["UO2"]].getFFrange() * pow(matrix[sma["UO2"]].getFFinfluenceRadius()
+		double irradiation_resolution_rate = 2.0 * pi * matrix[0].getFFrange() * pow(matrix[0].getFFinfluenceRadius()
 			+ sciantix_variable[sv["Intragranular bubble radius"]].getFinalValue(), 2) * history_variable[hv["Fission rate"]].getFinalValue();
 
 		/// @param compressibility_factor
 		double helium_hard_sphere_diameter = 2.973e-10 * (0.8414 - 0.05 * log(history_variable[hv["Temperature"]].getFinalValue() / 10.985)); // (m)
-		double helium_volume_in_bubble = matrix[sma["UO2"]].getOIS(); // 7.8e-30, approximation of saturated nanobubbles
+		double helium_volume_in_bubble = matrix[0].getOIS(); // 7.8e-30, approximation of saturated nanobubbles
 		double y = pi * pow(helium_hard_sphere_diameter, 3) / (6.0 * helium_volume_in_bubble);
 		double compressibility_factor = (1.0 + y + pow(y, 2) - pow(y, 3)) / (pow(1.0 - y, 3));
 		
@@ -368,7 +458,6 @@ void System::setResolutionRate(int input_value)
 		break;
 	}
 
-
 	default:
 		ErrorMessages::Switch("SetSystem.cpp", "iResolutionRate", input_value);
 		break;
@@ -384,7 +473,6 @@ void System::setTrappingRate(int input_value)
 	 * 
 	 */
 	const double pi = CONSTANT_NUMBERS_H::MathConstants::pi;
-	const double boltzmann_constant = CONSTANT_NUMBERS_H::PhysicsConstants::boltzmann_constant;
 
 	switch (input_value)
 	{
@@ -433,10 +521,10 @@ void System::setTrappingRate(int input_value)
 	case 99:
 	{
 		/**
-		 * @brief iTrappingRate = 99 stands for the dummy case with zero trapping rate.
+		 * @brief iTrappingRate = 99 stands for the case with zero trapping rate.
 		 * 
 		 */
-		reference += "iTrappingRate: dummy case with zero trapping rate.\n\t";
+		reference += "iTrappingRate: case with zero trapping rate.\n\t";
 
 		trapping_rate = 0.0;
 		break;
