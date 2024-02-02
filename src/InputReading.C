@@ -203,7 +203,7 @@ void InputReading()
 	Sciantix_options[19] = ReadOneSetting("iHeliumProductionRate", input_settings, input_check);
 	Sciantix_options[20] = ReadOneSetting("iStoichiometryDeviation", input_settings, input_check);
 	Sciantix_options[21] = ReadOneSetting("iBubbleDiffusivity",input_settings,input_check);
-	
+
 	if (!input_initial_conditions.fail())
 	{
 		Sciantix_variables[0] = ReadOneParameter("Initial grain radius", input_initial_conditions, input_check);
@@ -277,7 +277,6 @@ void InputReading()
 		Sciantix_variables[63] = initial_composition_Kr85m[6];
 
 		Sciantix_variables[66] = ReadOneParameter("Initial stoichiometry deviation", input_initial_conditions, input_check);
-		Sciantix_variables[67] = ReadOneParameter("Fabrication porosity", input_initial_conditions, input_check);
 	}
 
 	int n = 0;

@@ -60,6 +60,7 @@ void HighBurnupStructurePorosity()
 			else
 				porosity_increment = rate_coefficient;
 		}
+
 		else
 		{
 			sciantix_variable[sv["HBS porosity"]].setInitialValue(0.15);

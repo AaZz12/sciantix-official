@@ -617,25 +617,6 @@ class Simulation : public Solver, public Model
 	{
 		if (!int(input_variable[iv["iGrainBoundaryVenting"]].getValue())) return;
 
-		double sigmoid_variable;
-		sigmoid_variable = sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue() *
-			exp(-sciantix_variable[sv["Intergranular fractional intactness"]].getIncrement());
-
-		// Vented fraction
-		sciantix_variable[sv["Intergranular vented fraction"]].setFinalValue(
-			1.0 /
-			pow((1.0 + model[sm["Grain-boundary venting"]].getParameter().at(0) *
-				exp(-model[sm["Grain-boundary venting"]].getParameter().at(1) *
-					(sigmoid_variable - model[sm["Grain-boundary venting"]].getParameter().at(2)))),
-				(1.0 / model[sm["Grain-boundary venting"]].getParameter().at(0)))
-		);
-
-		// Venting probability
-		sciantix_variable[sv["Intergranular venting probability"]].setFinalValue(
-			(1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue())
-			+ sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue() * sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue()
-		);
-
 		// Gas is vented by subtracting a fraction of the gas concentration at grain boundaries arrived from diffusion
 		// Bf = Bf - p_v * dB
 		for (std::vector<System>::size_type i = 0; i != sciantix_system.size(); ++i)
@@ -650,7 +631,6 @@ class Simulation : public Solver, public Model
 		sciantix_variable[sv[sciantix_system[i].getGasName() + " at grain boundary"]].resetValue();
 		}
 	}
-
 
 	void HighBurnupStructureFormation()
 	{

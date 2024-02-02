@@ -76,5 +76,4 @@ Input setting #18: 	iHighBurnupStructurePorosity = 0
 Input setting #19: 	iHeliumProductionRate = 0
 Input setting #20: 	iStoichiometryDeviation = 0
 Input setting #21: 	iBubbleDiffusivity = 0
-Input setting #22: 	iAthermalRelease = 0
 
