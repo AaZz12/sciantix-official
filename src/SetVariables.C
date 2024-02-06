@@ -1055,6 +1055,7 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	sf_fission_rate = Sciantix_scaling_factors[5];
 	sf_cent_parameter = Sciantix_scaling_factors[6];
 	sf_helium_production_rate = Sciantix_scaling_factors[7];
+    sf_dummy = Sciantix_scaling_factors[8];
 
 	// ----
 	// Maps

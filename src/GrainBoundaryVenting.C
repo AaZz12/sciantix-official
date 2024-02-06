@@ -74,8 +74,8 @@ void GrainBoundaryVenting()
 
 		// Venting probability
 		sciantix_variable[sv["Intergranular venting probability"]].setFinalValue(
-			(1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getIncrement())
-			+ sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue() * sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue()
+			(1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()) +
+			sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue() * sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue()
 		);
 
         reference = "Pizzocri et al., D6.4 (2020), H2020 Project INSPYRE";
@@ -108,6 +108,7 @@ void GrainBoundaryVenting()
         double open_porosity = openPorosity(sciantix_variable[sv["Fabrication porosity"]].getFinalValue());
 
         sciantix_variable[sv["Intergranular venting probability"]].setFinalValue(
+                sf_dummy *
                 athermalVentingFactor(
                 open_porosity,
                 2.0 / 3.0 * 3.14,
