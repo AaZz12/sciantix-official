@@ -38,13 +38,14 @@ class sciantix_simulation():
             file.write('0\t#\tiStoichiometryDeviation (0= not considered, 1= Cox et al. 1986, 2= Bittel et al. 1969, 3= Abrefah et al. 1994, 4= Imamura et al. 1997, 5= Langmuir-based approach)\n')
             file.write('0\t#\tiBubbleDiffusivity (0= not considered, 1= volume diffusivity)')
 
-    def writeInputHistory(self, t_0, t_end, T, F):
-        input_history_1 = [t_0  ,'\t', T,'\t', F,'\t', 0, '\n']
-        input_history_2 = [t_end,'\t', T,'\t', F,'\t', 0]
+    def writeInputHistory(self, t_0, t_end, T, F, sigma_hyd):
+        input_history_1 = [t_0  ,'\t', T,'\t', F,'\t', sigma_hyd, '\n']
+        input_history_2 = [t_end,'\t', T,'\t', F,'\t', sigma_hyd]
         result_string1 = ''.join(str(item) for item in input_history_1)
         result_string2 = ''.join(str(item) for item in input_history_2)
 
         history_path = self.path + '/input_history.txt'
+
         with open(history_path, 'w') as file:
             file.write(result_string1)
             file.write(result_string2)
@@ -54,7 +55,7 @@ class sciantix_simulation():
         print(result_string2)
         print("-------------------------------")
         
-    def run_sciantix(self, t_0, t_end, T_0, T_end, F, step, variable_name, mapped_value):
+    def run_sciantix(self, t_0, t_end, T_0, T_end, F, sigma_hyd, step, variable_name, mapped_value):
 
         threshold_temperature = np.empty(shape=(1,1), dtype=float)
         threshold_burnup = np.empty(shape=(1,1), dtype=float)
@@ -63,17 +64,18 @@ class sciantix_simulation():
         T = T_0
         for T in range(T_0, T_end, step):
             print(f"Test at temperature {T}\n")
-            self.writeInputHistory(t_0, t_end, T, F)
+            self.writeInputHistory(t_0, t_end, T, F, sigma_hyd)
             subprocess.run(self.path + "/sciantix.x")
 
+            # finding calculated sciantix variable
             data = np.genfromtxt('output.txt', dtype= 'str', delimiter='\t')
             i,j = np.where(data == variable_name)
             values = np.array(data[1:, j], dtype=float)
 
+            # looking for value to map
             i,j = np.where(values == mapped_value)
             i = np.array(i, dtype=int)
 
-            # index where variable_name == mapped value
             try:
                 threshold = np.min(i)
                 print("Threshold found!")
@@ -106,22 +108,23 @@ map_saturation_fractional_coverage.set_script()
 temperature_step = 25
 final_time = 30000
 fission_rate = 3e18
+sigma_hyd = 0
 
 # map - no athermal release
 map_saturation_fractional_coverage.writeInputSettings(0)
-temperature0, burnup0 = map_saturation_fractional_coverage.run_sciantix(0, final_time, 650, 1800, fission_rate, step=temperature_step, variable_name="Intergranular fractional coverage (/)", mapped_value=0.5)
+temperature0, burnup0 = map_saturation_fractional_coverage.run_sciantix(0, final_time, 650, 1800, fission_rate, sigma_hyd, step=temperature_step, variable_name="Intergranular fractional coverage (/)", mapped_value=0.5)
 
 # map - no athermal release (vented fraction)
 map_saturation_fractional_coverage.writeInputSettings(1)
-temperature1, burnup1 = map_saturation_fractional_coverage.run_sciantix(0, final_time, 650, 1800, fission_rate, step=temperature_step, variable_name="Intergranular fractional coverage (/)", mapped_value=0.5)
+temperature1, burnup1 = map_saturation_fractional_coverage.run_sciantix(0, final_time, 650, 1800, fission_rate, sigma_hyd, step=temperature_step, variable_name="Intergranular fractional coverage (/)", mapped_value=0.5)
 
 # map - athermal release from open porosity (claisse)
 map_saturation_fractional_coverage.writeInputSettings(2)
-temperature2, burnup2 = map_saturation_fractional_coverage.run_sciantix(0, final_time, 650, 1800, fission_rate, step=temperature_step, variable_name="Intergranular fractional coverage (/)", mapped_value=0.5)
+temperature2, burnup2 = map_saturation_fractional_coverage.run_sciantix(0, final_time, 650, 1800, fission_rate, sigma_hyd, step=temperature_step, variable_name="Intergranular fractional coverage (/)", mapped_value=0.5)
 
 # map - athermal release from open porosity (neural network)
 map_saturation_fractional_coverage.writeInputSettings(3)
-temperature3, burnup3 = map_saturation_fractional_coverage.run_sciantix(0, final_time, 650, 1800, fission_rate, step=temperature_step, variable_name="Intergranular fractional coverage (/)", mapped_value=0.5)
+temperature3, burnup3 = map_saturation_fractional_coverage.run_sciantix(0, final_time, 650, 1800, fission_rate, sigma_hyd, step=temperature_step, variable_name="Intergranular fractional coverage (/)", mapped_value=0.5)
 
 plt.scatter(temperature0, burnup0, marker='.', label = 'w/o athermal release')
 plt.scatter(temperature1, burnup1, marker='.', label = 'w/ vented fraction')
