@@ -4,6 +4,7 @@ import re
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+import shutil
 
 class sciantix_simulation():
     def __init__(self):
@@ -57,6 +58,8 @@ class sciantix_simulation():
         
     def run_sciantix(self, t_0, t_end, T_0, T_end, F, sigma_hyd, step, variable_name, mapped_value):
 
+        shutil.copy("../../../bin/sciantix.x", os.getcwd())
+
         threshold_temperature = np.empty(shape=(1,1), dtype=float)
         threshold_burnup = np.empty(shape=(1,1), dtype=float)
 
@@ -98,7 +101,7 @@ class sciantix_simulation():
         print(f"Threshold temperature = {threshold_temperature[1:]}")
         print(f"Threshold burnup = {threshold_burnup[1:]}")
     
-        return threshold_burnup[1:], threshold_temperature[1:]
+        return threshold_temperature[1:], threshold_burnup[1:]
 
 # beginning of the mapping script
 map_saturation_fractional_coverage = sciantix_simulation()
@@ -126,10 +129,18 @@ temperature2, burnup2 = map_saturation_fractional_coverage.run_sciantix(0, final
 map_saturation_fractional_coverage.writeInputSettings(3)
 temperature3, burnup3 = map_saturation_fractional_coverage.run_sciantix(0, final_time, 650, 1800, fission_rate, sigma_hyd, step=temperature_step, variable_name="Intergranular fractional coverage (/)", mapped_value=0.5)
 
-plt.scatter(temperature0, burnup0, marker='.', label = 'w/o athermal release')
-plt.scatter(temperature1, burnup1, marker='.', label = 'w/ vented fraction')
-plt.scatter(temperature2, burnup2, marker='.', label = 'w/ athermal release - Claisse')
-plt.scatter(temperature3, burnup3, marker='.', label = 'w/ athermal release - ann')
+# Map: Haleden threshold
+burnup = np.linspace(0.4, 30, 100)
+
+plt.plot(burnup, 9800 / np.log(burnup / 0.005), label = 'Halden threshold')
+
+plt.scatter(burnup0, temperature0, marker='.', label = 'w/o athermal release')
+plt.scatter(burnup1, temperature1, marker='.', label = 'w/ vented fraction')
+plt.scatter(burnup2, temperature2, marker='.', label = 'w/ athermal release - Claisse')
+plt.scatter(burnup3, temperature3, marker='.', label = 'w/ athermal release - ann')
+
+plt.xlim([1, 16])
+plt.ylim([1200, 1800])
 
 plt.legend()
 
