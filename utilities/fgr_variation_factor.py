@@ -1,5 +1,7 @@
 # Variation factors of ﬁssion gas release: fit from G. Pastore et al. / Journal of Nuclear Materials 456 (2015) 398–408
 
+# Data points from Pastore et al. (2015)
+# --------------------------------------
 # FGR                   Variation factor
 # 0.05485687542441836	13.52914798206278
 # 0.09192672168556029	5.493273542600898
@@ -41,12 +43,12 @@ print(f"c = {c_fit}")
 x_fit = np.linspace(0.05, 0.3, 100)
 y_fit = fit_function(x_fit, a_fit, b_fit, c_fit)
 
-# plt.scatter(points[:,0], points[:,1], label='Data points')
-# plt.plot(x_fit, y_fit, label='Fitted curve', color='red')
-# plt.xlabel('FGR mean (/)')
-# plt.ylabel('FGR variation factor (/)')
-# plt.legend()
-# plt.show()
+plt.scatter(points[:,0], points[:,1], label='Data points')
+plt.plot(x_fit, y_fit, label='Fitted curve', color='red')
+plt.xlabel('FGR mean (/)')
+plt.ylabel('FGR variation factor (/)')
+plt.legend()
+plt.show()
 
 # Exp
 calculated = np.array([1.43, 21.18, 2.47, 11.7, 0.83, 24.23, 20.6, 0.63, 17.67, 1.47, 9.9, 0.3, 14.36, 0.46, 21.06, 2.02, 10.12, 0.37, 16.5, 28.9, 15.35, 13.71, 15.1, 19.64, 17.11, 18.45, 18.58, 12.83, 15.91, 6.1, 6.44, 8.63, 5.57, 4.48, 4.37, 4.26, 2.39, 2.41, 4.64, 4.63, 4.52, 4.75])
