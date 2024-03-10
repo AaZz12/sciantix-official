@@ -358,9 +358,72 @@ def fission_gas(file):
 
 	plt.show()
 
+def intergranular(file):
+	# Intergranular bubble concentration (bub/m2)	Intergranular atoms per bubble (at/bub)	Intergranular vacancies per bubble (vac/bub)	Intergranular bubble radius (m)	Intergranular bubble area (m2)	Intergranular bubble volume (m3)
+	# Intergranular fractional coverage (/)	Intergranular saturation fractional coverage (/)	Intergranular gas swelling (/)	Intergranular fractional intactness (/)	Burnup (MWd/kgUO2)	U235 (at/m3)	U238 (at/m3)	Intergranular S/V (1/m)
+	# Intergranular vented fraction (/)	Intergranular venting probability (/)
+
+	data = import_data(file)
+
+	time = data[1:,findSciantixVariablePosition(data, "Time (h)")].astype(float)
+	temperature = data[1:,findSciantixVariablePosition(data, "Temperature (K)")].astype(float)
+	frate = data[1:,findSciantixVariablePosition(data, "Fission rate (fiss / m3 s)")].astype(float)
+	sigma = data[1:,findSciantixVariablePosition(data, "Hydrostatic stress (MPa)")].astype(float)
+
+	x1 = data[1:,findSciantixVariablePosition(data, "Intergranular bubble concentration (bub/m2)")].astype(float)
+	x2 = data[1:,findSciantixVariablePosition(data, "Intergranular atoms per bubble (at/bub)")].astype(float)
+	x3 = data[1:,findSciantixVariablePosition(data, "Intergranular vacancies per bubble (vac/bub)")].astype(float)
+
+	# PLOT
+	fig, ax = plt.subplots() 
+	ax.set_xlabel('Time, h')
+	secondary_axes_1 = {}
+
+	ax, _ = plot_data(ax, time, x1, 'Intergranular bubble concentration (bub/m2)', 'N', 'tab:red', '-', 'y1')
+	ax, secondary_axes_1 = plot_data(ax, time, x2, 'Intergranular atoms per bubble (at/bub)', 'n_g', 'tab:blue','-', 'y2', secondary_axes_1)
+	ax, secondary_axes_1 = plot_data(ax, time, x3, 'Intergranular vacancies per bubble (vac/bub)', 'n_v', 'tab:green','-', 'y3', secondary_axes_1)
+
+	fig.tight_layout()
+	plt.show()
+
+	# PLOT
+	fig, ax = plt.subplots() 
+	ax.set_xlabel('Time, h')
+
+	ax.plot(time, data[1:,findSciantixVariablePosition(data, "Intergranular fractional coverage (/)")].astype(float), 	color=colors[0], label="Intergranular fractional coverage")
+	ax.plot(time, data[1:,findSciantixVariablePosition(data, "Intergranular fractional intactness (/)")].astype(float), 	color=colors[1], label="Intergranular fractional intactness")
+	ax.plot(time, data[1:,findSciantixVariablePosition(data, "Intergranular vented fraction (/)")].astype(float), 	color=colors[0], label="Intergranular vented fraction")
+	ax.plot(time, data[1:,findSciantixVariablePosition(data, "Intergranular venting probability (/)")].astype(float), 	color=colors[1], label="Intergranular venting probability")
+	ax.plot(time, data[1:,findSciantixVariablePosition(data, "Intergranular venting probability (/)")].astype(float), 	color=colors[1], label="Intergranular venting probability")
+
+	ax.tick_params(axis='y')
+	ax.legend()
+
+	fig.tight_layout()
+
+	plt.show()
+
+	# PLOT
+	fig, ax = plt.subplots() 
+	ax.set_xlabel('Intergranular fractional coverage')
+	ax.set_ylabel("Intergranular vented fraction")
+
+	ax.plot(
+		data[1:,findSciantixVariablePosition(data, "Intergranular fractional coverage (/)")].astype(float),
+		data[1:,findSciantixVariablePosition(data, "Intergranular vented fraction (/)")].astype(float),
+		color=colors[0], label="Intergranular fractional coverage (/)")
+
+	ax.tick_params(axis='y')
+	ax.legend()
+
+	fig.tight_layout()
+
+	plt.show()
 
 def main():
-	is_main = 2
+	is_main = int(input("plot mode (1 or 2): "))
+
+	os.system('./sciantix.x')
 
 	# Check if the file 'output.txt' is in the current working directory.
 	if 'output.txt' in os.listdir(os.getcwd()):
@@ -376,7 +439,7 @@ def main():
 		elif is_main == 2:
 			input_history('output.txt')
 			fission_gas('output.txt')
-
+			intergranular('output.txt')
 	else:
 		# If the 'output.txt' file does not exist in the current directory, print an error message.
 		print('No file named "output.txt" found in the current directory')
