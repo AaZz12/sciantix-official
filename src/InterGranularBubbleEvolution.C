@@ -125,6 +125,21 @@ void InterGranularBubbleEvolution()
 				(boltzmann_constant * history_variable[hv["Temperature"]].getFinalValue());
 		}
 
+		// Vented fraction: Sigmoid(Fc), final value
+		sciantix_variable[sv["Intergranular vented fraction"]].setInitialValue(
+			1.0 / 
+			pow(
+				(1.0 + 0.1 * exp(- 10.0 * (sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue() - 0.43))),
+				(1.0 / 0.1)
+			)
+		);
+		
+		// Venting probability
+		sciantix_variable[sv["Intergranular venting probability"]].setInitialValue(
+		(1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()) 
+		+ sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue() * sciantix_variable[sv["Intergranular vented fraction"]].getInitialValue() 
+		);
+
 		parameter.push_back(growth_rate);
 		parameter.push_back(equilibrium_term);
 
@@ -133,7 +148,7 @@ void InterGranularBubbleEvolution()
 	}
 
 	default:
-		ErrorMessages::Switch("InterGranularBubbleEvolution.cpp", "iGrainBoundaryBehaviour", int(input_variable[iv["iGrainBoundaryBehaviour"]].getValue()));
+		ErrorMessages::Switch(__FILE__, "iGrainBoundaryBehaviour", int(input_variable[iv["iGrainBoundaryBehaviour"]].getValue()));
 		break;
 	}
 

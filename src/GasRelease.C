@@ -51,15 +51,15 @@ void GasRelease()
 			model.emplace_back();
 			model_index = int(model.size()) - 1;
 			model[model_index].setName("Gas release - " + sciantix_system[i].getName());
-			model[model_index].setRef("by G. Zullo");
+			model[model_index].setRef(": under development, G. Zullo");
 
 			double source_rate(0.0);
 			double decay_rate(0.0);
 
-			if(physics_variable[pv["Time step"]].getFinalValue() > 0.0)
+			if(physics_variable[pv["Time step"]].getFinalValue())
 			{
 				decay_rate = sciantix_variable[sv["Intergranular venting probability"]].getIncrement() / physics_variable[pv["Time step"]].getFinalValue();
-				source_rate = (1.0 - sciantix_variable[sv["Intergranular venting probability"]].getInitialValue()) * (sciantix_variable[sv[sciantix_system[i].getGasName() + " produced"]].getIncrement() - sciantix_variable[sv[sciantix_system[i].getGasName() + " in grain"]].getIncrement() - sciantix_variable[sv[sciantix_system[i].getGasName() + " decayed"]].getIncrement()) / physics_variable[pv["Time step"]].getFinalValue();
+				source_rate = (1.0 - sciantix_variable[sv["Intergranular venting probability"]].getFinalValue()) * (sciantix_variable[sv[sciantix_system[i].getGasName() + " produced"]].getIncrement() - sciantix_variable[sv[sciantix_system[i].getGasName() + " in grain"]].getIncrement() - sciantix_variable[sv[sciantix_system[i].getGasName() + " decayed"]].getIncrement()) / physics_variable[pv["Time step"]].getFinalValue();
 			}
 			else
 			{
@@ -77,7 +77,7 @@ void GasRelease()
 	}
 
 	default:
-		ErrorMessages::Switch("GasRelease.cpp", "iGrainBoundaryBehaviour", int(input_variable[iv["iGrainBoundaryBehaviour"]].getValue()));
+		ErrorMessages::Switch(__FILE__, "iGrainBoundaryBehaviour", int(input_variable[iv["iGrainBoundaryBehaviour"]].getValue()));
 		break;
 	}
 }

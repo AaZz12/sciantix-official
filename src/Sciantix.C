@@ -87,10 +87,6 @@ void Sciantix(int Sciantix_options[],
 
 	InterGranularBubbleEvolution();
 	MapModel();
-
-	GrainBoundaryVenting();
-	MapModel();
-
 	sciantix_simulation.InterGranularBubbleBehaviour();
 
 	GasRelease();
