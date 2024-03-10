@@ -19,8 +19,12 @@ Model #17: 	Gas diffusion - He in UO2
 Model #18: 	Gas diffusion - Xe133 in UO2	
 Model #19: 	Gas diffusion - Kr85m in UO2	
 Model #20: 	Grain-boundary micro-cracking	from Barani et al. (2017), JNM
-Model #21: 	Grain-boundary venting	not considered.
-Model #22: 	Intergranular bubble evolution	: Pastore et al., NED, 256 (2013) 75-86.
+Model #21: 	Intergranular bubble evolution	: Pastore et al., NED, 256 (2013) 75-86.
+Model #22: 	Gas release - Xe in UO2	: under development, G. Zullo
+Model #23: 	Gas release - Kr in UO2	: under development, G. Zullo
+Model #24: 	Gas release - He in UO2	: under development, G. Zullo
+Model #25: 	Gas release - Xe133 in UO2	: under development, G. Zullo
+Model #26: 	Gas release - Kr85m in UO2	: under development, G. Zullo
 
 Matrix #0: 	UO2	
 	no grain-boundary mobility.

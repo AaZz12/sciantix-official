@@ -16,12 +16,16 @@ Model #14: 	Gas diffusion - He in UO2
 Model #15: 	Gas diffusion - Xe133 in UO2	
 Model #16: 	Gas diffusion - Kr85m in UO2	
 Model #17: 	Grain-boundary micro-cracking	from Barani et al. (2017), JNM
-Model #18: 	Grain-boundary venting	not considered.
-Model #19: 	Intergranular bubble evolution	: Pastore et al., NED, 256 (2013) 75-86.
+Model #18: 	Intergranular bubble evolution	: Pastore et al., NED, 256 (2013) 75-86.
+Model #19: 	Gas release - Xe in UO2	: under development, G. Zullo
+Model #20: 	Gas release - Kr in UO2	: under development, G. Zullo
+Model #21: 	Gas release - He in UO2	: under development, G. Zullo
+Model #22: 	Gas release - Xe133 in UO2	: under development, G. Zullo
+Model #23: 	Gas release - Kr85m in UO2	: under development, G. Zullo
 
 Matrix #0: 	UO2	
 	Ainscough et al., JNM, 49 (1973) 117-128.
-	iGrainBoundaryVacancyDiffusivity: from Reynolds and Burton, JNM, 82 (1979) 22-25.
+	iGrainBoundaryVacancyDiffusivity: from White, JNM, 325 (2004), 61-77.
 	
 
 System #0: 	Xe in UO2	Production rate = cumulative yield * fission rate density.
@@ -63,7 +67,7 @@ Input setting #4: 	iResolutionRate = 1
 Input setting #5: 	iTrappingRate = 1
 Input setting #6: 	iNucleationRate = 1
 Input setting #7: 	iOutput = 1
-Input setting #8: 	iGrainBoundaryVacancyDiffusivity = 1
+Input setting #8: 	iGrainBoundaryVacancyDiffusivity = 2
 Input setting #9: 	iGrainBoundaryBehaviour = 1
 Input setting #10: 	iGrainBoundaryMicroCracking = 1
 Input setting #11: 	iFuelMatrix = 0
