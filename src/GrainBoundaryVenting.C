@@ -30,36 +30,40 @@ void GrainBoundaryVenting()
 
 	switch (int(input_variable[iv["iGrainBoundaryVenting"]].getValue()))
 	{
-	case 0:
-	{
-		/// @brief
-		/// This case corresponds to no grain boundary venting.
-
-		reference = "not considered.";
-
-		parameter.push_back(0.0);
-		parameter.push_back(0.0);
-		parameter.push_back(0.0);
-
-		break;
-	}
-
-	case 1:
+	case 0: case 1:
 	{
 		/// @brief
 		/// This case defines a set of parameters of the sigmoid function describing the venting probability 
 
 		// screw parameter
-		const double screw_parameter = 0.1;
-		parameter.push_back(sf_screw_parameter * screw_parameter);
+		double screw_parameter = 0.1;
+		screw_parameter *= sf_screw_parameter;
+		parameter.push_back(screw_parameter);
 
 		// span parameter
-		const double span_parameter = 10.0;
-		parameter.push_back(sf_span_parameter * span_parameter);
+		double span_parameter = 10.0;
+		span_parameter *= sf_span_parameter;
+		parameter.push_back(span_parameter);
 
 		// cent parameter
-		const double cent_parameter = 0.43;
-		parameter.push_back(sf_cent_parameter * cent_parameter);
+		double cent_parameter = 0.43;
+		cent_parameter *= sf_cent_parameter;
+		parameter.push_back(cent_parameter);
+
+		// Vented fraction
+		sciantix_variable[sv["Intergranular vented fraction"]].setInitialValue(
+			1.0 /
+			pow((1.0 + screw_parameter *
+				exp(- span_parameter *
+					(sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue() - cent_parameter))),
+				(1.0 / screw_parameter))
+		);
+
+		// Venting probability
+		sciantix_variable[sv["Intergranular venting probability"]].setInitialValue(
+			(1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue())
+			+ sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue() * sciantix_variable[sv["Intergranular vented fraction"]].getInitialValue()
+		);
 
 		reference = "from Pizzocri et al., D6.4 (2020), H2020 Project INSPYRE";
 

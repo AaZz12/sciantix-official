@@ -37,15 +37,19 @@ void InterGranularBubbleEvolution()
 	const double pi = CONSTANT_NUMBERS_H::MathConstants::pi;
 	const double boltzmann_constant = CONSTANT_NUMBERS_H::PhysicsConstants::boltzmann_constant;
 
-	if (input_variable[iv["iGrainBoundaryBehaviour"]].getValue() == 0)
+	switch (int(input_variable[iv["iGrainBoundaryBehaviour"]].getValue()))
+	{
+	case 0:
 	{
 		parameter.push_back(0.0);
 		parameter.push_back(0.0);
 
 		reference += ": No model for grain-boundary bubble evolution.";
+
+		break;
 	}
 
-	else if (input_variable[iv["iGrainBoundaryBehaviour"]].getValue() == 1)
+	case 1:
 	{
 		// Gas is distributed among bubbles
 		// n(at/bub) = c(at/m3) / (N(bub/m2) S/V(1/m))
@@ -54,14 +58,15 @@ void InterGranularBubbleEvolution()
 		{
 			if (gas[ga[sciantix_system[i].getGasName()]].getDecayRate() == 0.0)
 			{
-				sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].setFinalValue(
-					sciantix_variable[sv[sciantix_system[i].getGasName() + " at grain boundary"]].getFinalValue() /
-					(sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue() * (3.0 / sciantix_variable[sv["Grain radius"]].getFinalValue())));
+				sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].setInitialValue(
+					sciantix_variable[sv[sciantix_system[i].getGasName() + " at grain boundary"]].getInitialValue() /
+					(sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue() * sciantix_variable[sv["Intergranular S/V"]].getFinalValue())
+				);
 
-				n_at += sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].getFinalValue();
+				n_at += sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].getInitialValue();
 			}
 		}
-		sciantix_variable[sv["Intergranular atoms per bubble"]].setFinalValue(n_at);
+		sciantix_variable[sv["Intergranular atoms per bubble"]].setInitialValue(n_at);
 
 		// Calculation of the bubble dimension
 		// initial volume
@@ -70,7 +75,7 @@ void InterGranularBubbleEvolution()
 		{
 			if (gas[ga[sciantix_system[i].getGasName()]].getDecayRate() == 0.0)
 			{
-				vol += sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].getFinalValue() *
+				vol += sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].getInitialValue() *
 					gas[ga[sciantix_system[i].getGasName()]].getVanDerWaalsVolume();
 			}
 		}
@@ -108,7 +113,7 @@ void InterGranularBubbleEvolution()
 			= 2.0 * pi * matrix[0].getGrainBoundaryThickness() * matrix[0].getGrainBoundaryVacancyDiffusivity() * sink_strength;
 
 		// Initial value of the growth rate = 2 pi t D n / S V
-		const double growth_rate = volume_flow_rate * sciantix_variable[sv["Intergranular atoms per bubble"]].getFinalValue() / matrix[0].getSchottkyVolume();
+		const double growth_rate = volume_flow_rate * sciantix_variable[sv["Intergranular atoms per bubble"]].getInitialValue() / matrix[0].getSchottkyVolume();
 
 		double equilibrium_pressure(0), equilibrium_term(0);
 		if (sciantix_variable[sv["Intergranular bubble radius"]].getInitialValue())
@@ -124,6 +129,12 @@ void InterGranularBubbleEvolution()
 		parameter.push_back(equilibrium_term);
 
 		reference += ": Pastore et al., NED, 256 (2013) 75-86.";
+		break;
+	}
+
+	default:
+		ErrorMessages::Switch("InterGranularBubbleEvolution.cpp", "iGrainBoundaryBehaviour", int(input_variable[iv["iGrainBoundaryBehaviour"]].getValue()));
+		break;
 	}
 
 	model[model_index].setParameter(parameter);

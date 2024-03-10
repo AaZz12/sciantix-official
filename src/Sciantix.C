@@ -85,16 +85,20 @@ void Sciantix(int Sciantix_options[],
 	MapModel();
 	sciantix_simulation.GrainBoundaryMicroCracking();
 
-	GrainBoundaryVenting();
-	MapModel();
-	sciantix_simulation.GrainBoundaryVenting();
-
 	InterGranularBubbleEvolution();
 	MapModel();
+	
+	GrainBoundaryVenting();
+	MapModel();
+	
 	sciantix_simulation.InterGranularBubbleBehaviour();
 
+	GasRelease();
+	MapModel();
+	sciantix_simulation.GasRelease();
+
 	FiguresOfMerit();
-	
+
 	UpdateVariables(Sciantix_variables, Sciantix_diffusion_modes);
 
 	Output();

@@ -88,6 +88,7 @@ void UpdateVariables(double Sciantix_variables[], double Sciantix_diffusion_mode
 	Sciantix_variables[65] = sciantix_variable[sv["Irradiation time"]].getFinalValue();
 	Sciantix_variables[66] = sciantix_variable[sv["Stoichiometry deviation"]].getFinalValue();
 	Sciantix_variables[67] = sciantix_variable[sv["Fuel oxygen partial pressure"]].getFinalValue();
+	Sciantix_variables[70] = sciantix_variable[sv["Intergranular S/V"]].getFinalValue();
 
 	for (int i = 0; i < n_modes; ++i)
 	{

@@ -54,6 +54,8 @@ void Initialization()
 	// Intragranular similarity ratio
 	Sciantix_variables[64] = 1.0;
 
+	Sciantix_variables[70] = 3 / Sciantix_variables[0];
+
 	// projection on diffusion modes of the initial conditions
 	double initial_condition(0.0);
 	double projection_remainder(0.0);
