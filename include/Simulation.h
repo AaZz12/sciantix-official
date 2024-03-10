@@ -400,7 +400,7 @@ class Simulation : public Solver, public Model
         (1.0 / model[sm["Grain-boundary venting"]].getParameter().at(0))
       )
     );
-
+	
     // Venting probability
     sciantix_variable[sv["Intergranular venting probability"]].setFinalValue(
       (1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()) 
