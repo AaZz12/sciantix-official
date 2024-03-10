@@ -10,7 +10,7 @@
 //                                                                                  //
 //  Version: 2.0                                                                    //
 //  Year: 2022                                                                      //
-//  Authors: G. Zullo, G. Petrosillo                                                //
+//  Authors: D. Pizzocri, G. Zullo.                                                 //
 //                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////
 
@@ -21,6 +21,10 @@ void StoichiometryDeviation()
   /**
    * @brief This routine sets the model to estimate the stoichiometry deviation of the fuel.
    * Currently, UO2+x is considered, under external oxidizing environment.
+   * 
+   * @author
+   * G. Petrosillo
+   * G. Zullo
    * 
    */
 
@@ -309,7 +313,7 @@ void StoichiometryDeviation()
 
     
     default :
-      ErrorMessages::Switch("StoichiometryDeviation.cpp", "iStoichiometryDeviation", int(input_variable[iv["iStoichiometryDeviation"]].getValue()));
+      ErrorMessages::Switch(__FILE__, "iStoichiometryDeviation", int(input_variable[iv["iStoichiometryDeviation"]].getValue()));
       break;
   }
 }

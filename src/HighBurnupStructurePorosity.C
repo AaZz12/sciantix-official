@@ -10,7 +10,7 @@
 //                                                                                  //
 //  Version: 2.0                                                                    //
 //  Year: 2022                                                                      //
-//  Authors: D. Pizzocri, G. Zullo, A. Magni, E. Redaelli                           //
+//  Authors: D. Pizzocri, G. Zullo.                                                 //
 //                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////
 
@@ -18,12 +18,17 @@
 
 void HighBurnupStructurePorosity()
 {
-	/// @brief
-	/// This routine sets the model for High burnup structure porosity evolution
+    /**
+     * @brief This routine sets the model for High burnup structure porosity evolution
+     * @author
+     * A. Magni
+     * E. Redaelli
+     * G. Zullo
+    */
 
 	model.emplace_back();
 	int model_index = int(model.size()) - 1;
-	model[model_index].setName("High burnup structure porosity");
+	model[model_index].setName("High-burnup structure porosity");
 	double porosity_increment = 0.0;
 
 	std::string reference;
@@ -75,7 +80,7 @@ void HighBurnupStructurePorosity()
 	}
 
 	default:
-		ErrorMessages::Switch("HighBurnupStructurePorosity.cpp", "HighBurnupStructurePorosity", int(input_variable[iv["HighBurnupStructurePorosity"]].getValue()));
+		ErrorMessages::Switch(__FILE__, "HighBurnupStructurePorosity", int(input_variable[iv["HighBurnupStructurePorosity"]].getValue()));
 		break;
 	}
 

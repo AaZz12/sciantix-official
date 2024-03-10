@@ -1,7 +1,7 @@
 Model #0: 	Burnup	The local burnup is calculated from the fission rate density.
 Model #1: 	Effective burnup	: G. Khvostov et al., WRFPM-2005, Kyoto, Japan, 2005.
-Model #2: 	High burnup structure formation	: not considered.
-Model #3: 	High burnup structure porosity	not considered
+Model #2: 	High-burnup structure formation	: not considered.
+Model #3: 	High-burnup structure porosity	not considered
 Model #4: 	Grain growth	Ainscough et al., JNM, 49 (1973) 117-128.
 Model #5: 	Grain-boundary sweeping	Not considered
 Model #6: 	Gas production - Xe in UO2	 
@@ -21,7 +21,7 @@ Model #19: 	Intergranular bubble evolution	: Pastore et al., NED, 256 (2013) 75-
 
 Matrix #0: 	UO2	
 	Ainscough et al., JNM, 49 (1973) 117-128.
-	iGrainBoundaryVacancyDiffusivity: from Reynolds and Burton, JNM, 82 (1979) 22-25.
+	iGrainBoundaryVacancyDiffusivity: from White, JNM, 325 (2004), 61-77.
 	
 
 System #0: 	Xe in UO2	Production rate = cumulative yield * fission rate density.
@@ -63,7 +63,7 @@ Input setting #4: 	iResolutionRate = 1
 Input setting #5: 	iTrappingRate = 1
 Input setting #6: 	iNucleationRate = 1
 Input setting #7: 	iOutput = 1
-Input setting #8: 	iGrainBoundaryVacancyDiffusivity = 1
+Input setting #8: 	iGrainBoundaryVacancyDiffusivity = 2
 Input setting #9: 	iGrainBoundaryBehaviour = 1
 Input setting #10: 	iGrainBoundaryMicroCracking = 1
 Input setting #11: 	iFuelMatrix = 0
