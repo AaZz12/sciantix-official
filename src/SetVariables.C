@@ -168,10 +168,22 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	bool toOutputStoichiometryDeviation(0);
 	if (input_variable[iv["iStoichiometryDeviation"]].getValue() > 0) toOutputStoichiometryDeviation = 1;
 
+	// ---------------
+	// Scaling factors
+	// ---------------
+	sf_resolution_rate = Sciantix_scaling_factors[0];
+	sf_trapping_rate = Sciantix_scaling_factors[1];
+	sf_nucleation_rate = Sciantix_scaling_factors[2];
+	sf_diffusivity = Sciantix_scaling_factors[3];
+	sf_temperature = Sciantix_scaling_factors[4];
+	sf_fission_rate = Sciantix_scaling_factors[5];
+	sf_cent_parameter = Sciantix_scaling_factors[6];
+	sf_helium_production_rate = Sciantix_scaling_factors[7];
+	sf_dummy = Sciantix_scaling_factors[8];
+
 	// ----------------
 	// Physics variable
 	// ----------------
-	
 	int pv_counter(0);
 
 	physics_variable.emplace_back();
@@ -206,16 +218,16 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	history_variable.emplace_back();
 	history_variable[hv_counter].setName("Temperature");
 	history_variable[hv_counter].setUOM("(K)");
-	history_variable[hv_counter].setInitialValue(Sciantix_history[0] * Sciantix_scaling_factors[4]);
-	history_variable[hv_counter].setFinalValue(Sciantix_history[1] * Sciantix_scaling_factors[4]);
+	history_variable[hv_counter].setInitialValue(Sciantix_history[0] * sf_temperature);
+	history_variable[hv_counter].setFinalValue(Sciantix_history[1] * sf_temperature);
 	history_variable[hv_counter].setOutput(1);
 	++hv_counter;
 
 	history_variable.emplace_back();
 	history_variable[hv_counter].setName("Fission rate");
 	history_variable[hv_counter].setUOM("(fiss / m3 s)");
-	history_variable[hv_counter].setInitialValue(Sciantix_history[2] * Sciantix_scaling_factors[5]);
-	history_variable[hv_counter].setFinalValue(Sciantix_history[3] * Sciantix_scaling_factors[5]);
+	history_variable[hv_counter].setInitialValue(Sciantix_history[2] * sf_fission_rate);
+	history_variable[hv_counter].setFinalValue(Sciantix_history[3] * sf_fission_rate);
 	history_variable[hv_counter].setOutput(1);
 	++hv_counter;
 
@@ -235,9 +247,9 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	history_variable[hv_counter].setOutput(toOutputStoichiometryDeviation);
 	++hv_counter;
 
-	// ----------------------------------------------------------------------------
+	// -----------------
 	// Sciantix variable
-	// ----------------------------------------------------------------------------
+	// -----------------
 	int sv_counter(0);
 	sciantix_variable.emplace_back();
 	sciantix_variable[sv_counter].setName("Grain radius");
@@ -935,10 +947,9 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	sciantix_variable[sv_counter].setOutput(0);
 	++sv_counter;
 
-	// ------------------------------------------------------------------------------------------------
+	// ---------------------
 	// HBS-related variables
-	// ------------------------------------------------------------------------------------------------
-
+	// ---------------------
 	sciantix_variable.emplace_back();
 	sciantix_variable[sv_counter].setName("HBS porosity");
 	sciantix_variable[sv_counter].setUOM("(/)");
@@ -1003,9 +1014,6 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	sciantix_variable[sv_counter].setOutput(toOutputHighBurnupStructureFormation);
 	++sv_counter;
 
-	// ------------------------------------------------------------------------------------------------
-	// ------------------------------------------------------------------------------------------------
-
 	// ---------------
 	// Diffusion modes
 	// ---------------
@@ -1027,18 +1035,6 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 		modes_initial_conditions[13 * n_modes + i] = Sciantix_diffusion_modes[13 * n_modes + i];
 		modes_initial_conditions[14 * n_modes + i] = Sciantix_diffusion_modes[14 * n_modes + i];
 	}
-
-	// ---------------
-	// Scaling factors
-	// ---------------
-	sf_resolution_rate = Sciantix_scaling_factors[0];
-	sf_trapping_rate = Sciantix_scaling_factors[1];
-	sf_nucleation_rate = Sciantix_scaling_factors[2];
-	sf_diffusivity = Sciantix_scaling_factors[3];
-	sf_temperature = Sciantix_scaling_factors[4];
-	sf_fission_rate = Sciantix_scaling_factors[5];
-	sf_cent_parameter = Sciantix_scaling_factors[6];
-	sf_helium_production_rate = Sciantix_scaling_factors[7];
 
 	// ----
 	// Maps

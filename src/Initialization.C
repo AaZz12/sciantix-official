@@ -37,7 +37,7 @@ void Initialization()
 	Sciantix_history[10] = Steampressure_input[0];
 
 	// Sciantix_variables initialization
-	Sciantix_variables[25] = 4.0e+13;  // Intergranular_bubble_concentration[0]
+	Sciantix_variables[25] = 2.0e+13;  // Intergranular_bubble_concentration[0]
 	Sciantix_variables[35] = 0.5;      // Intergranular_saturation_fractional_coverage[0]
 	Sciantix_variables[37] = 1.0;      // Intergranular_fractional_intactness[0]
 
@@ -51,6 +51,7 @@ void Initialization()
 	// Intragranular similarity ratio
 	Sciantix_variables[64] = 1.0;
 
+	// Intergranular surface-to-volume ratio
 	Sciantix_variables[70] = 3 / Sciantix_variables[0];
 
 	// projection on diffusion modes of the initial conditions
@@ -106,5 +107,4 @@ void Initialization()
 	// Warnings
 	if(Sciantix_variables[38] > 0.0 && Sciantix_variables[65] == 0.0)
 		std::cout << "WARNING - FIMA calculation: Initial fuel burnup > 0 but null initial irradiation time. Check initial irradiation time." << std::endl;
-
 }

@@ -14,19 +14,21 @@
 //                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////
 
-/// InterGranularBubbleEvolution
-/// This function contains a choice among possible
-/// expressions for the bubble number density and
-/// the bubble radius at grain boundaries.
-/// The model considers one-off nucleation,
-/// growth of lenticular bubbles by vacancy absorption
-/// and coalescence of bubbles.
-/// [2] White, JNM, 325 (2004) 61-77
-
 #include "InterGranularBubbleEvolution.h"
 
 void InterGranularBubbleEvolution()
 {
+	/**
+	 * @brief InterGranularBubbleEvolution
+	 * This function contains a choice among possible
+	 * expressions for the bubble number density and
+	 * the bubble radius at grain boundaries.
+	 * The model considers one-off nucleation,
+	 * growth of lenticular bubbles by vacancy absorption
+	 * and coalescence of bubbles.
+	 * 
+	*/
+
 	model.emplace_back();
 	int model_index = int(model.size()) - 1;
 
@@ -68,7 +70,7 @@ void InterGranularBubbleEvolution()
 		}
 		sciantix_variable[sv["Intergranular atoms per bubble"]].setInitialValue(n_at);
 
-		// Calculation of the bubble dimension
+		// Bubble dimension
 		// initial volume
 		double vol(0);
 		for (std::vector<System>::size_type i = 0; i != sciantix_system.size(); ++i)
@@ -109,8 +111,7 @@ void InterGranularBubbleEvolution()
 			DD * pow(sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue(), 2) +
 			EE * sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue();
 
-		double volume_flow_rate
-			= 2.0 * pi * matrix[0].getGrainBoundaryThickness() * matrix[0].getGrainBoundaryVacancyDiffusivity() * sink_strength;
+		double volume_flow_rate = 2.0 * pi * matrix[0].getGrainBoundaryThickness() * matrix[0].getGrainBoundaryVacancyDiffusivity() * sink_strength;
 
 		// Initial value of the growth rate = 2 pi t D n / S V
 		const double growth_rate = volume_flow_rate * sciantix_variable[sv["Intergranular atoms per bubble"]].getInitialValue() / matrix[0].getSchottkyVolume();
@@ -118,26 +119,20 @@ void InterGranularBubbleEvolution()
 		double equilibrium_pressure(0), equilibrium_term(0);
 		if (sciantix_variable[sv["Intergranular bubble radius"]].getInitialValue())
 		{
-			equilibrium_pressure = 2.0 * matrix[0].getSurfaceTension() / sciantix_variable[sv["Intergranular bubble radius"]].getInitialValue() -
-				history_variable[hv["Hydrostatic stress"]].getFinalValue() * 1e6;
+			equilibrium_pressure = 2.0 * matrix[0].getSurfaceTension() / sciantix_variable[sv["Intergranular bubble radius"]].getInitialValue() - history_variable[hv["Hydrostatic stress"]].getFinalValue() * 1e6;
 
-			equilibrium_term = -volume_flow_rate * equilibrium_pressure /
-				(boltzmann_constant * history_variable[hv["Temperature"]].getFinalValue());
+			equilibrium_term = -volume_flow_rate * equilibrium_pressure / (boltzmann_constant * history_variable[hv["Temperature"]].getFinalValue());
 		}
 
 		// Vented fraction: Sigmoid(Fc), final value
 		sciantix_variable[sv["Intergranular vented fraction"]].setInitialValue(
-			1.0 / 
-			pow(
-				(1.0 + 0.1 * exp(- 10.0 * (sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue() - 0.43))),
-				(1.0 / 0.1)
-			)
+			1.0 / pow( (1.0 + 0.1 * exp(- 10.0 * (sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue() - 0.43))), (1.0 / 0.1))
 		);
 		
 		// Venting probability
 		sciantix_variable[sv["Intergranular venting probability"]].setInitialValue(
-		(1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()) 
-		+ sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue() * sciantix_variable[sv["Intergranular vented fraction"]].getInitialValue() 
+			(1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()) 
+			+ sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue() * sciantix_variable[sv["Intergranular vented fraction"]].getInitialValue() 
 		);
 
 		parameter.push_back(growth_rate);

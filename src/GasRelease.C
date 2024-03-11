@@ -18,6 +18,11 @@
 
 void GasRelease()
 {
+	/**
+	 * @brief GasRelease
+	 * 
+	*/
+
 	int model_index;
 	std::vector<double> parameter;
 	std::string reference;
@@ -59,6 +64,10 @@ void GasRelease()
 			if(physics_variable[pv["Time step"]].getFinalValue())
 			{
 				decay_rate = sciantix_variable[sv["Intergranular venting probability"]].getIncrement() / physics_variable[pv["Time step"]].getFinalValue();
+
+				if(decay_rate < 0)
+					std::cout << "WARNING: Grain-boundary decay rate < 0" << std::endl;
+
 				source_rate = (1.0 - sciantix_variable[sv["Intergranular venting probability"]].getFinalValue()) * (sciantix_variable[sv[sciantix_system[i].getGasName() + " produced"]].getIncrement() - sciantix_variable[sv[sciantix_system[i].getGasName() + " in grain"]].getIncrement() - sciantix_variable[sv[sciantix_system[i].getGasName() + " decayed"]].getIncrement()) / physics_variable[pv["Time step"]].getFinalValue();
 			}
 			else
