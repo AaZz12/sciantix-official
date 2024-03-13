@@ -321,7 +321,7 @@ class Simulation : public Solver, public Model
 		{
 			if (gas[ga[sciantix_system[i].getGasName()]].getDecayRate() == 0.0)
 			{
-				vol += sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].getFinalValue() *
+				vol += sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].getInitialValue() *
 					gas[ga[sciantix_system[i].getGasName()]].getVanDerWaalsVolume();
 			}
 		}
@@ -344,11 +344,19 @@ class Simulation : public Solver, public Model
 			solver.BinaryInteraction(sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue(), 2.0, dbubble_area)
 		);
 
+		// Fractional coverage
+		sciantix_variable[sv["Intergranular fractional coverage"]].setFinalValue(
+			sciantix_variable[sv["Intergranular bubble area"]].getFinalValue() *
+			sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue()
+		);
+
+
 		// Conservation: atoms per bubble
 		for (std::vector<System>::size_type i = 0; i != sciantix_system.size(); ++i)
 		{
 			if (gas[ga[sciantix_system[i].getGasName()]].getDecayRate() == 0.0)
 			{
+				sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].setConstant();
 				sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].rescaleFinalValue(
 					sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue() / sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue()
 				);
@@ -503,11 +511,14 @@ class Simulation : public Solver, public Model
 
 	void GrainBoundaryMicroCracking()
 	{
-		/// GrainBoundaryMicroCracking is method of simulation which executes the SCIANTIX simulation for the grain-boundary micro-cracking induced by a temperature difference. 
-		/// This method calls the related model "Grain-boundary micro-cracking", takes the model parameters and solve the model ODEs.
+		/**
+		 * @brief simulation.GrainBoundaryMicroCracking()
+		 * GrainBoundaryMicroCracking is method of simulation that solves the grain-boundary micro-cracking 
+		 * induced by a temperature difference. This method calls the related model "Grain-boundary micro-cracking",
+		 * takes the model parameters and solve the model ODEs.
+		*/
 
 		// If the model has not been activated, exit from this simulation.
-		// The same line is in GrainBoundaryMicroCracking.C
 		if (!input_variable[iv["iGrainBoundaryMicroCracking"]].getValue()) return;
 
 		// ODE for the intergranular fractional intactness: this equation accounts for the reduction of the intergranular fractional intactness following a temperature transient

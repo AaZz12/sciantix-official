@@ -71,17 +71,12 @@ void GasRelease()
 					+ sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue() * sciantix_variable[sv["Intergranular vented fraction"]].getIncrement())
 					/ physics_variable[pv["Time step"]].getFinalValue();
 
-				// dp_v
-				// decay_rate =
-				// 	sciantix_variable[sv["Intergranular venting probability"]].getIncrement()
-				// 	/ physics_variable[pv["Time step"]].getFinalValue();
-
 				if(decay_rate < 0)
 				{
+					std::cout << "WARNING: " << decay_rate  << " decay rate < 0" << std::endl;
+
 					std::cout << sciantix_variable[sv["Intergranular fractional coverage"]].getIncrement() << std::endl;
 					std::cout << sciantix_variable[sv["Intergranular vented fraction"]].getIncrement() << std::endl;
-
-					std::cout << "WARNING: " << decay_rate  << " Grain-boundary decay rate < 0" << std::endl;
 				}
 
 				source_rate = (1.0 - sciantix_variable[sv["Intergranular venting probability"]].getFinalValue()) * (sciantix_variable[sv[sciantix_system[i].getGasName() + " produced"]].getIncrement() - sciantix_variable[sv[sciantix_system[i].getGasName() + " in grain"]].getIncrement() - sciantix_variable[sv[sciantix_system[i].getGasName() + " decayed"]].getIncrement()) / physics_variable[pv["Time step"]].getFinalValue();

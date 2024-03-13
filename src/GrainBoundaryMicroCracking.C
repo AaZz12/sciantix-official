@@ -44,6 +44,6 @@ void GrainBoundaryMicroCracking()
 	parameter.push_back(healing_parameter);
 
 	model[model_index].setParameter(parameter);
-	model[model_index].setRef("from Barani et al. (2017), JNM");
+	model[model_index].setRef(": Barani et al. Journal of Nuclear Materials 486 (2017) 96-110");
 }
 

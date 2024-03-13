@@ -60,15 +60,15 @@ void InterGranularBubbleEvolution()
 		{
 			if (gas[ga[sciantix_system[i].getGasName()]].getDecayRate() == 0.0)
 			{
-				sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].setFinalValue(
+				sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].setInitialValue(
 					sciantix_variable[sv[sciantix_system[i].getGasName() + " at grain boundary"]].getInitialValue() /
 					(sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue() * sciantix_variable[sv["Intergranular S/V"]].getFinalValue())
 				);
 
-				n_at += sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].getFinalValue();
+				n_at += sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].getInitialValue();
 			}
 		}
-		sciantix_variable[sv["Intergranular atoms per bubble"]].setFinalValue(n_at);
+		sciantix_variable[sv["Intergranular atoms per bubble"]].setInitialValue(n_at);
 
 		// Bubble dimension
 		// initial volume
@@ -77,7 +77,7 @@ void InterGranularBubbleEvolution()
 		{
 			if (gas[ga[sciantix_system[i].getGasName()]].getDecayRate() == 0.0)
 			{
-				vol += sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].getFinalValue() *
+				vol += sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].getInitialValue() *
 					gas[ga[sciantix_system[i].getGasName()]].getVanDerWaalsVolume();
 			}
 		}
@@ -114,7 +114,7 @@ void InterGranularBubbleEvolution()
 		double volume_flow_rate = 2.0 * pi * matrix[0].getGrainBoundaryThickness() * matrix[0].getGrainBoundaryVacancyDiffusivity() * sink_strength;
 
 		// Initial value of the growth rate = 2 pi t D n / S V
-		const double growth_rate = volume_flow_rate * sciantix_variable[sv["Intergranular atoms per bubble"]].getFinalValue() / matrix[0].getSchottkyVolume();
+		const double growth_rate = volume_flow_rate * sciantix_variable[sv["Intergranular atoms per bubble"]].getInitialValue() / matrix[0].getSchottkyVolume();
 
 		double equilibrium_pressure(0), equilibrium_term(0);
 		if (sciantix_variable[sv["Intergranular bubble radius"]].getInitialValue())
@@ -127,19 +127,6 @@ void InterGranularBubbleEvolution()
 		// Vented fraction: Sigmoid(Fc)
 		sciantix_variable[sv["Intergranular vented fraction"]].setInitialValue(
 			1.0 / pow( (1.0 + 0.1 * exp(- 10.0 * (sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue() - 0.43))), (1.0 / 0.1))
-		);
-
-		// if(sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue() == 0.0)
-		// {
-		// 	sciantix_variable[sv["Intergranular vented fraction"]].setInitialValue(
-		// 		1.0 / (14.63 + 0.63 * exp(- 14.63 * (sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue() + 0.01 - 0.5)))
-		// 	);
-		// }
-		
-		// Venting probability
-		sciantix_variable[sv["Intergranular venting probability"]].setInitialValue(
-			(1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()) 
-			+ sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue() * sciantix_variable[sv["Intergranular vented fraction"]].getInitialValue() 
 		);
 
 		parameter.push_back(growth_rate);
