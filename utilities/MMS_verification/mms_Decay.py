@@ -1,6 +1,6 @@
 """
 This script performs the numerical verification via method of manufactured solution (MMS) of the
-SCIANTIX solver "NewtonBlackburn"
+SCIANTIX solver "Decay"
 
 Author: G. Zullo
 Ref: Oberkampf , W. L., Trucano , T. G., and Hirsch , C. (December 21, 2004). "Verification, validation, and predictive capability in computational engineering and physics." ASME. Appl. Mech. Rev. September 2004; 57(5): 345–384. https://doi.org/10.1115/1.1767847
@@ -77,14 +77,4 @@ plt.legend()
 plt.grid()
 plt.show()
 
-# fig, ax = plt.subplots()
-# plt.plot(time1, error1, label = 'error(N)')
-# plt.plot(time2, error2, label = 'error(2N)')
-# plt.ylabel('error')
-# plt.xlabel('time')
-# plt.legend()
-# plt.grid()
-# plt.show()
-
 print(f"Order of convergence = ", orderOfConvergence(error1[-1], error2[-1]))
-# print(f"Order of convergence = ", orderOfConvergence(max(error1), max(error2)))

@@ -95,11 +95,6 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 		++iv_counter;
 
 		input_variable.emplace_back();
-		input_variable[iv_counter].setName("iGrainBoundaryVenting");
-		input_variable[iv_counter].setValue(Sciantix_options[12]);
-		++iv_counter;
-
-		input_variable.emplace_back();
 		input_variable[iv_counter].setName("iRadioactiveFissionGas");
 		input_variable[iv_counter].setValue(Sciantix_options[13]);
 		++iv_counter;
@@ -149,9 +144,6 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 
 	bool toOutputRadioactiveFG(0);
 	if (input_variable[iv["iRadioactiveFissionGas"]].getValue() != 0) toOutputRadioactiveFG = 1;
-
-	bool toOutputVenting(0);
-	if (input_variable[iv["iGrainBoundaryVenting"]].getValue() != 0) toOutputVenting = 1;
 
 	bool toOutputHelium(0);
 	if (input_variable[iv["iHelium"]].getValue() != 0) toOutputHelium = 1;
@@ -856,7 +848,7 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	sciantix_variable[sv_counter].setUOM("(/)");
 	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[46]);
 	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[46]);
-	sciantix_variable[sv_counter].setOutput(toOutputVenting);
+	sciantix_variable[sv_counter].setOutput(1);
 	++sv_counter;
 
 	sciantix_variable.emplace_back();
@@ -864,7 +856,7 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	sciantix_variable[sv_counter].setUOM("(/)");
 	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[47]);
 	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[47]);
-	sciantix_variable[sv_counter].setOutput(toOutputVenting);
+	sciantix_variable[sv_counter].setOutput(1);
 	++sv_counter;
 
 	sciantix_variable.emplace_back();

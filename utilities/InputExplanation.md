@@ -40,8 +40,6 @@ The provided input settings are the **recommended** choice for standard simulati
 
 0	#	fuel matrix -- UO2 matrix and properties are considered
 
-0 #  grain boundary venting -- if 1, the gas release consider the contribution from the venting probability calculated according to *Pizzocri et al., D6.4 (2020), H2020 Project INSPYRE*.
-
 0 # hbs formation -- no HBS forming in the UO2 fuel matrix.
 
 0 # radioactive fission gases behaviour 

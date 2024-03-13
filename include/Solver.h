@@ -54,16 +54,21 @@ public:
 	}
 
 	double BinaryInteraction(double initial_condition, double interaction_coefficient, double increment)
-		/// Solver for the ODE [y' = -k y**2]
+	/// Solver for the ODE [y' = -k y**2]
 	{
-		/*
-		if(increment == 0.0)
-			return initial_condition;
-		else
-			return initial_condition = 0.25 * (sqrt(1 + 8 * initial_condition * increment) - 1) / increment;
-		*/
 		return initial_condition / (1.0 + interaction_coefficient * initial_condition * increment);
 	}
+
+	// double Logistic(double initial_condition, double speed, double limit, double increment)
+	// /// Solver for the ODE [y' = a y (1 - b y)]
+	// /// a --> speed
+	// /// b --> limit
+	// {
+	// 	if (initial_condition == 0)
+	// 		return (initial_condition+0.0001) / (1.0 - speed * increment * (1.0 - limit * (initial_condition+0.0001)));
+	// 	else
+	// 		return (initial_condition) / (1.0 - speed * increment * (1.0 - limit * (initial_condition)));
+	// }
 
 	double SpectralDiffusion(double* initial_condition, std::vector<double> parameter, double increment)
 	{

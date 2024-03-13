@@ -42,7 +42,6 @@
 #include "EffectiveBurnup.h"
 #include "InterGranularBubbleEvolution.h"
 #include "GrainBoundaryMicroCracking.h"
-#include "GrainBoundaryVenting.h"
 #include "HighBurnupStructureFormation.h"
 #include "GasRelease.h"
 #include "StoichiometryDeviation.h"
