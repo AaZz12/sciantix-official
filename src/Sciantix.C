@@ -101,9 +101,9 @@ void Sciantix(int Sciantix_options[],
 		double err1 = sciantix_variable[sv["Intergranular atoms per bubble"]].getInitialValue() * sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue();
 		double err2 = sciantix_variable[sv["Intergranular atoms per bubble"]].getFinalValue() * sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue();
 
-		std::cout << err1 << std::endl;
-		std::cout << err2 << std::endl;
-		std::cout << "err = " 	<< fabs((err1-err2)/err2) << std::endl;
+		// std::cout << err1 << std::endl;
+		// std::cout << err2 << std::endl;
+		// std::cout << "err = " 	<< fabs((err1-err2)/err2) << std::endl;
 
 		if(fabs((err1-err2)/err2)<tol)
 		{

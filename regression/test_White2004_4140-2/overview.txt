@@ -20,7 +20,7 @@ Model #18: 	Intergranular bubble evolution	: G. Zullo.
 
 Matrix #0: 	UO2	
 	Ainscough et al., JNM, 49 (1973) 117-128.
-	iGrainBoundaryVacancyDiffusivity: from White, JNM, 325 (2004), 61-77.
+	iGrainBoundaryVacancyDiffusivity: from Reynolds and Burton, JNM, 82 (1979) 22-25.
 	
 
 System #0: 	Xe in UO2	Production rate = cumulative yield * fission rate density.
@@ -62,7 +62,7 @@ Input setting #4: 	iResolutionRate = 1
 Input setting #5: 	iTrappingRate = 1
 Input setting #6: 	iNucleationRate = 1
 Input setting #7: 	iOutput = 1
-Input setting #8: 	iGrainBoundaryVacancyDiffusivity = 2
+Input setting #8: 	iGrainBoundaryVacancyDiffusivity = 1
 Input setting #9: 	iGrainBoundaryBehaviour = 1
 Input setting #10: 	iGrainBoundaryMicroCracking = 1
 Input setting #11: 	iFuelMatrix = 0
