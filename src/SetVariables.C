@@ -96,47 +96,47 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 
 		input_variable.emplace_back();
 		input_variable[iv_counter].setName("iRadioactiveFissionGas");
-		input_variable[iv_counter].setValue(Sciantix_options[13]);
+		input_variable[iv_counter].setValue(Sciantix_options[12]);
 		++iv_counter;
 
 		input_variable.emplace_back();
 		input_variable[iv_counter].setName("iHelium");
-		input_variable[iv_counter].setValue(Sciantix_options[14]);
+		input_variable[iv_counter].setValue(Sciantix_options[13]);
 		++iv_counter;
 
 		input_variable.emplace_back();
 		input_variable[iv_counter].setName("iHeDiffusivity");
-		input_variable[iv_counter].setValue(Sciantix_options[15]);
+		input_variable[iv_counter].setValue(Sciantix_options[14]);
 		++iv_counter;
 
 		input_variable.emplace_back();
 		input_variable[iv_counter].setName("iGrainBoundarySweeping");
-		input_variable[iv_counter].setValue(Sciantix_options[16]);
+		input_variable[iv_counter].setValue(Sciantix_options[15]);
 		++iv_counter;
 
 		input_variable.emplace_back();
 		input_variable[iv_counter].setName("iHighBurnupStructureFormation");
-		input_variable[iv_counter].setValue(Sciantix_options[17]);
+		input_variable[iv_counter].setValue(Sciantix_options[16]);
 		++iv_counter;
 
 		input_variable.emplace_back();
 		input_variable[iv_counter].setName("iHighBurnupStructurePorosity");
-		input_variable[iv_counter].setValue(Sciantix_options[18]);
+		input_variable[iv_counter].setValue(Sciantix_options[17]);
 		++iv_counter;
 
 		input_variable.emplace_back();
 		input_variable[iv_counter].setName("iHeliumProductionRate");
-		input_variable[iv_counter].setValue(Sciantix_options[19]);
+		input_variable[iv_counter].setValue(Sciantix_options[18]);
 		++iv_counter;
 
 		input_variable.emplace_back();
 		input_variable[iv_counter].setName("iStoichiometryDeviation");
-		input_variable[iv_counter].setValue(Sciantix_options[20]);
+		input_variable[iv_counter].setValue(Sciantix_options[19]);
 		++iv_counter;
 
 		input_variable.emplace_back();
 		input_variable[iv_counter].setName("iBubbleDiffusivity");
-		input_variable[iv_counter].setValue(Sciantix_options[21]);
+		input_variable[iv_counter].setValue(Sciantix_options[20]);
 		++iv_counter;
 	}
 
