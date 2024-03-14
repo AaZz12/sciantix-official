@@ -19,9 +19,7 @@
 void GasDiffusion()
 {
 	/**
-	 * @brief This routine defines the models for the diffusion of atoms within the fuel grain.
-	 * The intragranular diffusion exploits the hypothesis of the equivalent Booth approach,
-	 * namely, considering the atom diffusion in a spherical fuel grain.
+	 * @brief This routine defines the models for the diffusion of FGs/FPs within the (spherical) fuel grain.
 	 * 
 	 * 
 	 */
@@ -63,14 +61,6 @@ void GasDiffusion()
 
 	case 2:
 	{
-		// parameter --> N
-		//               diffusion_coefficient
-		//               resolution_rate
-		//               trapping_rate
-		//               decay rate 
-		//               domain_radius 
-		//               source_term 
-		//               source_term_bubbles
 		int model_index;
 		std::vector<double> parameter;
 

@@ -112,7 +112,7 @@ void GrainGrowth()
 
 		double limiting_grain_radius = 3.345e-3 / 2.0 * exp(-7620.0 / history_variable[hv["Temperature"]].getFinalValue()); // (m)
 
-		reference += "Van Uffelen et al. JNM, 434 (2013) 287–29.";
+		reference += "Van Uffelen et al. JNM, 434 (2013) 287-29.";
 
 		if(sciantix_variable[sv["Grain radius"]].getInitialValue() < limiting_grain_radius)
 		{

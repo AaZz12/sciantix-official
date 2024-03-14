@@ -182,7 +182,7 @@ class Simulation : public Solver, public Model
 					sciantix_variable[sv[sciantix_system[i].getGasName() + " in intragranular solution"]].setFinalValue(initial_value_solution);
 					sciantix_variable[sv[sciantix_system[i].getGasName() + " in intragranular bubbles"]].setFinalValue(initial_value_bubbles);
 					sciantix_variable[sv[sciantix_system[i].getGasName() + " in grain"]].setFinalValue(initial_value_solution + initial_value_bubbles);
-					
+
 					break;
 				}
 
@@ -274,11 +274,28 @@ class Simulation : public Solver, public Model
 
 		// Vacancy concentration
 		sciantix_variable[sv["Intergranular vacancies per bubble"]].setFinalValue(
-			solver.LimitedGrowth(sciantix_variable[sv["Intergranular vacancies per bubble"]].getInitialValue(),
+			solver.LimitedGrowth(
+				sciantix_variable[sv["Intergranular vacancies per bubble"]].getInitialValue(),
 				model[sm["Intergranular bubble evolution"]].getParameter(),
 				physics_variable[pv["Time step"]].getFinalValue()
 			)
 		);
+
+		// Gas is distributed among bubbles: n(at/bub) = B(at/m3) / (N(bub/m2) S/V(1/m))
+		// dn/dB = 1 / (N S/V) * (1 - B/N * dN/dB)
+		double n_at(0.0);
+		for (std::vector<System>::size_type i = 0; i != sciantix_system.size(); ++i)
+		{
+			if (gas[ga[sciantix_system[i].getGasName()]].getDecayRate() == 0.0)
+			{
+				sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].setFinalValue(
+					sciantix_variable[sv[sciantix_system[i].getGasName() + " at grain boundary"]].getFinalValue() /
+					(sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() * sciantix_variable[sv["Intergranular S/V"]].getFinalValue()));
+
+				n_at += sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].getFinalValue();
+			}
+		}
+		sciantix_variable[sv["Intergranular atoms per bubble"]].setFinalValue(n_at);
 
 		// Grain-boundary bubble volume with updated vacancy number
 		double vol(0);
@@ -287,7 +304,7 @@ class Simulation : public Solver, public Model
 			// This for loop slides over only the stable gases, which determine the grain-boundary bubble dynamics
 			if (gas[ga[sciantix_system[i].getGasName()]].getDecayRate() == 0.0)
 			{
-				vol += sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].getInitialValue() *
+				vol += sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].getFinalValue() *
 					gas[ga[sciantix_system[i].getGasName()]].getVanDerWaalsVolume();
 			}
 		}
@@ -305,15 +322,12 @@ class Simulation : public Solver, public Model
 		// ---------------------------------
 		// Grain-boundary bubble coalescence
 		// ---------------------------------
-		double dbubble_area = sciantix_variable[sv["Intergranular bubble area"]].getIncrement();
 		sciantix_variable[sv["Intergranular bubble concentration"]].setFinalValue(
-			solver.BinaryInteraction(sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue(), 2.0, dbubble_area)
-		);
-
-		// Fractional coverage
-		sciantix_variable[sv["Intergranular fractional coverage"]].setFinalValue(
-			sciantix_variable[sv["Intergranular bubble area"]].getFinalValue() *
-			sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue()
+			solver.BinaryInteraction(
+				sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue(),
+				2.0,
+				sciantix_variable[sv["Intergranular bubble area"]].getIncrement()
+			)
 		);
 
 		// Conservation: atoms per bubble
@@ -321,13 +335,12 @@ class Simulation : public Solver, public Model
 		{
 			if (gas[ga[sciantix_system[i].getGasName()]].getDecayRate() == 0.0)
 			{
-				sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].setConstant();
 				sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].rescaleFinalValue(
 					sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue() / sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue()
 				);
 			}
 		}
-		double n_at(0);
+		n_at = 0.0;
 		for (std::vector<System>::size_type i = 0; i != sciantix_system.size(); ++i)
 		{
 			if (gas[ga[sciantix_system[i].getGasName()]].getDecayRate() == 0.0)
@@ -338,6 +351,13 @@ class Simulation : public Solver, public Model
 		// Conservation: vacancies per bubble
 		sciantix_variable[sv["Intergranular vacancies per bubble"]].rescaleFinalValue(
 			sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue() / sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue()
+		);
+		// sciantix_variable[sv["Intergranular vacancies per bubble"]].resetValue();
+
+		// Fractional coverage
+		sciantix_variable[sv["Intergranular fractional coverage"]].setFinalValue(
+			sciantix_variable[sv["Intergranular bubble area"]].getFinalValue() *
+			sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue()
 		);
 
 		// Vented fraction: Sigmoid(Fc)
@@ -350,6 +370,50 @@ class Simulation : public Solver, public Model
 			(1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()) 
 			+ sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue() * sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue() 
 		);
+		// dB/dt
+		double source_rate(0.0), decay_rate(0.0);
+		switch (int(input_variable[iv["iGrainBoundaryBehaviour"]].getValue()))
+		{
+		case 0:
+			break;
+
+		case 1:
+		{
+			// comment for mms
+			for (std::vector<System>::size_type i = 0; i != sciantix_system.size(); ++i)
+			{
+				if(physics_variable[pv["Time step"]].getFinalValue())
+				{
+					// dp_v = -df(1-v)+fdv
+					decay_rate =
+						(- sciantix_variable[sv["Intergranular fractional intactness"]].getIncrement() * (1.0 - sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue())
+						+ sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue() * sciantix_variable[sv["Intergranular vented fraction"]].getIncrement())
+						/ physics_variable[pv["Time step"]].getFinalValue();
+
+					if(decay_rate < 0)
+					{
+						std::cout << "WARNING: " << decay_rate  << " sciantix_variable[sv[Intergranular vented fraction]].getIncrement() < 0" << std::endl;
+						std::cout << sciantix_variable[sv["Intergranular vented fraction"]].getIncrement() << std::endl;
+					}
+
+					source_rate = (1.0 - sciantix_variable[sv["Intergranular venting probability"]].getFinalValue()) * (sciantix_variable[sv[sciantix_system[i].getGasName() + " produced"]].getIncrement() - sciantix_variable[sv[sciantix_system[i].getGasName() + " in grain"]].getIncrement() - sciantix_variable[sv[sciantix_system[i].getGasName() + " decayed"]].getIncrement()) / physics_variable[pv["Time step"]].getFinalValue();
+				}
+
+				sciantix_variable[sv[sciantix_system[i].getGasName() + " at grain boundary"]].setFinalValue(
+					solver.Decay(
+						sciantix_variable[sv[sciantix_system[i].getGasName() + " at grain boundary"]].getInitialValue(),
+						decay_rate,
+						source_rate,
+						physics_variable[pv["Time step"]].getFinalValue()
+					)
+				);
+			}
+			break;
+		}
+		default:
+			ErrorMessages::Switch(__FILE__, "iGrainBoundaryBehaviour", int(input_variable[iv["iGrainBoundaryBehaviour"]].getValue()));
+			break;
+		}
 	}
 
 	void GrainBoundarySweeping()
@@ -410,95 +474,41 @@ class Simulation : public Solver, public Model
 
 	void GasRelease()
 	{
-		const double pi = CONSTANT_NUMBERS_H::MathConstants::pi;
-
-		for(std::vector<System>::size_type i = 0; i != sciantix_system.size(); ++i)
+		switch (int(input_variable[iv["iGrainBoundaryBehaviour"]].getValue()))
 		{
-			sciantix_variable[sv[sciantix_system[i].getGasName() + " at grain boundary"]].setFinalValue(
-				solver.Decay(
-					sciantix_variable[sv[sciantix_system[i].getGasName() + " at grain boundary"]].getInitialValue(),
-					model[sm["Gas release - " + sciantix_system[i].getName()]].getParameter().at(0),
-					model[sm["Gas release - " + sciantix_system[i].getName()]].getParameter().at(1),
-					model[sm["Gas release - " + sciantix_system[i].getName()]].getParameter().at(2)
-				)
-			);
-
-			sciantix_variable[sv[sciantix_system[i].getGasName() + " released"]].setFinalValue(
-				sciantix_variable[sv[sciantix_system[i].getGasName() + " produced"]].getFinalValue() -
-				sciantix_variable[sv[sciantix_system[i].getGasName() + " decayed"]].getFinalValue() -
-				sciantix_variable[sv[sciantix_system[i].getGasName() + " in grain"]].getFinalValue() -
-				sciantix_variable[sv[sciantix_system[i].getGasName() + " at grain boundary"]].getFinalValue()
-			);
-		}
-
-		double n_at(0.0);
-		for (std::vector<System>::size_type i = 0; i != sciantix_system.size(); ++i)
+		case 0:
 		{
-			if (gas[ga[sciantix_system[i].getGasName()]].getDecayRate() == 0.0)
+			for(std::vector<System>::size_type i = 0; i != sciantix_system.size(); ++i)
 			{
-				sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].setFinalValue(
-					sciantix_variable[sv[sciantix_system[i].getGasName() + " at grain boundary"]].getFinalValue() /
-					(sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() * sciantix_variable[sv["Intergranular S/V"]].getFinalValue()));
+				sciantix_variable[sv[sciantix_system[i].getGasName() + " at grain boundary"]].setFinalValue(0.0);
 
-				n_at += sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].getFinalValue();
+				sciantix_variable[sv[sciantix_system[i].getGasName() + " released"]].setFinalValue(
+					sciantix_variable[sv[sciantix_system[i].getGasName() + " produced"]].getFinalValue() -
+					sciantix_variable[sv[sciantix_system[i].getGasName() + " decayed"]].getFinalValue() -
+					sciantix_variable[sv[sciantix_system[i].getGasName() + " in grain"]].getFinalValue()
+				);
 			}
+			break;
 		}
-		sciantix_variable[sv["Intergranular atoms per bubble"]].setFinalValue(n_at);
 
-		// bubble volume
-		double vol = 0.0;
-		for (std::vector<System>::size_type i = 0; i != sciantix_system.size(); ++i)
+		case 1:
 		{
-			if (gas[ga[sciantix_system[i].getGasName()]].getDecayRate() == 0.0)
+			for(std::vector<System>::size_type i = 0; i != sciantix_system.size(); ++i)
 			{
-				vol += sciantix_variable[sv["Intergranular " + sciantix_system[i].getGasName() + " atoms per bubble"]].getFinalValue() *
-					gas[ga[sciantix_system[i].getGasName()]].getVanDerWaalsVolume();
+				sciantix_variable[sv[sciantix_system[i].getGasName() + " released"]].setFinalValue(
+					sciantix_variable[sv[sciantix_system[i].getGasName() + " produced"]].getFinalValue() -
+					sciantix_variable[sv[sciantix_system[i].getGasName() + " decayed"]].getFinalValue() -
+					sciantix_variable[sv[sciantix_system[i].getGasName() + " in grain"]].getFinalValue() -
+					sciantix_variable[sv[sciantix_system[i].getGasName() + " at grain boundary"]].getFinalValue()
+				);
 			}
+			break;
 		}
-		vol += sciantix_variable[sv["Intergranular vacancies per bubble"]].getFinalValue() * matrix[0].getSchottkyVolume();
-		sciantix_variable[sv["Intergranular bubble volume"]].setFinalValue(vol);
-
-		// bubble radius
-		sciantix_variable[sv["Intergranular bubble radius"]].setFinalValue(
-			0.620350491 * pow(sciantix_variable[sv["Intergranular bubble volume"]].getFinalValue() / (matrix[0].getLenticularShapeFactor()), 1. / 3.));
-
-		// bubble area
-		sciantix_variable[sv["Intergranular bubble area"]].resetValue();
-		sciantix_variable[sv["Intergranular bubble area"]].setFinalValue(
-			pi * pow(sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue() * sin(matrix[0].getSemidihedralAngle()), 2)
-		);
-
-		// Coalescence
-		double dbubble_area = sciantix_variable[sv["Intergranular bubble area"]].getIncrement();
-		sciantix_variable[sv["Intergranular bubble concentration"]].setFinalValue(
-			solver.BinaryInteraction(sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue(), 2.0, dbubble_area)
-		);
-
-		// Fractional coverage
-		sciantix_variable[sv["Intergranular fractional coverage"]].setFinalValue(
-			sciantix_variable[sv["Intergranular bubble area"]].getFinalValue() *
-			sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue()
-		);
-
-		// Vented fraction: Sigmoid(Fc)
-		sciantix_variable[sv["Intergranular vented fraction"]].setFinalValue(
-			1.0 / pow( (1.0 + 0.1 * exp(- 10.0 * (sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue() - 0.43))), (1.0 / 0.1))
-		);
-
-		// Venting probability
-		sciantix_variable[sv["Intergranular venting probability"]].setFinalValue(
-		(1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()) 
-		+ sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue() * sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue() 
-		);
-
-		// Swelling
-		sciantix_variable[sv["Intergranular gas swelling"]].setFinalValue(
-			sciantix_variable[sv["Intergranular S/V"]].getFinalValue() *
-			sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() *
-			sciantix_variable[sv["Intergranular bubble volume"]].getFinalValue()
-		);
+		default:
+			ErrorMessages::Switch(__FILE__, "iGrainBoundaryBehaviour", int(input_variable[iv["iGrainBoundaryBehaviour"]].getValue()));
+			break;
+		}
 	}
-
 
 	void GrainBoundaryMicroCracking()
 	{
@@ -516,7 +526,7 @@ class Simulation : public Solver, public Model
 		// df / dT = - dm/dT f
 		sciantix_variable[sv["Intergranular fractional intactness"]].setFinalValue(
 			solver.Decay(
-				sciantix_variable[sv["Intergranular fractional intactness"]].getInitialValue(),
+				sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue(),
 				model[sm["Grain-boundary micro-cracking"]].getParameter().at(0), // 1st parameter = microcracking parameter
 				0.0,
 				history_variable[hv["Temperature"]].getIncrement()

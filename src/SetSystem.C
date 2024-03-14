@@ -70,8 +70,8 @@ void System::setBubbleDiffusivity(int input_value)
 
 		case 1:
 		{	
-			if(sciantix_variable[sv["Intragranular bubble radius"]].getInitialValue() == 0)
-				bubble_diffusivity = 0;
+			if(sciantix_variable[sv["Intragranular bubble radius"]].getFinalValue() == 0)
+				bubble_diffusivity = 0.0;
 
 			else
 			{
@@ -81,7 +81,7 @@ void System::setBubbleDiffusivity(int input_value)
 				// @ref Van Uffelen et al. NET 43-6 (2011)
 
 				double volume_self_diffusivity = 3.0e-5*exp(-4.5/(boltzmann_constant*history_variable[hv["Temperature"]].getFinalValue()));
-				double bubble_radius = sciantix_variable[sv["Intragranular bubble radius"]].getInitialValue();
+				double bubble_radius = sciantix_variable[sv["Intragranular bubble radius"]].getFinalValue();
 
 				bubble_diffusivity = 3 * matrix[0].getSchottkyVolume() * volume_self_diffusivity / (4.0 * pi * pow(bubble_radius,3.0));
 			}

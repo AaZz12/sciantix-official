@@ -16,11 +16,6 @@ Model #14: 	Gas diffusion - He in UO2
 Model #15: 	Gas diffusion - Xe133 in UO2	
 Model #16: 	Gas diffusion - Kr85m in UO2	
 Model #17: 	Intergranular bubble evolution	: No model for grain-boundary bubble evolution.
-Model #18: 	Gas release - Xe in UO2	No model for grain-boundary release
-Model #19: 	Gas release - Kr in UO2	No model for grain-boundary release
-Model #20: 	Gas release - He in UO2	No model for grain-boundary release
-Model #21: 	Gas release - Xe133 in UO2	No model for grain-boundary release
-Model #22: 	Gas release - Kr85m in UO2	No model for grain-boundary release
 
 Matrix #0: 	UO2	
 	Van Uffelen et al. JNM, 434 (2013) 287–29.
