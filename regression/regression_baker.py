@@ -41,6 +41,7 @@ igRadiusError = igRadiusBaker * 0.5
 
 igRadius2 = []
 FGR2 = []
+FGR2_gold = []
 
 number_of_tests_failed = 0
 
@@ -177,18 +178,19 @@ def do_plot():
   plt.close()
 
   # Fission gases release plot
-#   fig, ax = plt.subplots()
-#   ax.scatter(igSwelling2, FGR2, c = '#98E18D', edgecolors= '#999AA2', marker = 'o', s=20, label='FGR SCIANTIX 2.0')
+  fig, ax = plt.subplots()
+  ax.scatter(igSwelling2, FGR2, edgecolors= '#999AA2', marker = '^', s=20, label='Test')
+  ax.scatter(igSwelling2, FGR2_gold, edgecolors= '#999AA2', marker = 'v', s=20, label='Gold')
 
-#   ax.set_xscale('log')
-#   ax.set_yscale('log')
+  ax.set_xscale('log')
+  ax.set_yscale('log')
 
-#   ax.set_xlabel('Swelling (%)')
-#   ax.set_ylabel('FGR (%)')
-#   ax.legend()
+  ax.set_xlabel('Swelling (%)')
+  ax.set_ylabel('FGR (%)')
+  ax.legend()
 
-#   plt.show()
-#   plt.close()
+  plt.show()
+  plt.close()
 
 
 # Main function of the baker regression
@@ -245,6 +247,9 @@ def regression_baker(wpath, mode_Baker, mode_gold, mode_plot, folderList, number
       # Retrieve the generated data of Fission gas release
       FGRPos = findSciantixVariablePosition(data, "Fission gas release (/)")
       FGR2.append(100*data[-1,FGRPos].astype(float))
+        
+      FGRPos_gold = findSciantixVariablePosition(data_gold, "Fission gas release (/)")
+      FGR2_gold.append(100*data[-1,FGRPos_gold].astype(float))
 
       # Retrieve the generated data of Intragranular gas swelling
       intraGranularSwellingPos = findSciantixVariablePosition(data, "Intragranular gas swelling (/)")

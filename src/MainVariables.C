@@ -32,9 +32,9 @@ double  Number_of_time_steps_per_interval(100);
 std::ofstream Output_file;
 std::ofstream Execution_file;
 
-int Input_history_points(1000);
-std::vector<double> Time_input(1000, 0.0);
-std::vector<double> Temperature_input(1000, 0.0);
-std::vector<double> Fissionrate_input(1000, 0.0);
-std::vector<double> Hydrostaticstress_input(1000, 0.0);
-std::vector<double> Steampressure_input(1000, 0.0);
+int Input_history_points(2000);
+std::vector<double> Time_input(2000, 0.0);
+std::vector<double> Temperature_input(2000, 0.0);
+std::vector<double> Fissionrate_input(2000, 0.0);
+std::vector<double> Hydrostaticstress_input(2000, 0.0);
+std::vector<double> Steampressure_input(2000, 0.0);

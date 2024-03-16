@@ -43,7 +43,6 @@
 #include "InterGranularBubbleEvolution.h"
 #include "GrainBoundaryMicroCracking.h"
 #include "HighBurnupStructureFormation.h"
-#include "GasRelease.h"
 #include "StoichiometryDeviation.h"
 #include "EnvironmentComposition.h"
 #include "UO2Thermochemistry.h"

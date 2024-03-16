@@ -121,12 +121,12 @@ void Matrix::setGrainBoundaryVacancyDiffusivity(int input_value)
 		case 1:
 		{
 			/**
-			 * @brief iGrainBoundaryVacancyDiffusivity = 1 corresponds to the relation from @ref Reynolds and Burton, JNM, 82 (1979) 22-25.
+			 * @brief iGrainBoundaryVacancyDiffusivity = 1 corresponds to the correction from @ref White, JNM, 325 (2004), 61-77
 			 * 
 			 */
 
-			grain_boundary_diffusivity = 6.9e-04 * exp(- 5.35e-19 / (boltzmann_constant * history_variable[hv["Temperature"]].getFinalValue()));
-			reference += "iGrainBoundaryVacancyDiffusivity: from Reynolds and Burton, JNM, 82 (1979) 22-25.\n\t";
+			grain_boundary_diffusivity = 3.5/5 * 8.86e-6 * exp(- 4.17e4 / history_variable[hv["Temperature"]].getFinalValue());
+			reference += "iGrainBoundaryVacancyDiffusivity: from White, JNM, 325 (2004), 61-77.\n\t";
 
 			break;
 		}
@@ -134,12 +134,12 @@ void Matrix::setGrainBoundaryVacancyDiffusivity(int input_value)
 		case 2:
 		{
 			/**
-			 * @brief iGrainBoundaryVacancyDiffusivity = 2 corresponds to the correction from @ref White, JNM, 325 (2004), 61-77
+			 * @brief iGrainBoundaryVacancyDiffusivity = 2 corresponds to the relation from @ref Reynolds and Burton, JNM, 82 (1979) 22-25.
 			 * 
 			 */
 
-			grain_boundary_diffusivity = 3.5/5 * 8.86e-6 * exp(- 4.17e4 / history_variable[hv["Temperature"]].getFinalValue());
-			reference += "iGrainBoundaryVacancyDiffusivity: from White, JNM, 325 (2004), 61-77.\n\t";
+			grain_boundary_diffusivity = 6.9e-04 * exp(- 5.35e-19 / (boltzmann_constant * history_variable[hv["Temperature"]].getFinalValue()));
+			reference += "iGrainBoundaryVacancyDiffusivity: from Reynolds and Burton, JNM, 82 (1979) 22-25.\n\t";
 
 			break;
 		}

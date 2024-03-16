@@ -85,47 +85,12 @@ void Sciantix(int Sciantix_options[],
 	MapModel();
 	sciantix_simulation.GrainBoundaryMicroCracking();
 
-	InterGranularBubbleEvolution(0);
+	InterGranularBubbleEvolution();
 	MapModel();
-
-	// InterGranularBubbleBehaviour: Iterative loop
-	unsigned short int iter(0);
-	const double tol(1.0e-2);
-	const unsigned short int max_iter(500);
-	while (iter < max_iter)
-	{
-		InterGranularBubbleEvolution(1);
-		sciantix_simulation.InterGranularBubbleBehaviour();
-
-		// Convergence criterion
-		double err1 = sciantix_variable[sv["Intergranular atoms per bubble"]].getInitialValue() * sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue();
-		double err2 = sciantix_variable[sv["Intergranular atoms per bubble"]].getFinalValue() * sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue();
-
-		// std::cout << err1 << std::endl;
-		// std::cout << err2 << std::endl;
-		// std::cout << "err = " 	<< fabs((err1-err2)/err2) << std::endl;
-
-		if(fabs((err1-err2)/err2)<tol)
-		{
-			std::cout << "Internal loop" << std::endl;
-			std::cout << "tol = " 	<< tol << std::endl;
-			std::cout << "iter = " 	<< iter << std::endl;
-			std::cout << "err = " 	<< fabs((err1-err2)/err2) << std::endl;
-			std::cout << "end of loop" << std::endl;
-			break;
-		}
-
-		// Internal iterative loop: N - A
-		// sciantix_variable[sv["Intergranular bubble concentration"]].resetValue();
-		// sciantix_variable[sv["Intergranular bubble area"]].resetValue();
-
-		iter++;
-		// break;
-	}
+	sciantix_simulation.InterGranularBubbleBehaviour(1);
 	sciantix_simulation.GasRelease();
 
 	FiguresOfMerit();
-	// std::cout << sciantix_variable[sv["Intergranular bubble pressure"]].getFinalValue()*1e6 << std::endl;
 
 	UpdateVariables(Sciantix_variables, Sciantix_diffusion_modes);
 

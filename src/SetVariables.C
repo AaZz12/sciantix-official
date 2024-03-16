@@ -917,7 +917,7 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 
 	sciantix_variable.emplace_back();
 	sciantix_variable[sv_counter].setName("Fuel oxygen potential");
-	sciantix_variable[sv_counter].setUOM("(KJ/mol)");
+	sciantix_variable[sv_counter].setUOM("(kJ/mol)");
 	sciantix_variable[sv_counter].setInitialValue(0.0);
 	sciantix_variable[sv_counter].setFinalValue(0.0);
 	sciantix_variable[sv_counter].setOutput(toOutputStoichiometryDeviation);

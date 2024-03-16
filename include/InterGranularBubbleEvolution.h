@@ -27,4 +27,4 @@
 #include <cmath>
 #include "ConstantNumbers.h"
 
-void InterGranularBubbleEvolution(bool update);
+void InterGranularBubbleEvolution();

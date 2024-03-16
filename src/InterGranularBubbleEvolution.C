@@ -16,7 +16,7 @@
 
 #include "InterGranularBubbleEvolution.h"
 
-void InterGranularBubbleEvolution(bool update)
+void InterGranularBubbleEvolution()
 {
 	/**
 	 * @brief InterGranularBubbleEvolution
@@ -27,19 +27,11 @@ void InterGranularBubbleEvolution(bool update)
 	 * growth of lenticular bubbles by vacancy absorption
 	 * and coalescence of bubbles.
 	 * 
-	 * @attention
-	 * update == 0 : model emplacemente
-	 * update == 1 : model parameter update
-	 * 
 	*/
 
-	int model_index(0);
-	if(update == false)
-	{
-		model.emplace_back();
-		model_index = int(model.size()) - 1;
-		model[model_index].setName("Intergranular bubble evolution");
-	}
+	model.emplace_back();
+	int model_index = int(model.size()) - 1;
+	model[model_index].setName("Intergranular bubble evolution");
 
 	std::string reference;
 	std::vector<double> parameter;
@@ -91,9 +83,6 @@ void InterGranularBubbleEvolution(bool update)
 			equilibrium_pressure = 2.0 * matrix[0].getSurfaceTension() / sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue() - history_variable[hv["Hydrostatic stress"]].getFinalValue() * 1e6;
 			equilibrium_term = - volume_flow_rate * equilibrium_pressure / (boltzmann_constant * history_variable[hv["Temperature"]].getFinalValue());
 		}
-
-		// std::cout << equilibrium_pressure << std::endl;
-
 		parameter.push_back(growth_rate);
 		parameter.push_back(equilibrium_term);
 
