@@ -270,44 +270,46 @@ class Simulation : public Solver, public Model
 
 	void InterGranularBubbleBehaviour(bool iterative_loop)
 	{
+		std::cout << "\nIntergranular bubble behaviour" << std::endl;
+
 		double tol(0.0);
 		int iter(0);
 		int max_iter(1);		
 		const double pi = CONSTANT_NUMBERS_H::MathConstants::pi;
 
+	
+		// Vacancy concentration
+
+		// sto tenendo costanti i parametri dell'equazione ma non le vacanze iniziali, forse devo tenere costante la derivata?
+		// se tengo costante la derivata non devo resettare il numero di vacanze
+
+		// in un certo senso regolo il flusso di atomi
+		sciantix_variable[sv["Intergranular vacancies per bubble"]].setFinalValue(
+			solver.LimitedGrowth(
+				sciantix_variable[sv["Intergranular vacancies per bubble"]].getInitialValue(),
+				model[sm["Intergranular bubble evolution"]].getParameter(),
+				physics_variable[pv["Time step"]].getFinalValue()
+			)
+		);
+
 		if(iterative_loop == true)
 		{
-			tol = 1e-2;
+			tol = 1e-3;
 			max_iter = 50;
 		}
 
 		while (iter < max_iter)
-		{
+		{	
+			std::cout << "Time = " << history_variable[hv["Time"]].getFinalValue() << std::endl;
 			std::cout << "\n-----------------------" << std::endl;
 			std::cout << "iter = " << iter << std::endl;
-			std::cout << "time = " << history_variable[hv["Time"]].getFinalValue() << std::endl;
 
-			std::cout << "Initial values" << std::endl;
-
-			std::cout << "at " << sciantix_variable[sv["Intergranular atoms per bubble"]].getInitialValue() << std::endl;
-			std::cout << "vac " << sciantix_variable[sv["Intergranular vacancies per bubble"]].getInitialValue() << std::endl;
-			std::cout << "A " << sciantix_variable[sv["Intergranular bubble area"]].getInitialValue() << std::endl;
-			std::cout << "N " << sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue() << std::endl;
-			std::cout << "FV " << sciantix_variable[sv["Intergranular vented fraction"]].getInitialValue() << std::endl;
-
-			// Vacancy concentration
-
-			// sto tenendo costanti i parametri dell'equazione ma non le vacanze iniziali, forse devo tenere costante la derivata?
-			// se tengo costante la derivata non devo resettare il numero di vacanze
-
-			// in un certo senso regolo il flusso di atomi
-			sciantix_variable[sv["Intergranular vacancies per bubble"]].setFinalValue(
-				solver.LimitedGrowth(
-					sciantix_variable[sv["Intergranular vacancies per bubble"]].getInitialValue(),
-					model[sm["Intergranular bubble evolution"]].getParameter(),
-					physics_variable[pv["Time step"]].getFinalValue()
-				)
-			);
+			std::cout << "\nInitial values" << std::endl;
+			std::cout << "at/bub  = " << sciantix_variable[sv["Intergranular atoms per bubble"]].getInitialValue() << std::endl;
+			std::cout << "vac/bub = " << sciantix_variable[sv["Intergranular vacancies per bubble"]].getInitialValue() << std::endl;
+			std::cout << "A_gb =    " << sciantix_variable[sv["Intergranular bubble area"]].getInitialValue() << std::endl;
+			std::cout << "N_gb =    " << sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue() << std::endl;
+			std::cout << "F_v  =    " << sciantix_variable[sv["Intergranular vented fraction"]].getInitialValue() << std::endl;
 
 			// Gas is distributed among bubbles: n(at/bub) = B(at/m3) / (N(bub/m2) S/V(1/m))
 			// dn/dB = 1 / (N S/V) * (1 - B/N * dN/dB)
@@ -404,30 +406,28 @@ class Simulation : public Solver, public Model
 			sciantix_variable[sv["Intergranular venting probability"]].setFinalValue(sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue());
 
 			double err(0);
-			if(sciantix_variable[sv["Intergranular atoms per bubble"]].getInitialValue())
-				err = sciantix_variable[sv["Intergranular atoms per bubble"]].getIncrement() / sciantix_variable[sv["Intergranular atoms per bubble"]].getInitialValue();
+			if(sciantix_variable[sv["Intergranular atoms per bubble"]].getFinalValue())
+				err = sciantix_variable[sv["Intergranular atoms per bubble"]].getIncrement() / sciantix_variable[sv["Intergranular atoms per bubble"]].getFinalValue();
 			
-			std::cout << "Final values" << std::endl;
-			std::cout << "at " << sciantix_variable[sv["Intergranular atoms per bubble"]].getFinalValue() << std::endl;
-			std::cout << "vac " << sciantix_variable[sv["Intergranular vacancies per bubble"]].getFinalValue() << std::endl;
-			std::cout << "A " << sciantix_variable[sv["Intergranular bubble area"]].getFinalValue() << std::endl;
-			std::cout << "N " << sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() << std::endl;
-			std::cout << "FV " << sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue() << std::endl;
-			std::cout << fabs(err) << std::endl;
-			std::cout << "\n" << std::endl;
+			std::cout << "\nFinal values" << std::endl;
+			std::cout << "at/bub  = " << sciantix_variable[sv["Intergranular atoms per bubble"]].getFinalValue() << std::endl;
+			std::cout << "vac/bub = " << sciantix_variable[sv["Intergranular vacancies per bubble"]].getFinalValue() << std::endl;
+			std::cout << "A_gb =    " << sciantix_variable[sv["Intergranular bubble area"]].getFinalValue() << std::endl;
+			std::cout << "N_gb =    " << sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() << std::endl;
+			std::cout << "F_v  =    " << sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue() << std::endl;
+			std::cout << "ERROR:    " << err << std::endl;
 
-			std::cout << "Increments:" << std::endl;
-			std::cout << "at " << sciantix_variable[sv["Intergranular atoms per bubble"]].getIncrement() << std::endl;
-			std::cout << "vac " << sciantix_variable[sv["Intergranular vacancies per bubble"]].getIncrement() << std::endl;
-			std::cout << "A " << sciantix_variable[sv["Intergranular bubble area"]].getIncrement() << std::endl;
-			std::cout << "N " << sciantix_variable[sv["Intergranular bubble concentration"]].getIncrement() << std::endl;
-			std::cout << "FV " << sciantix_variable[sv["Intergranular vented fraction"]].getIncrement() << std::endl;
-			std::cout << "\n" << std::endl;
+			std::cout << "\nIncrements" << std::endl;
+			std::cout << "at/bub  = " << sciantix_variable[sv["Intergranular atoms per bubble"]].getIncrement() << std::endl;
+			std::cout << "vac/bub = " << sciantix_variable[sv["Intergranular vacancies per bubble"]].getIncrement() << std::endl;
+			std::cout << "A_gb =    " << sciantix_variable[sv["Intergranular bubble area"]].getIncrement() << std::endl;
+			std::cout << "N_gb =    " << sciantix_variable[sv["Intergranular bubble concentration"]].getIncrement() << std::endl;
+			std::cout << "F_v  =    " << sciantix_variable[sv["Intergranular vented fraction"]].getIncrement() << std::endl;
 
 			if(fabs(err)<tol)
 			{
 				std::cout << "ERR " << fabs(err) << " < " << tol << std::endl;
-				std::cout << "end of loop" << std::endl;
+				std::cout << "!! End of the intergranular loop !!" << std::endl;
 				break;
 			}
 
@@ -437,7 +437,7 @@ class Simulation : public Solver, public Model
 			// sciantix_variable[sv["Intergranular vacancies per bubble"]].resetValue();
 			sciantix_variable[sv["Intergranular bubble area"]].resetValue();
 			sciantix_variable[sv["Intergranular bubble concentration"]].resetValue();
-			sciantix_variable[sv["Intergranular vented fraction"]].resetValue();
+			sciantix_variable[sv["Intergranular vented fraction"]].resetValue(); // forse solo per coerenza, per vedere nel log l'incremento
 		}
 	}
 
@@ -499,6 +499,8 @@ class Simulation : public Solver, public Model
 
 	void GasRelease()
 	{
+		std::cout << "	\nGasRelease" << std::endl;
+
 		// dB/dt
 		double source_rate(0.0), decay_rate(0.0);
 		switch (int(input_variable[iv["iGrainBoundaryBehaviour"]].getValue()))
@@ -513,12 +515,19 @@ class Simulation : public Solver, public Model
 			{
 				if(physics_variable[pv["Time step"]].getFinalValue())
 				{
+					std::cout << sciantix_system[i].getName() << std::endl;
+
+					// devo lasciare l'incremento sulla venting probability perchè ne ho conservato il valore iniziale
 					decay_rate = sciantix_variable[sv["Intergranular venting probability"]].getIncrement() / physics_variable[pv["Time step"]].getFinalValue();
+					std::cout << "Decay rate = " << decay_rate << std::endl;
+					// std::cout << "Vented fraction increment = " << sciantix_variable[sv["Intergranular vented fraction"]].getIncrement() << std::endl;
+					// std::cout << "Venting probability increment = " << sciantix_variable[sv["Intergranular venting probability"]].getIncrement() << std::endl;
 
 					if(decay_rate < 0)
 						decay_rate = 0;
 
 					source_rate = (1.0 - sciantix_variable[sv["Intergranular venting probability"]].getFinalValue()) * (sciantix_variable[sv[sciantix_system[i].getGasName() + " produced"]].getIncrement() - sciantix_variable[sv[sciantix_system[i].getGasName() + " in grain"]].getIncrement() - sciantix_variable[sv[sciantix_system[i].getGasName() + " decayed"]].getIncrement()) / physics_variable[pv["Time step"]].getFinalValue();
+					std::cout << "Source rate = " << source_rate << std::endl;
 				}
 
 				sciantix_variable[sv[sciantix_system[i].getGasName() + " at grain boundary"]].setFinalValue(
@@ -529,6 +538,11 @@ class Simulation : public Solver, public Model
 						physics_variable[pv["Time step"]].getFinalValue()
 					)
 				);
+
+				std::cout << "B_i  =    " << sciantix_variable[sv[sciantix_system[i].getGasName() + " at grain boundary"]].getInitialValue() << std::endl;
+				std::cout << "B_f  =    " << sciantix_variable[sv[sciantix_system[i].getGasName() + " at grain boundary"]].getFinalValue() << std::endl;
+				std::cout << "d_B  =    " << sciantix_variable[sv[sciantix_system[i].getGasName() + " at grain boundary"]].getIncrement() << std::endl;
+
 			}
 			break;
 		}
