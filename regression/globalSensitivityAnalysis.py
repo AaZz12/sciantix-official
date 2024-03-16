@@ -168,7 +168,7 @@ class globalSensitivityAnalysis():
                         file.write(f'# scaling factor - {key}\n')
 
                 print(f"Running reference calculations in {os.getcwd()}")
-                os.system("./sciantix.x")
+                os.system('./sciantix.x > log.sciantix')
 
                 data = np.genfromtxt('output.txt', dtype='str', delimiter='\t')
                 variable_position = findSciantixVariablePosition(data, self.variable_name)
@@ -188,7 +188,7 @@ class globalSensitivityAnalysis():
                             file.write(f'{value}\n')
                             file.write(f'# scaling factor - {key}\n')
 
-                    os.system("./sciantix.x")
+                    os.system('./sciantix.x > log.sciantix')
 
                     # generating the map with all the scaling factors
                     self.scaling_factor_map[i,j,:] = bias

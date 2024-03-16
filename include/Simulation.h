@@ -386,8 +386,8 @@ class Simulation : public Solver, public Model
 			// Fractional coverage
 			sciantix_variable[sv["Intergranular fractional coverage"]].setFinalValue(
 				sciantix_variable[sv["Intergranular bubble area"]].getFinalValue() *
-				sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() // * 
-				// sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()
+				sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() *  
+				sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()
 			);
 
 			// Vented fraction: Sigmoid(Fc)

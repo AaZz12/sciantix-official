@@ -88,7 +88,7 @@ class singleSensitivityAnalysis():
                     file.write(f'{value}\n')
                     file.write(f'# scaling factor - {key}\n')
 
-            os.system("./sciantix.x")
+            os.system('./sciantix.x > log.sciantix')
             os.chdir('..')
 
         ##################
@@ -111,7 +111,7 @@ class singleSensitivityAnalysis():
         shutil.copy("../input_settings.txt", os.getcwd())
         shutil.copy("../input_history.txt", os.getcwd())
 
-        os.system("./sciantix.x")
+        os.system('./sciantix.x > log.sciantix')
         os.chdir('..')
 
     def readFolders(self, variable_name):

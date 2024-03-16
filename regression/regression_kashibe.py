@@ -74,7 +74,7 @@ def do_sciantix():
 
   # copying and executing sciantix.exe into cwd
   shutil.copy("../sciantix.x", os.getcwd())
-  os.system("./sciantix.x")
+  os.system('./sciantix.x > log.sciantix')
 
   # removing useless file
   os.remove("sciantix.x")
