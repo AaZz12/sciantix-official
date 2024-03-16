@@ -249,7 +249,7 @@ def regression_baker(wpath, mode_Baker, mode_gold, mode_plot, folderList, number
       FGR2.append(100*data[-1,FGRPos].astype(float))
         
       FGRPos_gold = findSciantixVariablePosition(data_gold, "Fission gas release (/)")
-      FGR2_gold.append(100*data[-1,FGRPos_gold].astype(float))
+      FGR2_gold.append(100*data_gold[-1,FGRPos_gold].astype(float))
 
       # Retrieve the generated data of Intragranular gas swelling
       intraGranularSwellingPos = findSciantixVariablePosition(data, "Intragranular gas swelling (/)")
