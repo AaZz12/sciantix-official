@@ -359,7 +359,7 @@ class Simulation : public Solver, public Model
 					sciantix_variable[sv["Intergranular bubble area"]].getIncrement()
 				)
 			);
-
+			
 			// // Conservation: atoms per bubble
 			// for (std::vector<System>::size_type i = 0; i != sciantix_system.size(); ++i)
 			// {
@@ -383,11 +383,13 @@ class Simulation : public Solver, public Model
 			// 	sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue() / sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue()
 			// );
 
+			// sciantix_variable[sv["Intergranular bubble concentration"]].rescaleFinalValue(1. - sciantix_variable[sv["Intergranular fractional intactness"]].getIncrement());
+
 			// Fractional coverage
 			sciantix_variable[sv["Intergranular fractional coverage"]].setFinalValue(
 				sciantix_variable[sv["Intergranular bubble area"]].getFinalValue() *
-				sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() *  
-				sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()
+				sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() // *  
+				// sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()
 			);
 
 			// Vented fraction: Sigmoid(Fc)
@@ -400,10 +402,12 @@ class Simulation : public Solver, public Model
 
 
 			// Venting probability
+			sciantix_variable[sv["Intergranular venting probability"]].setFinalValue(
+				(1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()) + sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue() * sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()
+			);
 			// sciantix_variable[sv["Intergranular venting probability"]].setFinalValue(
-			// 	((1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()) + sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue())/2.0
+			// 	sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue() 
 			// );
-			sciantix_variable[sv["Intergranular venting probability"]].setFinalValue(sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue());
 
 			double err(0);
 			if(sciantix_variable[sv["Intergranular atoms per bubble"]].getFinalValue())

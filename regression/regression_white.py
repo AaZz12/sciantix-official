@@ -20,7 +20,7 @@ from sklearn.linear_model import LinearRegression
 """ ------------------- Global Variables ------------------- """
 
 # Data from SCIANTIX 1.0
-gbSwelling1 = np.array([1.19, 1.16, 1.13, 1.12, 1.29,                   # 4000
+gbSwelling1 = np.array([1.19, 1.16, 1.13, 1.12, 1.29,          # 4000
                0.91, 0.89, 0.85, 0.79, 0.77, 0.81,             # 4004
                0.89, 0.87, 0.82, 0.76, 0.79,                   # 4005
                1.89, 1.83, 1.68, 1.46, 1.33,                   # 4064
@@ -33,7 +33,7 @@ gbSwelling1 = np.array([1.19, 1.16, 1.13, 1.12, 1.29,                   # 4000
                ])
 
 # Intergranular gaseous swelling database from White et al. (2006) experiments
-gbConcWhite = np.array([0.68, 0.80, 1.32, 1.99, 9.00,                   # 4000
+gbConcWhite = np.array([0.68, 0.80, 1.32, 1.99, 9.00,          # 4000
                1.39, 2.12, 3.55, 1.87, 8.51, 27.90,            # 4004
                1.21, 2.93, 2.57, 2.62, 10.62,                  # 4005
                0.95, 0.87, 1.35, 0.74, 3.51,                   # 4064
@@ -46,7 +46,7 @@ gbConcWhite = np.array([0.68, 0.80, 1.32, 1.99, 9.00,                   # 4000
                ])
 
 # Intergranular gaseous swelling database from White et al. (2006) experiments
-gbSwellingWhite = np.array([0.97, 0.68, 0.53, 0.46, 0.17,                   # 4000
+gbSwellingWhite = np.array([0.97, 0.68, 0.53, 0.46, 0.17,          # 4000
                    0.62, 0.7, 0.44, 0.56, 0.27, 0.16,              # 4004
                    0.94, 0.57, 0.42, 0.54, 0.27,                   # 4005
                    1.07, 0.86, 0.63, 0.74, 0.59,                   # 4064
@@ -196,19 +196,19 @@ def do_plot():
   plt.show()
 
   # GOLD vs. SCIANTIX 2.0 - area
-  fig, ax = plt.subplots()
+#   fig, ax = plt.subplots()
 
-  ax.scatter(gbSwellingWhite, bbarea2_gold, c = '#C9C954', edgecolors= '#999AA2', marker = 'o', s=20, label='Gold')
-  ax.scatter(gbSwellingWhite, bbarea2, c = '#98E18D', edgecolors= '#999AA2', marker = 'o', s=20, label='SCIANTIX 2.0')
+#   ax.scatter(gbSwellingWhite, bbarea2_gold, c = '#C9C954', edgecolors= '#999AA2', marker = 'o', s=20, label='Gold')
+#   ax.scatter(gbSwellingWhite, bbarea2, c = '#98E18D', edgecolors= '#999AA2', marker = 'o', s=20, label='SCIANTIX 2.0')
 
-  ax.set_xscale('log')
-  ax.set_yscale('log')
+#   ax.set_xscale('log')
+#   ax.set_yscale('log')
 
-  ax.set_xlabel('Experimental swelling(%)')
-  ax.set_ylabel('Calculated bubble area (m2)')
-  ax.legend()
+#   ax.set_xlabel('Experimental swelling(%)')
+#   ax.set_ylabel('Calculated bubble area (m2)')
+#   ax.legend()
 
-  plt.show()
+#   plt.show()
 
   # GOLD vs. SCIANTIX 2.0 - conc
   fig, ax = plt.subplots()
@@ -219,8 +219,8 @@ def do_plot():
   ax.set_xscale('log')
   ax.set_yscale('log')
 
-  ax.set_xlabel('Experimental (bub/m2)')
-  ax.set_ylabel('Calculated (mbub/2)')
+  ax.set_xlabel('Experimental (bub/$um^2$)')
+  ax.set_ylabel('Calculated (bub/$um^2$)')
   ax.legend()
 
   plt.show()
