@@ -276,21 +276,7 @@ class Simulation : public Solver, public Model
 		int iter(0);
 		int max_iter(1);		
 		const double pi = CONSTANT_NUMBERS_H::MathConstants::pi;
-
-	
-		// Vacancy concentration
-
-		// sto tenendo costanti i parametri dell'equazione ma non le vacanze iniziali, forse devo tenere costante la derivata?
-		// se tengo costante la derivata non devo resettare il numero di vacanze
-
-		// in un certo senso regolo il flusso di atomi
-		sciantix_variable[sv["Intergranular vacancies per bubble"]].setFinalValue(
-			solver.LimitedGrowth(
-				sciantix_variable[sv["Intergranular vacancies per bubble"]].getInitialValue(),
-				model[sm["Intergranular bubble evolution"]].getParameter(),
-				physics_variable[pv["Time step"]].getFinalValue()
-			)
-		);
+		const double kB = CONSTANT_NUMBERS_H::PhysicsConstants::boltzmann_constant;
 
 		if(iterative_loop == true)
 		{
@@ -310,6 +296,42 @@ class Simulation : public Solver, public Model
 			std::cout << "A_gb =    " << sciantix_variable[sv["Intergranular bubble area"]].getInitialValue() << std::endl;
 			std::cout << "N_gb =    " << sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue() << std::endl;
 			std::cout << "F_v  =    " << sciantix_variable[sv["Intergranular vented fraction"]].getInitialValue() << std::endl;
+
+			// approximation of 1/S, S = -1/4 ((1-F)(3-F)+2lnF)
+			const double AA = 1830.1;
+			const double BB = -1599.2;
+			const double CC = 690.91;
+			const double DD = -99.993;
+			const double EE = 20.594;
+
+			double sink_strength = 0.4054 +
+				AA * pow(sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue(), 5) +
+				BB * pow(sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue(), 4) +
+				CC * pow(sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue(), 3) +
+				DD * pow(sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue(), 2) +
+				EE * sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue();
+
+			double volume_flow_rate = 2.0 * pi * matrix[0].getGrainBoundaryThickness() * matrix[0].getGrainBoundaryVacancyDiffusivity() * sink_strength;
+
+			double growth_rate = volume_flow_rate * sciantix_variable[sv["Intergranular atoms per bubble"]].getFinalValue() / matrix[0].getSchottkyVolume();
+			double equilibrium_pressure(0), equilibrium_term(0);
+			if (sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue())
+			{
+				equilibrium_pressure = 2.0 * matrix[0].getSurfaceTension() / sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue() - history_variable[hv["Hydrostatic stress"]].getFinalValue() * 1e6;
+				equilibrium_term = - volume_flow_rate * equilibrium_pressure / (kB * history_variable[hv["Temperature"]].getFinalValue());
+			}
+
+			std::vector<double> parameter;
+			parameter.push_back(growth_rate);
+			parameter.push_back(equilibrium_term);
+
+			sciantix_variable[sv["Intergranular vacancies per bubble"]].setFinalValue(
+				solver.LimitedGrowth(
+					sciantix_variable[sv["Intergranular vacancies per bubble"]].getInitialValue(),
+					parameter,
+					physics_variable[pv["Time step"]].getFinalValue()
+				)
+			);
 
 			// Gas is distributed among bubbles: n(at/bub) = B(at/m3) / (N(bub/m2) S/V(1/m))
 			// dn/dB = 1 / (N S/V) * (1 - B/N * dN/dB)
@@ -432,13 +454,14 @@ class Simulation : public Solver, public Model
 			{
 				std::cout << "ERR " << fabs(err) << " < " << tol << std::endl;
 				std::cout << "!! End of the intergranular loop !!" << std::endl;
+				sciantix_variable[sv["Intergranular vacancies per bubble"]].resetValue();
+
 				break;
 			}
 
 			iter++;
 
 			sciantix_variable[sv["Intergranular atoms per bubble"]].resetValue();
-			// sciantix_variable[sv["Intergranular vacancies per bubble"]].resetValue();
 			sciantix_variable[sv["Intergranular bubble area"]].resetValue();
 			sciantix_variable[sv["Intergranular bubble concentration"]].resetValue();
 			sciantix_variable[sv["Intergranular vented fraction"]].resetValue(); // forse solo per coerenza, per vedere nel log l'incremento
