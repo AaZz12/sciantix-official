@@ -1,0 +1,2 @@
+iElasticModulus = 1
+iPoissonRatio = 0

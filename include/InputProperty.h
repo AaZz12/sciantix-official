@@ -9,33 +9,38 @@
 //  Originally developed by D. Pizzocri & T. Barani                                 //
 //                                                                                  //
 //  Version: 2.0                                                                    //
-//  Year: 2022                                                                      //
-//  Authors: D. Pizzocri, T. Barani.                                                //
+//  Year: 2024                                                                      //
+//  Authors: G. Nicodemo                                                            //
 //                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////
 
-#include "MainVariables.h"
+#ifndef INPUT_PROPERTY_H
+#define INPUT_PROPERTY_H
 
-clock_t timer, timer_time_step;
+#include "Variable.h"
 
-int    Sciantix_options[40];
-int    Property_options[40];
-double Sciantix_history[20];
-double Sciantix_variables[300];
-double Sciantix_scaling_factors[10];
-double Sciantix_diffusion_modes[1000];
+/// Derived class for the input property (e.g., input settings for property selection).
+class InputProperty : virtual public Variable
+{
+public:
+	void setValue(double v)
+	{
+		/// Member function to set the setting value of the declared object.
+		value = v;
+	}
 
-long long int Time_step_number(0);
-double  Time_h(0.0), dTime_h(0.0), Time_end_h(0.0); // (h)
-double  Time_s(0.0), Time_end_s(0.0); // (s)
-double  Number_of_time_steps_per_interval(100);
+	double getValue()
+	{
+		/// Member function to get the setting value of the object.
+		return value;
+	}
 
-std::ofstream Output_file;
-std::ofstream Execution_file;
+	InputProperty() { }
+	~InputProperty() { }
 
-int Input_history_points(1000);
-std::vector<double> Time_input(1000, 0.0);
-std::vector<double> Temperature_input(1000, 0.0);
-std::vector<double> Fissionrate_input(1000, 0.0);
-std::vector<double> Hydrostaticstress_input(1000, 0.0);
-std::vector<double> Steampressure_input(1000, 0.0);
+protected:
+	double value;
+
+};
+
+#endif

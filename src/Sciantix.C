@@ -17,12 +17,13 @@
 #include "Sciantix.h"
 
 void Sciantix(int Sciantix_options[],
+	int Property_options[],
 	double Sciantix_history[],
 	double Sciantix_variables[],
 	double Sciantix_scaling_factors[],
 	double Sciantix_diffusion_modes[])
 {
-	SetVariables(Sciantix_options, Sciantix_history, Sciantix_variables, Sciantix_scaling_factors, Sciantix_diffusion_modes);
+	SetVariables(Sciantix_options, Property_options, Sciantix_history, Sciantix_variables, Sciantix_scaling_factors, Sciantix_diffusion_modes);
 
 	SetGas();
 

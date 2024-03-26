@@ -40,6 +40,8 @@ protected:
 	double pore_nucleation_rate;
 	double pore_resolution_rate;
 	double pore_trapping_rate;
+	double elastic_modulus;
+	double poisson_ratio;
 	std::string matrix_name;
 
 public:
@@ -221,6 +223,30 @@ public:
 	{
 		/// Member function to get the (estimated) temperature limit for complete healing of the extended defects in the fuel matrix (K).
 		return healing_temperature_threshold;
+	}
+
+	void setElasticModulus(double e)
+	{
+		/// Member function to set the matrix elastic modulus (MPa)
+		elastic_modulus = e;
+	}
+
+	double getElasticModulus()
+	{
+		/// Member function to get the matrix elastic modulus (MPa)
+		return elastic_modulus;
+	}
+
+	void setPoissonRatio(double p)
+	{
+		/// Member function to set the matrix poisson ratio (-)
+		poisson_ratio = p;
+	}
+
+	double getPoissonRatio()
+	{
+		/// Member function to get the matrix poisson ratio (-)
+		return poisson_ratio;
 	}
 
 	Matrix() { }

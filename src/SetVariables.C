@@ -24,7 +24,7 @@
 /// - input_variable
 /// together with the diffusion modes, the maps, and the scaling factors.
 
-void SetVariables(int Sciantix_options[], double Sciantix_history[], double Sciantix_variables[], double Sciantix_scaling_factors[], double Sciantix_diffusion_modes[])
+void SetVariables(int Sciantix_options[], int Property_options[], double Sciantix_history[], double Sciantix_variables[], double Sciantix_scaling_factors[], double Sciantix_diffusion_modes[])
 {
 	// -----------------------------------------------------------------------------------------------
 	// Input variable
@@ -170,6 +170,27 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 
 	bool toOutputStoichiometryDeviation(0);
 	if (input_variable[iv["iStoichiometryDeviation"]].getValue() > 0) toOutputStoichiometryDeviation = 1;
+
+	// ---------------------------------------------------------------------------------------------------
+	// Input property
+	// The vector is used to collect all user input settings relating to the choice of material properties
+	// ---------------------------------------------------------------------------------------------------
+
+	int ip_counter(0);
+	if (input_property.empty())
+	{
+		input_property.emplace_back();
+		input_property[ip_counter].setName("iElasticModulus");
+		input_property[ip_counter].setValue(Property_options[0]);
+		++ip_counter;
+
+		input_property.emplace_back();
+		input_property[ip_counter].setName("iPoissonRatio");
+		input_property[ip_counter].setValue(Property_options[1]);
+		++ip_counter;
+	}
+
+	MapInputProperty();
 
 	// ----------------
 	// Physics variable

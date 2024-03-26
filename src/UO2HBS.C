@@ -45,4 +45,6 @@ void UO2HBS()
 	matrix[index].setPoreNucleationRate();
 	matrix[index].setPoreResolutionRate();
 	matrix[index].setPoreTrappingRate();
+	matrix[index].setElasticModulus(0);
+	matrix[index].setPoissonRatio(0);
 }

@@ -80,11 +80,16 @@ void InputReading()
 	/// are reported in it.
 
 	std::ofstream input_check("input_check.txt", std::ios::out);
+	std::ofstream properties_check("properties_check.txt", std::ios::out);
 
 	// Abort execution if any of the input files does not exist
 	std::ifstream input_settings("input_settings.txt", std::ios::in);
 	if (!input_settings)
 		ErrorMessages::MissingInputFile("input_settings.txt");
+
+	std::ifstream input_properties("input_properties.txt", std::ios::in);
+	if (!input_properties)
+		ErrorMessages::MissingInputFile("input_property.txt");
 
 	std::ifstream input_initial_conditions("input_initial_conditions.txt", std::ios::in);
 	if (!input_initial_conditions)
@@ -209,6 +214,9 @@ void InputReading()
 	Sciantix_options[19] = ReadOneSetting("iHeliumProductionRate", input_settings, input_check);
 	Sciantix_options[20] = ReadOneSetting("iStoichiometryDeviation", input_settings, input_check);
 	Sciantix_options[21] = ReadOneSetting("iBubbleDiffusivity",input_settings,input_check);
+
+	Property_options[0] = ReadOneSetting("iElasticModulus", input_properties, properties_check);
+	Property_options[1] = ReadOneSetting("iPoissonRatio", input_properties, properties_check);
 	
 	if (!input_initial_conditions.fail())
 	{
@@ -347,7 +355,9 @@ void InputReading()
 	}
 
 	input_check.close();
+	properties_check.close();
 	input_settings.close();
+	input_properties.close();
 	input_initial_conditions.close();
 	input_history.close();
 	input_scaling_factors.close();
