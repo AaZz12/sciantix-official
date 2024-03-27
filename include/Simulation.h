@@ -487,6 +487,12 @@ class Simulation : public Solver, public Model
 			sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() *
 			sciantix_variable[sv["Intergranular bubble volume"]].getFinalValue()
 		);
+
+		// Intergranular release TEST
+		//sciantix_variable[sv["Intergranular released fraction"]].setFinalValue(
+		//	sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue()*
+		//	2
+		//);
 	}
 
 	void GrainBoundarySweeping()

@@ -10,24 +10,11 @@
 //                                                                                  //
 //  Version: 2.0                                                                    //
 //  Year: 2022                                                                      //
-//  Authors: D. Pizzocri, G. Zullo.                                                 //
+//  Authors: D. Pizzocri, G. Zullo, G. Nicodemo                                     //
 //                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////
 
-#include <iostream>
-#include <map>
-#include <string>
-#include <vector>
+#include "InputVariableDeclaration.h"
 #include "SetVariables.h"
-#include "SetGPVariables.h"
-#include "MaterialDeclaration.h"
-#include "SetGas.h"
-#include "SetModel.h"
-#include "SetMatrix.h"
-#include "SetSystem.h"
-#include "UpdateVariables.h"
-#include "Output.h"
-#include "Simulation.h"
-#include "FiguresOfMerit.h"
 
-void Sciantix(int Sciantix_options[], double Sciantix_history[], double Sciantix_variables[], double Sciantix_scaling_factors[], double Sciantix_diffusion_modes[]);
+void SetGPVariables();

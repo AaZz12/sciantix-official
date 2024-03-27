@@ -19,6 +19,7 @@
 #include "MapSciantixVariable.h"
 #include "MapMatrix.h"
 #include "SetVariables.h"
+#include "SetGPVariables.h"
 #include "UO2.h"
 #include "UO2HBS.h"
 #include <cmath>
