@@ -9,52 +9,27 @@
 //  Originally developed by D. Pizzocri & T. Barani                                 //
 //                                                                                  //
 //  Version: 2.0                                                                    //
-//  Year: 2022                                                                      //
-//  Authors: D. Pizzocri, G. Zullo.                                                 //
+//  Year: 2024                                                                      //
+//  Authors: G. Nicodemo                                                            //
 //                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef MODEL_H
-#define MODEL_H
+/// SetFuel
+
+#include "MapSystem.h"
+#include "SystemDeclaration.h"
+#include "MapPhysicsVariable.h"
+#include "PhysicsVariableDeclaration.h"
+#include "GasDeclaration.h"
+#include "MapGas.h"
+#include "Xe_in_UO2.h"
+#include "Xe133_in_UO2.h"
+#include "Kr_in_UO2.h"
+#include "Kr85m_in_UO2.h"
+#include "He_in_UO2.h"
+#include "Xe_in_UO2HBS.h"
+#include "FuelDeclaration.h"
 
 #include <vector>
-#include <string>
-#include <iterator>
-#include <map>
-#include <string>
 
-#include "HistoryVariable.h"
-#include "SciantixVariable.h"
-#include "InputVariable.h"
-#include "Matrix.h"
-#include "Gas.h"
-#include "System.h"
-#include "Fuel.h"
-
-/// Derived class for the SCIANTIX models.
-
-class Model : public HistoryVariable, public SciantixVariable, public InputVariable, public Fuel
-{
-protected:
-	std::string overview;
-	std::vector<double> parameter;
-
-public:
-
-	void setParameter(std::vector<double> p)
-	{
-		parameter = p;
-	}
-
-	std::vector<double> getParameter()
-	{
-		return parameter;
-	}
-
-	// Constructor & destructor
-	Model() {}
-	~Model() {}
-
-};
-
-#endif
+void SetFuel();

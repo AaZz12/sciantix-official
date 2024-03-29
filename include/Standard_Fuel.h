@@ -9,52 +9,29 @@
 //  Originally developed by D. Pizzocri & T. Barani                                 //
 //                                                                                  //
 //  Version: 2.0                                                                    //
-//  Year: 2022                                                                      //
-//  Authors: D. Pizzocri, G. Zullo.                                                 //
+//  Year: 2024                                                                      //
+//  Authors: G. Nicodemo                                                            //
 //                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef STANDARD_FUEL_H
+#define STANDARD_FUEL_H
 
-#include <vector>
-#include <string>
-#include <iterator>
-#include <map>
-#include <string>
+#include "FuelDeclaration.h"
+#include "SystemDeclaration.h"
+#include "MatrixDeclaration.h"
+#include "MapMatrix.h"
+#include "SciantixScalingFactorDeclaration.h"
+#include "SciantixVariableDeclaration.h"
+#include "MapSciantixVariable.h"
 
-#include "HistoryVariable.h"
-#include "SciantixVariable.h"
-#include "InputVariable.h"
-#include "Matrix.h"
-#include "Gas.h"
-#include "System.h"
-#include "Fuel.h"
+/**
+ * @brief Sets properties for the Standard UO2 fuel, including the possible developing of HBS at high burnup.
+ * 
+ * This function initializes the properties of the Standard fuel
+ * and adds it to the sciantix_fuel vector.
+ */
 
-/// Derived class for the SCIANTIX models.
+void Standard_Fuel();
 
-class Model : public HistoryVariable, public SciantixVariable, public InputVariable, public Fuel
-{
-protected:
-	std::string overview;
-	std::vector<double> parameter;
-
-public:
-
-	void setParameter(std::vector<double> p)
-	{
-		parameter = p;
-	}
-
-	std::vector<double> getParameter()
-	{
-		return parameter;
-	}
-
-	// Constructor & destructor
-	Model() {}
-	~Model() {}
-
-};
-
-#endif
+#endif // STANDARD_FUEL_H

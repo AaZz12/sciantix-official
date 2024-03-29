@@ -9,13 +9,13 @@
 //  Originally developed by D. Pizzocri & T. Barani                                 //
 //                                                                                  //
 //  Version: 2.0                                                                    //
-//  Year: 2022                                                                      //
-//  Authors: D. Pizzocri, G. Zullo.                                                 //
+//  Year: 2024                                                                      //
+//  Authors: G. Nicodemo                                                            //
 //                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef Fuel_H
+#define Fuel_H
 
 #include <vector>
 #include <string>
@@ -29,31 +29,43 @@
 #include "Matrix.h"
 #include "Gas.h"
 #include "System.h"
-#include "Fuel.h"
 
-/// Derived class for the SCIANTIX models.
+/// Derived class for the SCIANTIX fuel.
 
-class Model : public HistoryVariable, public SciantixVariable, public InputVariable, public Fuel
+class Fuel : public System
 {
 protected:
-	std::string overview;
-	std::vector<double> parameter;
+	std::string system_name_one;
+	std::string system_name_two;
 
 public:
 
-	void setParameter(std::vector<double> p)
+	void setSystemNameOne(std::string n)
 	{
-		parameter = p;
+		/// Member function to set the name of the first system in the fuel
+		system_name_one = n;
 	}
 
-	std::vector<double> getParameter()
+	std::string setSystemNameOne()
 	{
-		return parameter;
+		/// Member function to get the name of the first system in the fuel
+		return system_name_one;
 	}
 
-	// Constructor & destructor
-	Model() {}
-	~Model() {}
+	void setSystemNameTwo(std::string n)
+	{
+		/// Member function to set the name of the first system in the fuel
+		system_name_two = n;
+	}
+
+	std::string setSystemNameTwo()
+	{
+		/// Member function to get the name of the first system in the fuel
+		return system_name_two;
+	}
+
+	Fuel() {}
+	~Fuel() {}
 
 };
 
