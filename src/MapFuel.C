@@ -14,25 +14,17 @@
 //                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////
 
-/// SetFuel
-
-#include "MapSystem.h"
-#include "SystemDeclaration.h"
-#include "MapPhysicsVariable.h"
-#include "PhysicsVariableDeclaration.h"
-#include "GasDeclaration.h"
-#include "MapGas.h"
-#include "Xe_in_UO2.h"
-#include "Xe133_in_UO2.h"
-#include "Kr_in_UO2.h"
-#include "Kr85m_in_UO2.h"
-#include "He_in_UO2.h"
-#include "Xe_in_UO2HBS.h"
-#include "FuelDeclaration.h"
-#include "Standard_Fuel.h"
 #include "MapFuel.h"
 
-#include <vector>
-#include <stdexcept>
+/**
+ * @brief This routines defines the map fu for sciantix_fuel
+ * 
+ */
 
-void SetFuel();
+std::map<std::string, int> fu;
+
+void MapFuel()
+{
+	for (std::vector<Fuel>::size_type i = 0; i != fuel.size(); ++i)
+		fu[fuel[i].getName()] = i;
+}

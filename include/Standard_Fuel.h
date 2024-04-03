@@ -24,6 +24,10 @@
 #include "SciantixScalingFactorDeclaration.h"
 #include "SciantixVariableDeclaration.h"
 #include "MapSciantixVariable.h"
+#include "MapFuel.h"
+#include "MapSystem.h"
+
+#include <cmath>
 
 /**
  * @brief Sets properties for the Standard UO2 fuel, including the possible developing of HBS at high burnup.

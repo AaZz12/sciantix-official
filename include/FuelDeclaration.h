@@ -21,6 +21,6 @@
 #include "ConstantNumbers.h"
 #include "Fuel.h"
 
-extern std::vector<Fuel> sciantix_fuel;
+extern std::vector<Fuel> fuel;
 
 #endif
