@@ -9,8 +9,8 @@
 //  Originally developed by D. Pizzocri & T. Barani                                 //
 //                                                                                  //
 //  Version: 2.0                                                                    //
-//  Year: 2024                                                                      //
-//  Authors: G. Nicodemo                                                            //
+//  Year: 2022                                                                      //
+//  Authors: D. Pizzocri, G. Zullo.                                                 //
 //                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////
 
@@ -38,7 +38,7 @@ void Standard_Fuel()
 	fuel[index].setHomoRadiusInLattice(0.21e-9);
 	fuel[index].setHomoVolumeInLattice(0);
 	fuel[index].setHomoHenryConstant(0.0);
-	fuel[index].setProductionRate(0);
+	fuel[index].setHomoProductionRate(0);
 
 	fuel[index].setFissionGasDiffusivity(int(input_variable[iv["iFGDiffusionCoefficient"]].getValue()));
 	fuel[index].setBubbleDiffusivity(int(input_variable[iv["iBubbleDiffusivity"]].getValue()));
@@ -66,9 +66,5 @@ void Standard_Fuel()
 	fuel[index].setElasticModulus(0);
 	fuel[index].setPoissonRatio(0);
 
-	// Gas 
-	fuel[index].setAtomicNumber(36);
-	fuel[index].setVanDerWaalsVolume(6.61e-29);
-	fuel[index].setDecayRate(0.0);
-	fuel[index].setPrecursorFactor(1.00);
+	// Gas (remains the same)
 }
