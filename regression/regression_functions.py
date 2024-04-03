@@ -74,6 +74,7 @@ def sciantix_dictionary(file):
 		"frate": "Fission rate (fiss / m3 s)",
 		"sigma": "Hydrostatic stress (MPa)",
 		"bu": "Burnup (MWd/kgUO2)",
+		"bu_eff": "Effective burnup (MWd/kgUO2)",
 		"N": "Intergranular bubble concentration (bub/m2)",
 		"n": "Intergranular atoms per bubble (at/bub)",
 		"v": "Intergranular vacancies per bubble (vac/bub)",
