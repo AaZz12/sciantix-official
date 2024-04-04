@@ -17,4 +17,4 @@
 #include "FuelDeclaration.h"
 
 /// SystemDeclaration
-std::vector<Fuel> sciantix_fuel;
+std::vector<Fuel> fuel;
