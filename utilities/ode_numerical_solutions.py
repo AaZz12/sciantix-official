@@ -6,13 +6,13 @@ Nlim = 1e11
 
 def dN_dA(A, N):
     # return - 6 * N**2 / (3 + 4 * N * A) # Pastore et al. 2013
-    return - 2 * N**2 # White 2004
+    # return - 2 * N**2 # White 2004
     # return - 2 * N**2 / (1 + 2*N*A) # Veshchunov 2008
 
-	# if(N < Nlim):	# Verdolin 
-	# 	return Nlim
-	# else:
-	# 	return - 2 * N**2
+	if(N < Nlim):	# Verdolin 
+		return Nlim
+	else:
+		return - 2 * N**2
 
 N0 = 2e13
 

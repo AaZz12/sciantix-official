@@ -371,6 +371,9 @@ class Simulation : public Solver, public Model
 			sciantix_variable[sv["Intergranular bubble area"]].setFinalValue(
 				pi * pow(sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue() * sin(matrix[0].getSemidihedralAngle()), 2));
 
+			// ELISA dA / dN
+
+
 			// ---------------------------------
 			// Grain-boundary bubble coalescence
 			// ---------------------------------
@@ -542,18 +545,20 @@ class Simulation : public Solver, public Model
 			{
 				if(physics_variable[pv["Time step"]].getFinalValue())
 				{
-					std::cout << sciantix_system[i].getName() << std::endl;
+					// std::cout << sciantix_system[i].getName() << std::endl;
 
-					// devo lasciare l'incremento sulla venting probability perchè ne ho conservato il valore iniziale
-					decay_rate = sciantix_variable[sv["Intergranular venting probability"]].getIncrement() / physics_variable[pv["Time step"]].getFinalValue();
-					std::cout << "Decay rate = " << decay_rate << std::endl;
-					// std::cout << "Vented fraction increment = " << sciantix_variable[sv["Intergranular vented fraction"]].getIncrement() << std::endl;
-					// std::cout << "Venting probability increment = " << sciantix_variable[sv["Intergranular venting probability"]].getIncrement() << std::endl;
+					// // devo lasciare l'incremento sulla venting probability perchè ne ho conservato il valore iniziale
+					// // decay_rate = sciantix_variable[sv["Intergranular venting probability"]].getIncrement() / physics_variable[pv["Time step"]].getFinalValue();
+					// // std::cout << "Decay rate = " << decay_rate << std::endl;
+					// // std::cout << "Vented fraction increment = " << sciantix_variable[sv["Intergranular vented fraction"]].getIncrement() << std::endl;
+					// // std::cout << "Venting probability increment = " << sciantix_variable[sv["Intergranular venting probability"]].getIncrement() << std::endl;
 
-					if(decay_rate < 0)
-						decay_rate = 0;
+					// if(decay_rate < 0)
+					// 	decay_rate = 0;
 
-					source_rate = (1.0 - sciantix_variable[sv["Intergranular venting probability"]].getFinalValue()) * (sciantix_variable[sv[sciantix_system[i].getGasName() + " produced"]].getIncrement() - sciantix_variable[sv[sciantix_system[i].getGasName() + " in grain"]].getIncrement() - sciantix_variable[sv[sciantix_system[i].getGasName() + " decayed"]].getIncrement()) / physics_variable[pv["Time step"]].getFinalValue();
+					source_rate = (1.0 - sciantix_variable[sv["Intergranular venting probability"]].getFinalValue()) * (sciantix_variable[sv[sciantix_system[i].getGasName() + " produced"]].getIncrement() - sciantix_variable[sv[sciantix_system[i].getGasName() + " in grain"]].getIncrement() - sciantix_variable[sv[sciantix_system[i].getGasName() + " decayed"]].getIncrement()) / physics_variable[pv["Time step"]].getFinalValue() - 
+						(sciantix_variable[sv[sciantix_system[i].getGasName() + " produced"]].getFinalValue() - sciantix_variable[sv[sciantix_system[i].getFinalValue() + " in grain"]].getFinalValue() - sciantix_variable[sv[sciantix_system[i].getGasName() + " decayed"]].getFinalValue()) * sciantix_variable[sv["Intergranular venting probability"]].getIncrement();
+				
 					std::cout << "Source rate = " << source_rate << std::endl;
 				}
 
