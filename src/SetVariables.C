@@ -763,6 +763,22 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	++sv_counter;
 
 	sciantix_variable.emplace_back();
+	sciantix_variable[sv_counter].setName("Released check");
+	sciantix_variable[sv_counter].setUOM("(at/m3)");
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[70]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[70]);
+	sciantix_variable[sv_counter].setOutput(toOutputGrainBoundary);
+	++sv_counter;
+
+	sciantix_variable.emplace_back();
+	sciantix_variable[sv_counter].setName("Diffusional flux to GB");
+	sciantix_variable[sv_counter].setUOM("(at/m2/s)");
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[71]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[71]);
+	sciantix_variable[sv_counter].setOutput(toOutputGrainBoundary);
+	++sv_counter;
+
+	sciantix_variable.emplace_back();
 	sciantix_variable[sv_counter].setName("Intergranular gas swelling");
 	sciantix_variable[sv_counter].setUOM("(/)");
 	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[36]);
@@ -1069,6 +1085,7 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	sf_fission_rate = Sciantix_scaling_factors[5];
 	sf_cent_parameter = Sciantix_scaling_factors[6];
 	sf_helium_production_rate = Sciantix_scaling_factors[7];
+	beta_release = Sciantix_scaling_factors[8];
 
 	// ----
 	// Maps
