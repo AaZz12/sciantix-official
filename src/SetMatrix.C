@@ -214,7 +214,7 @@ void Matrix::setPoreTrappingRate()
 	const double pi = CONSTANT_NUMBERS_H::MathConstants::pi;
 
 	pore_trapping_rate = 4.0 * pi * matrix[sma["UO2HBS"]].getGrainBoundaryVacancyDiffusivity() *
-	sciantix_variable[sv["Xe at grain boundary"]].getFinalValue() *
+	sciantix_variable[sv["Xe at grain boundary in UO2"]].getFinalValue() *
 	sciantix_variable[sv["HBS pore radius"]].getFinalValue() *
 	(1.0 + 1.8 * pow(sciantix_variable[sv["HBS porosity"]].getFinalValue(), 1.3));
 }

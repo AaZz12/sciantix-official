@@ -21,15 +21,15 @@
 void UpdateVariables(double Sciantix_variables[], double Sciantix_diffusion_modes[])
 {
 	Sciantix_variables[0] = sciantix_variable[sv["Grain radius"]].getFinalValue();
-	Sciantix_variables[1] = sciantix_variable[sv["Xe produced"]].getFinalValue();
-	Sciantix_variables[100] = sciantix_variable[sv["Xe produced in HBS"]].getFinalValue();
-	Sciantix_variables[2] = sciantix_variable[sv["Xe in grain"]].getFinalValue();
-	Sciantix_variables[92] = sciantix_variable[sv["Xe in grain HBS"]].getFinalValue();
-	Sciantix_variables[3] = sciantix_variable[sv["Xe in intragranular solution"]].getFinalValue();
-	Sciantix_variables[4] = sciantix_variable[sv["Xe in intragranular bubbles"]].getFinalValue();
+	Sciantix_variables[1] = sciantix_variable[sv["Xe produced in UO2"]].getFinalValue();
+	Sciantix_variables[100] = sciantix_variable[sv["Xe produced in UO2HBS"]].getFinalValue();
+	Sciantix_variables[2] = sciantix_variable[sv["Xe in grain in UO2"]].getFinalValue();
+	Sciantix_variables[92] = sciantix_variable[sv["Xe in grain in UO2HBS"]].getFinalValue();
+	Sciantix_variables[3] = sciantix_variable[sv["Xe in intragranular solution in UO2"]].getFinalValue();
+	Sciantix_variables[4] = sciantix_variable[sv["Xe in intragranular bubbles in UO2"]].getFinalValue();
 	Sciantix_variables[5] = sciantix_variable[sv["Xe at grain boundary"]].getFinalValue();
-	Sciantix_variables[6] = sciantix_variable[sv["Xe released"]].getFinalValue();
-	Sciantix_variables[7] = sciantix_variable[sv["Kr produced"]].getFinalValue();
+	Sciantix_variables[6] = sciantix_variable[sv["Xe released in UO2"]].getFinalValue();
+	Sciantix_variables[7] = sciantix_variable[sv["Kr produced in UO2"]].getFinalValue();
 	Sciantix_variables[8] = sciantix_variable[sv["Kr in grain"]].getFinalValue();
 	Sciantix_variables[9] = sciantix_variable[sv["Kr in intragranular solution"]].getFinalValue();
 	Sciantix_variables[10] = sciantix_variable[sv["Kr in intragranular bubbles"]].getFinalValue();

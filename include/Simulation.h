@@ -104,22 +104,13 @@ class Simulation : public Solver, public Model
 
     	for (auto& system : sciantix_system)
 		{	
-			if(system.getRestructuredMatrix() == 0)
-				sciantix_variable[sv[system.getGasName() + " produced"]].setFinalValue(
-					solver.Integrator(
-						sciantix_variable[sv[system.getGasName() + " produced"]].getInitialValue(),
-						model[sm["Gas production - " + system.getName()]].getParameter().at(0),
-						model[sm["Gas production - " + system.getName()]].getParameter().at(1)
-					)
-				);
-			else if(system.getRestructuredMatrix() == 1)
-				sciantix_variable[sv[system.getGasName() + " produced in HBS"]].setFinalValue(
-					solver.Integrator(
-						sciantix_variable[sv[system.getGasName() + " produced in HBS"]].getInitialValue(),
-						model[sm["Gas production - " + system.getName()]].getParameter().at(0),
-						model[sm["Gas production - " + system.getName()]].getParameter().at(1)
-					)
-				);
+			sciantix_variable[sv[system.getGasName() + " produced in " + system.getMatrixName()]].setFinalValue(
+				solver.Integrator(
+					sciantix_variable[sv[system.getGasName() + " produced"]].getInitialValue(),
+					model[sm["Gas production - " + system.getName()]].getParameter().at(0),
+					model[sm["Gas production - " + system.getName()]].getParameter().at(1)
+				)
+			);
 		}
 	}
 
@@ -133,7 +124,7 @@ class Simulation : public Solver, public Model
 					solver.Decay(
 						sciantix_variable[sv[system.getGasName() + " decayed"]].getInitialValue(),
 						gas[ga[system.getGasName()]].getDecayRate(),
-						gas[ga[system.getGasName()]].getDecayRate() * sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue(), // sarebbe produced + produced in HBS ma le seconde devono esistere per tutte le specie..
+						gas[ga[system.getGasName()]].getDecayRate() * sciantix_variable[sv[system.getGasName() + " produced in " + system.getMatrixName()]].getFinalValue(), // sarebbe produced + produced in HBS ma le seconde devono esistere per tutte le specie..
 						physics_variable[pv["Time step"]].getFinalValue()
 					)
 				);
@@ -151,7 +142,7 @@ class Simulation : public Solver, public Model
 				{
 					if (system.getRestructuredMatrix() == 0)
 					{
-						sciantix_variable[sv[system.getGasName() + " in grain"]].setFinalValue(
+						sciantix_variable[sv[system.getGasName() + " in grain in " + system.getMatrixName()]].setFinalValue(
 							solver.SpectralDiffusion(
 								getDiffusionModes(system.getGasName()),
 								model[sm["Gas diffusion - " + system.getName()]].getParameter(),
@@ -163,17 +154,17 @@ class Simulation : public Solver, public Model
 						if ((system.getResolutionRate() + system.getTrappingRate()) > 0.0)
 							equilibrium_fraction = system.getResolutionRate() / (system.getResolutionRate() + system.getTrappingRate());
 
-						sciantix_variable[sv[system.getGasName() + " in intragranular solution"]].setFinalValue(
-							equilibrium_fraction * sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue()
+						sciantix_variable[sv[system.getGasName() + " in intragranular solution in " + system.getMatrixName()]].setFinalValue(
+							equilibrium_fraction * sciantix_variable[sv[system.getGasName() + " in grain in " + system.getMatrixName()]].getFinalValue()
 						);
 
-						sciantix_variable[sv[system.getGasName() + " in intragranular bubbles"]].setFinalValue(
-							(1.0 - equilibrium_fraction) * sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue()
+						sciantix_variable[sv[system.getGasName() + " in intragranular bubbles in " + system.getMatrixName()]].setFinalValue(
+							(1.0 - equilibrium_fraction) * sciantix_variable[sv[system.getGasName() + " in grain in " + system.getMatrixName()]].getFinalValue()
 						);
 					}
 					else if (system.getRestructuredMatrix() == 1)
 					{
-						sciantix_variable[sv[system.getGasName() + " in grain HBS"]].setFinalValue(
+						sciantix_variable[sv[system.getGasName() + " in grain in UO2HBS"]].setFinalValue(
 							solver.SpectralDiffusion(
 								getDiffusionModes(system.getGasName() + " in HBS"),
 								model[sm["Gas diffusion - " + system.getName()]].getParameter(),
@@ -190,8 +181,8 @@ class Simulation : public Solver, public Model
 
 					if (system.getRestructuredMatrix() == 0)
 					{
-						initial_value_solution = sciantix_variable[sv[system.getGasName() + " in intragranular solution"]].getFinalValue();
-						initial_value_bubbles  = sciantix_variable[sv[system.getGasName() + " in intragranular bubbles"]].getFinalValue();
+						initial_value_solution = sciantix_variable[sv[system.getGasName() + " in intragranular solution in " + system.getMatrixName()]].getFinalValue();
+						initial_value_bubbles  = sciantix_variable[sv[system.getGasName() + " in intragranular bubbles in " + system.getMatrixName()]].getFinalValue();
 
 						solver.SpectralDiffusion2equations(
 							initial_value_solution,
@@ -201,13 +192,13 @@ class Simulation : public Solver, public Model
 							model[sm["Gas diffusion - " + system.getName()]].getParameter(),
 							physics_variable[pv["Time step"]].getFinalValue()
 						);
-						sciantix_variable[sv[system.getGasName() + " in intragranular solution"]].setFinalValue(initial_value_solution);
-						sciantix_variable[sv[system.getGasName() + " in intragranular bubbles"]].setFinalValue(initial_value_bubbles);
-						sciantix_variable[sv[system.getGasName() + " in grain"]].setFinalValue(initial_value_solution + initial_value_bubbles);
+						sciantix_variable[sv[system.getGasName() + " in intragranular solution in " + system.getMatrixName()]].setFinalValue(initial_value_solution);
+						sciantix_variable[sv[system.getGasName() + " in intragranular bubbles in " + system.getMatrixName()]].setFinalValue(initial_value_bubbles);
+						sciantix_variable[sv[system.getGasName() + " in grain in " + system.getMatrixName()]].setFinalValue(initial_value_solution + initial_value_bubbles);
 					}
 					else if (system.getRestructuredMatrix() == 1)
 					{
-						sciantix_variable[sv[system.getGasName() + " in grain HBS"]].setFinalValue(0.0);
+						sciantix_variable[sv[system.getGasName() + " in grain UO2HBS"]].setFinalValue(0.0);
 					}					
 					break;
 				}
@@ -225,9 +216,9 @@ class Simulation : public Solver, public Model
 		{
 			double initial_value_solution(0.0), initial_value_bubbles(0.0), initial_value_hbs(0.0);
 
-			initial_value_solution = sciantix_variable[sv["Xe in intragranular solution"]].getFinalValue();
-			initial_value_bubbles = sciantix_variable[sv["Xe in intragranular bubbles"]].getFinalValue();
-			initial_value_hbs  = sciantix_variable[sv["Xe in grain HBS"]].getFinalValue();
+			initial_value_solution = sciantix_variable[sv["Xe in intragranular solution in UO2"]].getFinalValue();
+			initial_value_bubbles = sciantix_variable[sv["Xe in intragranular bubbles in UO2"]].getFinalValue();
+			initial_value_hbs  = sciantix_variable[sv["Xe in grain in UO2HBS"]].getFinalValue();
 
 			solver.SpectralDiffusion3equations(
 				initial_value_solution,
@@ -239,13 +230,13 @@ class Simulation : public Solver, public Model
 				model[sm["Gas diffusion - Xe in UO2 with HBS"]].getParameter(),
 				physics_variable[pv["Time step"]].getFinalValue()
 			);
-			sciantix_variable[sv["Xe in grain"]].setFinalValue(initial_value_solution + initial_value_bubbles);
-			sciantix_variable[sv["Xe in intragranular solution"]].setFinalValue(initial_value_solution);
-			sciantix_variable[sv["Xe in intragranular bubbles"]].setFinalValue(initial_value_bubbles);
-			sciantix_variable[sv["Xe in grain HBS"]].setFinalValue(initial_value_hbs);
+			sciantix_variable[sv["Xe in grain in UO2"]].setFinalValue(initial_value_solution + initial_value_bubbles);
+			sciantix_variable[sv["Xe in intragranular solution in UO2"]].setFinalValue(initial_value_solution);
+			sciantix_variable[sv["Xe in intragranular bubbles in UO2"]].setFinalValue(initial_value_bubbles);
+			sciantix_variable[sv["Xe in grain in UO2HBS"]].setFinalValue(initial_value_hbs);
 
 			sciantix_variable[sv["Intragranular gas solution swelling"]].setFinalValue(
-				(sciantix_variable[sv["Xe in intragranular solution"]].getFinalValue() + sciantix_variable[sv["Xe in grain HBS"]].getFinalValue()) *
+				(sciantix_variable[sv["Xe in intragranular solution in UO2"]].getFinalValue() + sciantix_variable[sv["Xe in grain in UO2HBS"]].getFinalValue()) *
 				pow(matrix[sma["UO2"]].getLatticeParameter(), 3) / 4
 			);
 		}
@@ -255,15 +246,15 @@ class Simulation : public Solver, public Model
 		{
 			if(system.getRestructuredMatrix() == 0)
 			{
-				sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(
-					sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
+				sciantix_variable[sv[system.getGasName() + " at grain boundary in " + system.getMatrixName()]].setFinalValue(
+					sciantix_variable[sv[system.getGasName() + " produced in " + system.getMatrixName()]].getFinalValue() -
 					sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
-					sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue() -
-					sciantix_variable[sv[system.getGasName() + " released"]].getInitialValue()
+					sciantix_variable[sv[system.getGasName() + " in grain in " + system.getMatrixName()]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " released in " + system.getMatrixName()]].getInitialValue()
 				);
 
-				if (sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue() < 0.0)
-					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(0.0);
+				if (sciantix_variable[sv[system.getGasName() + " at grain boundary in " + system.getMatrixName()]].getFinalValue() < 0.0)
+					sciantix_variable[sv[system.getGasName() + " at grain boundary in " + system.getMatrixName()]].setFinalValue(0.0);
 			}
 		}
 
@@ -279,13 +270,13 @@ class Simulation : public Solver, public Model
 				if(system.getRestructuredMatrix() == 0)
 				{
 					{
-						sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setInitialValue(0.0);
-						sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(0.0);
+						sciantix_variable[sv[system.getGasName() + " at grain boundary in " + system.getMatrixName()]].setInitialValue(0.0);
+						sciantix_variable[sv[system.getGasName() + " at grain boundary in " + system.getMatrixName()]].setFinalValue(0.0);
 
-						sciantix_variable[sv[system.getGasName() + " released"]].setFinalValue(
-							sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
+						sciantix_variable[sv[system.getGasName() + " released in " + system.getMatrixName()]].setFinalValue(
+							sciantix_variable[sv[system.getGasName() + " produced in " + system.getMatrixName()]].getFinalValue() -
 							sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
-							sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue()
+							sciantix_variable[sv[system.getGasName() + " in grain in " + system.getMatrixName()]].getFinalValue()
 						);
 					}
 				}
@@ -331,7 +322,7 @@ class Simulation : public Solver, public Model
 			{
 				if (sciantix_variable[sv["Intragranular bubble concentration"]].getFinalValue() > 0.0)
 					sciantix_variable[sv["Intragranular " + system.getGasName() + " atoms per bubble"]].setFinalValue(
-						sciantix_variable[sv[system.getGasName() + " in intragranular bubbles"]].getFinalValue() /
+						sciantix_variable[sv[system.getGasName() + " in intragranular bubbles in " + system.getMatrixName()]].getFinalValue() /
 						sciantix_variable[sv["Intragranular bubble concentration"]].getFinalValue()
 					);
 
@@ -487,7 +478,7 @@ class Simulation : public Solver, public Model
 			for (auto& system : sciantix_system)
 			{
 				if (system.getRestructuredMatrix() == 0)
-					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].rescaleFinalValue(pow(similarity_ratio, 2.5));
+					sciantix_variable[sv[system.getGasName() + " at grain boundary in " + system.getMatrixName()]].rescaleFinalValue(pow(similarity_ratio, 2.5));
 			}
 		}
 
@@ -496,15 +487,15 @@ class Simulation : public Solver, public Model
 		{
 			if(system.getRestructuredMatrix() == 0)
 			{
-				sciantix_variable[sv[system.getGasName() + " released"]].setFinalValue(
-					sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
+				sciantix_variable[sv[system.getGasName() + " released in " + system.getMatrixName()]].setFinalValue(
+					sciantix_variable[sv[system.getGasName() + " produced in " + system.getMatrixName()]].getFinalValue() -
 					sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
-					sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue() -
-					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue()
+					sciantix_variable[sv[system.getGasName() + " in grain in " + system.getMatrixName()]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " at grain boundary in " + system.getMatrixName()]].getFinalValue()
 				);
 
-				if (sciantix_variable[sv[system.getGasName() + " released"]].getFinalValue() < 0.0)
-					sciantix_variable[sv[system.getGasName() + " released"]].setFinalValue(0.0);
+				if (sciantix_variable[sv[system.getGasName() + " released in " + system.getMatrixName()]].getFinalValue() < 0.0)
+					sciantix_variable[sv[system.getGasName() + " released in " + system.getMatrixName()]].setFinalValue(0.0);
 			}
 		}
 
@@ -671,7 +662,7 @@ class Simulation : public Solver, public Model
 			for (auto& system : sciantix_system)
 			{	
 				if(system.getRestructuredMatrix() == 0)
-					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].rescaleFinalValue(pow(similarity_ratio, 2.5));
+					sciantix_variable[sv[system.getGasName() + " at grain boundary in " + system.getMatrixName()]].rescaleFinalValue(pow(similarity_ratio, 2.5));
 			}
 		}
 
@@ -680,15 +671,15 @@ class Simulation : public Solver, public Model
 		{
 			if(system.getRestructuredMatrix() == 0)
 			{
-				sciantix_variable[sv[system.getGasName() + " released"]].setFinalValue(
-					sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
+				sciantix_variable[sv[system.getGasName() + " released in " + system.getMatrixName()]].setFinalValue(
+					sciantix_variable[sv[system.getGasName() + " produced in " + system.getMatrixName()]].getFinalValue() -
 					sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
-					sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue() -
-					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue()
+					sciantix_variable[sv[system.getGasName() + " in grain in " + system.getMatrixName()]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " at grain boundary in " + system.getMatrixName()]].getFinalValue()
 				);
 
-				if (sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue() < 0.0)
-					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(0.0);
+				if (sciantix_variable[sv[system.getGasName() + " at grain boundary in " + system.getMatrixName()]].getFinalValue() < 0.0)
+					sciantix_variable[sv[system.getGasName() + " at grain boundary in " + system.getMatrixName()]].setFinalValue(0.0);
 			}
 		}
 	}
@@ -700,14 +691,14 @@ class Simulation : public Solver, public Model
 
 		for (auto& system : sciantix_system)
 		{
-			sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(
+			sciantix_variable[sv[system.getGasName() + " at grain boundary in " + system.getMatrixName()]].setFinalValue(
 				solver.Integrator(
-					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue(),
+					sciantix_variable[sv[system.getGasName() + " at grain boundary in " + system.getMatrixName()]].getFinalValue(),
 					- model[sm["Grain-boundary venting"]].getParameter().at(0),
-					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getIncrement()
+					sciantix_variable[sv[system.getGasName() + " at grain boundary in " + system.getMatrixName()]].getIncrement()
 				)
 			);
-		sciantix_variable[sv[system.getGasName() + " at grain boundary"]].resetValue();
+		sciantix_variable[sv[system.getGasName() + " at grain boundary in " + system.getMatrixName()]].resetValue();
 		}
 	}
 

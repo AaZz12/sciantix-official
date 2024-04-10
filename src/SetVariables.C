@@ -248,7 +248,7 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	++sv_counter;
 
 	sciantix_variable.emplace_back();
-	sciantix_variable[sv_counter].setName("Xe produced");
+	sciantix_variable[sv_counter].setName("Xe produced in UO2");
 	sciantix_variable[sv_counter].setUOM("(at/m3)");
 	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[1]);
 	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[1]);
@@ -256,7 +256,7 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	++sv_counter;
 
 	sciantix_variable.emplace_back();
-	sciantix_variable[sv_counter].setName("Xe produced in HBS");
+	sciantix_variable[sv_counter].setName("Xe produced in UO2HBS");
 	sciantix_variable[sv_counter].setUOM("(at/m3)");
 	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[100]);
 	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[100]);
@@ -264,7 +264,7 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	++sv_counter;
 
 	sciantix_variable.emplace_back();
-	sciantix_variable[sv_counter].setName("Xe in grain");
+	sciantix_variable[sv_counter].setName("Xe in grain in UO2");
 	sciantix_variable[sv_counter].setUOM("(at/m3)");
 	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[2]);
 	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[2]);
@@ -272,7 +272,7 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	++sv_counter;
 
 	sciantix_variable.emplace_back();
-	sciantix_variable[sv_counter].setName("Xe in grain HBS");
+	sciantix_variable[sv_counter].setName("Xe in grain in UO2HBS");
 	sciantix_variable[sv_counter].setUOM("(at/m3)");
 	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[92]);
 	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[92]);
@@ -280,7 +280,7 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	++sv_counter;
 
 	sciantix_variable.emplace_back();
-	sciantix_variable[sv_counter].setName("Xe in intragranular solution");
+	sciantix_variable[sv_counter].setName("Xe in intragranular solution in UO2");
 	sciantix_variable[sv_counter].setUOM("(at/m3)");
 	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[3]);
 	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[3]);
@@ -288,7 +288,7 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	++sv_counter;
 
 	sciantix_variable.emplace_back();
-	sciantix_variable[sv_counter].setName("Xe in intragranular bubbles");
+	sciantix_variable[sv_counter].setName("Xe in intragranular bubbles in UO2");
 	sciantix_variable[sv_counter].setUOM("(at/m3)");
 	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[4]);
 	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[4]);
@@ -296,7 +296,7 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	++sv_counter;
 
 	sciantix_variable.emplace_back();
-	sciantix_variable[sv_counter].setName("Xe at grain boundary");
+	sciantix_variable[sv_counter].setName("Xe at grain boundary in UO2");
 	sciantix_variable[sv_counter].setUOM("(at/m3)");
 	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[5]);
 	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[5]);
@@ -304,7 +304,7 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	++sv_counter;
 
 	sciantix_variable.emplace_back();
-	sciantix_variable[sv_counter].setName("Xe released");
+	sciantix_variable[sv_counter].setName("Xe released in UO2");
 	sciantix_variable[sv_counter].setUOM("(at/m3)");
 	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[6]);
 	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[6]);

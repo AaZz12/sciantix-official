@@ -25,10 +25,10 @@ void FiguresOfMerit()
    */
 
   /// Fission gas release 
-  if (sciantix_variable[sv["Xe produced"]].getFinalValue() + sciantix_variable[sv["Kr produced"]].getFinalValue() > 0.0)
+  if (sciantix_variable[sv["Xe produced in U02"]].getFinalValue() + sciantix_variable[sv["Xe produced in U02HBS"]].getFinalValue() + sciantix_variable[sv["Kr produced"]].getFinalValue() > 0.0)
     sciantix_variable[sv["Fission gas release"]].setFinalValue(
       (sciantix_variable[sv["Xe released"]].getFinalValue() + sciantix_variable[sv["Kr released"]].getFinalValue()) /
-      (sciantix_variable[sv["Xe produced"]].getFinalValue() + sciantix_variable[sv["Kr produced"]].getFinalValue())
+      (sciantix_variable[sv["Xe produced in UO2"]].getFinalValue() + sciantix_variable[sv["Xe produced in U02HBS"]].getFinalValue() + sciantix_variable[sv["Kr produced"]].getFinalValue())
     );
   else
     sciantix_variable[sv["Fission gas release"]].setFinalValue(0.0);
