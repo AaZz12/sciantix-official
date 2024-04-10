@@ -771,8 +771,8 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	++sv_counter;
 
 	sciantix_variable.emplace_back();
-	sciantix_variable[sv_counter].setName("Diffusional flux to GB");
-	sciantix_variable[sv_counter].setUOM("(at/m2/s)");
+	sciantix_variable[sv_counter].setName("Source atoms to GB");
+	sciantix_variable[sv_counter].setUOM("(at/m3)");
 	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[71]);
 	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[71]);
 	sciantix_variable[sv_counter].setOutput(toOutputGrainBoundary);
