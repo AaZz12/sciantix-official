@@ -150,15 +150,22 @@ void Matrix::setGrainBoundaryVacancyDiffusivity(int input_value)
 		case 5:
 		{
 			/**
-			 * @brief iGrainBoundaryVacancyDiffusivity = 5 corresponds to the vacancy diffusivities along HBS grain boundaries.
+			 * @brief iGrainBoundaryVacancyDiffusivity = 5.
+			 * 
+			 * Given the appreciable shift in the tilt angle of grain boundaries observed during HBS formation, due to
+			 * recrystallization, it is introduced a modification of the diffusion coefficient of gas atoms and vacancies
+			 * at grain boundaries.
+			 * 
+			 * 
 			 * This model is from @ref Barani et al., JNM 563 (2022) 153627.
 			 *
 			 */
 
-			grain_boundary_diffusivity = (1.3e-7 * exp(-4.52e-19 /
-					(boltzmann_constant * history_variable[hv["Temperature"]].getFinalValue()))
-			);
-
+			double alpha = sciantix_variable[sv["Restructured volume fraction"]].getFinalValue();
+			
+			grain_boundary_diffusivity = (1.3e-7 * exp(-4.52e-19 / (boltzmann_constant * history_variable[hv["Temperature"]].getFinalValue())));
+			grain_boundary_diffusivity = grain_boundary_diffusivity * sin(0.0698 * (1.-alpha) + 0.698*alpha) / sin(0.0698);
+			
 			reference += "iGrainBoundaryVacancyDiffusivity: HBS case, from Barani et al., JNM 563 (2022) 153627.\n\t";
 			break;
 		}

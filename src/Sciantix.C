@@ -96,6 +96,10 @@ void Sciantix(int Sciantix_options[],
 	MapModel();
 	sciantix_simulation.InterGranularBubbleBehaviour();
 
+	HBSPoreEvolution();
+	MapModel();
+	// sciantix_simulation.HBSPoreEvolution();
+
 	FiguresOfMerit();
 
 	UpdateVariables(Sciantix_variables, Sciantix_diffusion_modes);
