@@ -90,7 +90,6 @@ void UpdateVariables(double Sciantix_variables[], double Sciantix_diffusion_mode
 	Sciantix_variables[65] = sciantix_variable[sv["Irradiation time"]].getFinalValue();
 	Sciantix_variables[66] = sciantix_variable[sv["Stoichiometry deviation"]].getFinalValue();
 	Sciantix_variables[67] = sciantix_variable[sv["Fuel oxygen partial pressure"]].getFinalValue();
-	Sciantix_variables[68] = sciantix_variable[sv["Intergranular released fraction"]].getFinalValue();
 	Sciantix_variables[70] = sciantix_variable[sv["Released check"]].getFinalValue();
 	Sciantix_variables[71] = sciantix_variable[sv["Source atoms to GB"]].getFinalValue();
 	Sciantix_variables[80] = sciantix_variable[sv["HBS pore density"]].getFinalValue();
