@@ -177,11 +177,14 @@ void SetGPVariables()
         }
 
         // Perform the interpolation
-        double VentedFractionGP = linearInterpolation(matrixUpdateVentedFraction, Fc_vector, 100*sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue());
+        double VentedFractionGP0 = linearInterpolation(matrixUpdateVentedFraction, Fc_vector, 100*sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue());
+        VentedFractionGP0 = VentedFractionGP0/100;
 
+        double VentedFractionGP = linearInterpolation(matrixUpdateVentedFraction, Fc_vector, 100*sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue());
         VentedFractionGP = VentedFractionGP/100;
 
-        sciantix_variable[sv["Intergranular released fraction"]].setFinalValue(VentedFractionGP);
+        sciantix_variable[sv["Intergranular vented fraction"]].setInitialValue(VentedFractionGP0);
+        sciantix_variable[sv["Intergranular vented fraction"]].setFinalValue(VentedFractionGP);
 
     }
     

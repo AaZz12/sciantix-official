@@ -40,6 +40,7 @@
 #include "MapMatrix.h"
 #include "ConstantNumbers.h"
 #include "UO2Thermochemistry.h"
+#include "SetGPVariables.h"
 
 /// @brief
 /// Derived class representing the operations of SCIANTIX. The conjunction of the models with the implemented solvers results in the simulation.
@@ -371,6 +372,14 @@ class Simulation : public Solver, public Model
 		sciantix_variable[sv["Intergranular bubble concentration"]].setFinalValue(
 			solver.BinaryInteraction(sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue(), 2.0, dbubble_area));
 
+		// Fractional coverage
+		sciantix_variable[sv["Intergranular fractional coverage"]].setFinalValue(
+			sciantix_variable[sv["Intergranular bubble area"]].getFinalValue() *
+			sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue());
+
+		// update vented fraction
+		SetGPVariables();
+
 		// Conservation
 		for (auto& system : sciantix_system)
 		{
@@ -410,33 +419,24 @@ class Simulation : public Solver, public Model
 		sciantix_variable[sv["Intergranular bubble area"]].setFinalValue(
 			pi * pow(sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue() * sin(matrix[sma["UO2"]].getSemidihedralAngle()), 2));
 
+		// Grain-boundary bubble coalescence
+		dbubble_area = sciantix_variable[sv["Intergranular bubble area"]].getIncrement();
+		sciantix_variable[sv["Intergranular bubble concentration"]].setFinalValue(
+			solver.BinaryInteraction(sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue(), 2.0, dbubble_area));
+
 		// Fractional coverage
 		sciantix_variable[sv["Intergranular fractional coverage"]].setFinalValue(
 			sciantix_variable[sv["Intergranular bubble area"]].getFinalValue() *
 			sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue());
 
-		// Intergranular gas release
-		//                          F0
-		//   ___________A0____________
-		//   |_________A1__________  |
-		//   |                    |  |
-		//   |          F1        N1 N0
-		//   |                    |  |
-		//   |____________________|__|
+		// update vented fraction
+		SetGPVariables();
 
-		std::cout<<"/"<<std::endl;
-		std::cout<<"Fractional coverage initial value: "<<sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue()<<std::endl;
-		std::cout<< "Released fraction: " << sciantix_variable[sv["Intergranular released fraction"]].getInitialValue() << std::endl;
-		std::cout<<"Fractional coverage final value: "<<sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue()<<std::endl;
-		std::cout<< "Released fraction: " << sciantix_variable[sv["Intergranular released fraction"]].getFinalValue() << std::endl;
-
-		if (sciantix_variable[sv["Intergranular released fraction"]].getFinalValue() > 0.0)
+		if (sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue())
 		{
 			//if (sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue()<sciantix_variable[sv["Intergranular saturation fractional coverage"]].getFinalValue())
 			for (auto& system : sciantix_system)
 			{
-				std::cout<<"Fc = "<<sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue()<<std::endl;
-				std::cout<<"Fr = "<<sciantix_variable[sv["Intergranular released fraction"]].getFinalValue()<<std::endl;
 				if (system.getRestructuredMatrix() == 0)
 				{
 					double S = (sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
@@ -445,10 +445,13 @@ class Simulation : public Solver, public Model
 					double dS = (sciantix_variable[sv[system.getGasName() + " produced"]].getIncrement() -
 						sciantix_variable[sv[system.getGasName() + " decayed"]].getIncrement() -
 						sciantix_variable[sv[system.getGasName() + " in grain"]].getIncrement());
-					double dR1 = (sciantix_variable[sv["Intergranular released fraction"]].getFinalValue())*dS+
-						S*sciantix_variable[sv["Intergranular released fraction"]].getIncrement();
+					double dR1 = (sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue())*dS+
+						S*sciantix_variable[sv["Intergranular vented fraction"]].getIncrement();
+
+					// double dB1 = (1. - sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue()) * dS - S * sciantix_variable[sv["Intergranular vented fraction"]].getIncrement();
 					if (dR1<=0)
 					{
+						std::cout << "warning: dR1 < 0" << std::endl;
 						dR1 = 0;
 					}
 					else
@@ -471,9 +474,11 @@ class Simulation : public Solver, public Model
 					sciantix_variable[sv[system.getGasName() + " released"]].getFinalValue()
 				);
 
+				if (sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue() < 0.0)
+					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(0.0);
 			}
 		}
-		std::cout<< "Xe GB: " << sciantix_variable[sv["Xe at grain boundary"]].getFinalValue() << std::endl;
+		
 		// Intergranular gaseous swelling
 		sciantix_variable[sv["Intergranular gas swelling"]].setFinalValue(
 			3 / sciantix_variable[sv["Grain radius"]].getFinalValue() *

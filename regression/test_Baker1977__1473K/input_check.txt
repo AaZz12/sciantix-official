@@ -75,5 +75,4 @@ sf_temperature = 1
 sf_fission_rate = 1
 sf_cent_parameter = 1
 sf_helium_production_rate = 1
-beta_release = 5.92879e-323
 sf_dummy = 3.95253e-323
