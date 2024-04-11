@@ -270,6 +270,20 @@ class Simulation : public Solver, public Model
 
 	void InterGranularBubbleBehaviour(bool iterative_loop)
 	{
+		// Calculation of the gas concentration arrived at the grain boundary, by mass balance.
+		for (auto& system : sciantix_system)
+		{
+			sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(
+				sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
+				sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
+				sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue() -
+				sciantix_variable[sv[system.getGasName() + " released"]].getInitialValue()
+			);
+
+			if (sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue() < 0.0)
+				sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(0.0);
+		}
+
 		std::cout << "\nIntergranular bubble behaviour" << std::endl;
 
 		double tol(0.0);
@@ -557,7 +571,7 @@ class Simulation : public Solver, public Model
 					// 	decay_rate = 0;
 
 					source_rate = (1.0 - sciantix_variable[sv["Intergranular venting probability"]].getFinalValue()) * (sciantix_variable[sv[sciantix_system[i].getGasName() + " produced"]].getIncrement() - sciantix_variable[sv[sciantix_system[i].getGasName() + " in grain"]].getIncrement() - sciantix_variable[sv[sciantix_system[i].getGasName() + " decayed"]].getIncrement()) / physics_variable[pv["Time step"]].getFinalValue() - 
-						(sciantix_variable[sv[sciantix_system[i].getGasName() + " produced"]].getFinalValue() - sciantix_variable[sv[sciantix_system[i].getFinalValue() + " in grain"]].getFinalValue() - sciantix_variable[sv[sciantix_system[i].getGasName() + " decayed"]].getFinalValue()) * sciantix_variable[sv["Intergranular venting probability"]].getIncrement();
+						(sciantix_variable[sv[sciantix_system[i].getGasName() + " produced"]].getFinalValue() - sciantix_variable[sv[sciantix_system[i].getGasName() + " in grain"]].getFinalValue() - sciantix_variable[sv[sciantix_system[i].getGasName() + " decayed"]].getFinalValue()) * sciantix_variable[sv["Intergranular venting probability"]].getIncrement() / physics_variable[pv["Time step"]].getFinalValue();
 				
 					std::cout << "Source rate = " << source_rate << std::endl;
 				}
