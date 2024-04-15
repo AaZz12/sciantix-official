@@ -434,31 +434,42 @@ class Simulation : public Solver, public Model
 
 		if (sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue())
 		{
-			//if (sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue()<sciantix_variable[sv["Intergranular saturation fractional coverage"]].getFinalValue())
 			for (auto& system : sciantix_system)
 			{
-				if (system.getRestructuredMatrix() == 0)
+				double S = (sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue());
+				double dS = (sciantix_variable[sv[system.getGasName() + " produced"]].getIncrement() -
+					sciantix_variable[sv[system.getGasName() + " decayed"]].getIncrement() -
+					sciantix_variable[sv[system.getGasName() + " in grain"]].getIncrement());
+				double dR1 = (sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue())*dS+
+					S*sciantix_variable[sv["Intergranular vented fraction"]].getIncrement();
+				
+				// double dB1 = (1. - sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue()) * dS - S * sciantix_variable[sv["Intergranular vented fraction"]].getIncrement();
+				if (dR1<=0)
 				{
-					double S = (sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
-						sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
-						sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue());
-					double dS = (sciantix_variable[sv[system.getGasName() + " produced"]].getIncrement() -
-						sciantix_variable[sv[system.getGasName() + " decayed"]].getIncrement() -
-						sciantix_variable[sv[system.getGasName() + " in grain"]].getIncrement());
-					double dR1 = (sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue())*dS+
-						S*sciantix_variable[sv["Intergranular vented fraction"]].getIncrement();
-
-					// double dB1 = (1. - sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue()) * dS - S * sciantix_variable[sv["Intergranular vented fraction"]].getIncrement();
-					if (dR1<=0)
-					{
-						std::cout << "warning: dR1 < 0" << std::endl;
-						dR1 = 0;
-					}
-					else
-					{
-						sciantix_variable[sv[system.getGasName() + " released"]].addValue(dR1);
-					}
+					std::cout << "warning: dR1 < 0" << std::endl;
+					dR1 = 0;
 				}
+				else
+				{
+					sciantix_variable[sv[system.getGasName() + " released"]].addValue(dR1);
+				}
+
+				// sciantix_variable[sv[system.getGasName() + " released"]].setFinalValue(
+				// 	solver.Integrator(
+				// 			sciantix_variable[sv[system.getGasName() + " released"]].getFinalValue(),
+				// 			(sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue())*
+				// 			(sciantix_variable[sv[system.getGasName() + " produced"]].getIncrement() -
+				// 			sciantix_variable[sv[system.getGasName() + " decayed"]].getIncrement() -
+				// 			sciantix_variable[sv[system.getGasName() + " in grain"]].getIncrement())
+				// 			+(sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
+				// 			sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
+				// 			sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue())*
+				// 			sciantix_variable[sv["Intergranular vented fraction"]].getIncrement(),
+				// 			1
+				// 	)
+				// );
 			}
 		}
 
@@ -561,26 +572,26 @@ class Simulation : public Solver, public Model
 			)
 		);
 
-		// ODE for the intergranular fractional coverage: this equation accounts for the reduction of the intergranular fractional coverage following a temperature transient
-		// dFc / dT = - ( dm/dT f) Fc
-		sciantix_variable[sv["Intergranular fractional coverage"]].setFinalValue(
-			solver.Decay(sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue(),
-				model[sm["Grain-boundary micro-cracking"]].getParameter().at(0) * sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue(),
-				0.0,
-				history_variable[hv["Temperature"]].getIncrement()
-			)
-		);
+		// // ODE for the intergranular fractional coverage: this equation accounts for the reduction of the intergranular fractional coverage following a temperature transient
+		// // dFc / dT = - ( dm/dT f) Fc
+		// sciantix_variable[sv["Intergranular fractional coverage"]].setFinalValue(
+		// 	solver.Decay(sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue(),
+		// 		model[sm["Grain-boundary micro-cracking"]].getParameter().at(0) * sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue(),
+		// 		0.0,
+		// 		history_variable[hv["Temperature"]].getIncrement()
+		// 	)
+		// );
 
-		// ODE for the saturation fractional coverage: this equation accounts for the reduction of the intergranular saturation fractional coverage following a temperature transient
-		// dFcsat / dT = - (dm/dT f) Fcsat
-		sciantix_variable[sv["Intergranular saturation fractional coverage"]].setFinalValue(
-			solver.Decay(
-				sciantix_variable[sv["Intergranular saturation fractional coverage"]].getInitialValue(),
-				model[sm["Grain-boundary micro-cracking"]].getParameter().at(0) * sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue(),
-				0.0,
-				history_variable[hv["Temperature"]].getIncrement()
-			)
-		);
+		// // ODE for the saturation fractional coverage: this equation accounts for the reduction of the intergranular saturation fractional coverage following a temperature transient
+		// // dFcsat / dT = - (dm/dT f) Fcsat
+		// sciantix_variable[sv["Intergranular saturation fractional coverage"]].setFinalValue(
+		// 	solver.Decay(
+		// 		sciantix_variable[sv["Intergranular saturation fractional coverage"]].getInitialValue(),
+		// 		model[sm["Grain-boundary micro-cracking"]].getParameter().at(0) * sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue(),
+		// 		0.0,
+		// 		history_variable[hv["Temperature"]].getIncrement()
+		// 	)
+		// );
 
 		// ODE for the intergranular fractional intactness: this equation accounts for the healing of the intergranular fractional intactness with burnup
 		// df / dBu = - h f + h
@@ -593,56 +604,56 @@ class Simulation : public Solver, public Model
 			)
 		);
 
-		// ODE for the saturation fractional coverage: this equation accounts for the healing of the intergranular saturation fractional coverage with burnup
-		// dFcsat / dBu = h (1-f) Fcsat
-		sciantix_variable[sv["Intergranular saturation fractional coverage"]].setFinalValue(
-			solver.Decay(
-				sciantix_variable[sv["Intergranular saturation fractional coverage"]].getFinalValue(),
-				- model[sm["Grain-boundary micro-cracking"]].getParameter().at(1) * (1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()),
-				0.0,
-				sciantix_variable[sv["Burnup"]].getIncrement()
-			)
-		);
+		// // ODE for the saturation fractional coverage: this equation accounts for the healing of the intergranular saturation fractional coverage with burnup
+		// // dFcsat / dBu = h (1-f) Fcsat
+		// sciantix_variable[sv["Intergranular saturation fractional coverage"]].setFinalValue(
+		// 	solver.Decay(
+		// 		sciantix_variable[sv["Intergranular saturation fractional coverage"]].getFinalValue(),
+		// 		- model[sm["Grain-boundary micro-cracking"]].getParameter().at(1) * (1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()),
+		// 		0.0,
+		// 		sciantix_variable[sv["Burnup"]].getIncrement()
+		// 	)
+		// );
 
-		// Re-scaling: to maintain the current fractional coverage unchanged
-		double similarity_ratio;
+		// // Re-scaling: to maintain the current fractional coverage unchanged
+		// double similarity_ratio;
 		
-		if (sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue() > 0.0)
-			similarity_ratio = sqrt(
-				sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue() / sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue()
-			);
-		else
-			similarity_ratio = 1.0;
+		// if (sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue() > 0.0)
+		// 	similarity_ratio = sqrt(
+		// 		sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue() / sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue()
+		// 	);
+		// else
+		// 	similarity_ratio = 1.0;
 
-		if (similarity_ratio < 1.0)
-		{
-			sciantix_variable[sv["Intergranular bubble area"]].rescaleInitialValue(similarity_ratio);
-			sciantix_variable[sv["Intergranular bubble concentration"]].rescaleInitialValue(similarity_ratio);
-			sciantix_variable[sv["Intergranular fractional coverage"]].rescaleInitialValue(pow(similarity_ratio, 2));
-			sciantix_variable[sv["Intergranular bubble volume"]].rescaleInitialValue(pow(similarity_ratio, 1.5));
-			sciantix_variable[sv["Intergranular bubble radius"]].rescaleInitialValue(pow(similarity_ratio, 0.5));
-			sciantix_variable[sv["Intergranular vacancies per bubble"]].rescaleInitialValue(pow(similarity_ratio, 1.5));
+		// if (similarity_ratio < 1.0)
+		// {
+		// 	sciantix_variable[sv["Intergranular bubble area"]].rescaleInitialValue(similarity_ratio);
+		// 	sciantix_variable[sv["Intergranular bubble concentration"]].rescaleInitialValue(similarity_ratio);
+		// 	sciantix_variable[sv["Intergranular fractional coverage"]].rescaleInitialValue(pow(similarity_ratio, 2));
+		// 	sciantix_variable[sv["Intergranular bubble volume"]].rescaleInitialValue(pow(similarity_ratio, 1.5));
+		// 	sciantix_variable[sv["Intergranular bubble radius"]].rescaleInitialValue(pow(similarity_ratio, 0.5));
+		// 	sciantix_variable[sv["Intergranular vacancies per bubble"]].rescaleInitialValue(pow(similarity_ratio, 1.5));
 
-			for (auto& system : sciantix_system)
-			{
-				if (gas[ga[system.getGasName()]].getDecayRate() == 0.0 && system.getRestructuredMatrix() == 0)
-					sciantix_variable[sv["Intergranular " + system.getGasName() + " atoms per bubble"]].rescaleInitialValue(pow(similarity_ratio, 1.5));
-			}
+		// 	for (auto& system : sciantix_system)
+		// 	{
+		// 		if (gas[ga[system.getGasName()]].getDecayRate() == 0.0 && system.getRestructuredMatrix() == 0)
+		// 			sciantix_variable[sv["Intergranular " + system.getGasName() + " atoms per bubble"]].rescaleInitialValue(pow(similarity_ratio, 1.5));
+		// 	}
 
-			double n_at(0);
-			for (auto& system : sciantix_system)
-			{
-				if (gas[ga[system.getGasName()]].getDecayRate() == 0.0 && system.getRestructuredMatrix() == 0)
-					n_at += sciantix_variable[sv["Intergranular " + system.getGasName() + " atoms per bubble"]].getInitialValue();
-			}
-			sciantix_variable[sv["Intergranular atoms per bubble"]].setInitialValue(n_at);
+		// 	double n_at(0);
+		// 	for (auto& system : sciantix_system)
+		// 	{
+		// 		if (gas[ga[system.getGasName()]].getDecayRate() == 0.0 && system.getRestructuredMatrix() == 0)
+		// 			n_at += sciantix_variable[sv["Intergranular " + system.getGasName() + " atoms per bubble"]].getInitialValue();
+		// 	}
+		// 	sciantix_variable[sv["Intergranular atoms per bubble"]].setInitialValue(n_at);
 
-			for (auto& system : sciantix_system)
-			{	
-				if(system.getRestructuredMatrix() == 0)
-					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].rescaleFinalValue(pow(similarity_ratio, 2.5));
-			}
-		}
+		// 	for (auto& system : sciantix_system)
+		// 	{	
+		// 		if(system.getRestructuredMatrix() == 0)
+		// 			sciantix_variable[sv[system.getGasName() + " at grain boundary"]].rescaleFinalValue(pow(similarity_ratio, 2.5));
+		// 	}
+		// }
 
 		// Calculation of the gas concentration arrived at the grain boundary, by mass balance.
 		for (auto& system : sciantix_system)

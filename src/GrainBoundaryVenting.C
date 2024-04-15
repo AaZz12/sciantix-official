@@ -51,19 +51,19 @@ void GrainBoundaryVenting()
          *
         */
        
-        // Shape of the sigmoid function
-        const double screw_parameter = 0.1;
-        const double span_parameter = 10.0;
-        const double cent_parameter = 0.43;
+        // // Shape of the sigmoid function
+        // const double screw_parameter = 0.1;
+        // const double span_parameter = 10.0;
+        // const double cent_parameter = 0.43;
 
-		double sigmoid_variable;
-		sigmoid_variable = sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue() *
-			exp(-sciantix_variable[sv["Intergranular fractional intactness"]].getIncrement());
+		// double sigmoid_variable;
+		// sigmoid_variable = sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue() *
+		// 	exp(-sciantix_variable[sv["Intergranular fractional intactness"]].getIncrement());
 
-		// Vented fraction
-		sciantix_variable[sv["Intergranular vented fraction"]].setFinalValue(
-			1.0 / pow( (1.0 + screw_parameter * exp(- span_parameter * (sigmoid_variable - cent_parameter))) , (1.0 / screw_parameter))
-		);
+		// // Vented fraction
+		// sciantix_variable[sv["Intergranular vented fraction"]].setFinalValue(
+		// 	1.0 / pow( (1.0 + screw_parameter * exp(- span_parameter * (sigmoid_variable - cent_parameter))) , (1.0 / screw_parameter))
+		// );
 
         // Venting probability
         sciantix_variable[sv["Intergranular venting probability"]].setFinalValue(
