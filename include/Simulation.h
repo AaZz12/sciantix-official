@@ -736,11 +736,26 @@ class Simulation : public Solver, public Model
 	{
 		if (!int(input_variable[iv["iHighBurnupStructurePorosity"]].getValue())) return;
 
+		// Vacancy per HBS pore concentration
+		sciantix_variable[sv["Vacancies per HBS pore"]].setFinalValue(
+			solver.LimitedGrowth(sciantix_variable[sv["Vacancies per HBS pore"]].getInitialValue(),
+				model[sm["High burnup structure porosity"]].getParameter(),
+				physics_variable[pv["Time step"]].getFinalValue()
+			)
+		);
+		std::cout << "ciao" << std::endl;
+		std::cout << model[sm["High burnup structure porosity"]].getParameter().at(0) << std::endl;
+		std::cout << model[sm["High burnup structure porosity"]].getParameter().at(1) << std::endl;
+
+		// std::cout << model[sm["High burnup structure porosity"]].getParameter().at(0) << std::endl;
+		// std::cout << model[sm["High burnup structure porosity"]].getParameter().at(1) << std::endl;
+		// std::cout << sciantix_variable[sv["Vacancies per HBS pore"]].getFinalValue() << std::endl;
+
 		// porosity evolution 
 		// sciantix_variable[sv["HBS porosity"]].setFinalValue(
 		// 	solver.Integrator(
 		// 		sciantix_variable[sv["HBS porosity"]].getInitialValue(),
-		// 		model[sm["High-burnup structure porosity"]].getParameter().at(0),
+		// 		model[sm["High burnup structure porosity"]].getParameter().at(0),
 		// 		sciantix_variable[sv["Burnup"]].getIncrement()
 		// 	)
 		// );
@@ -750,6 +765,9 @@ class Simulation : public Solver, public Model
 
 		// evolution of pore number density via pore nucleation and re-solution
 		// if(sciantix_variable[sv["HBS porosity"]].getFinalValue())
+		// std::cout << "prima" << std::endl;
+		// std::cout << sciantix_variable[sv["HBS pore density"]].getFinalValue() << std::endl;
+
 			sciantix_variable[sv["HBS pore density"]].setFinalValue(
 				solver.Decay(
 						sciantix_variable[sv["HBS pore density"]].getInitialValue(),
@@ -758,6 +776,8 @@ class Simulation : public Solver, public Model
 						physics_variable[pv["Time step"]].getFinalValue()
 					)
 				);
+		// std::cout << "dopo1" << std::endl;
+		// std::cout << sciantix_variable[sv["HBS pore density"]].getFinalValue() << std::endl;
 		// else
 			// sciantix_variable[sv["HBS pore density"]].setFinalValue(0.0);
 
@@ -786,12 +806,15 @@ class Simulation : public Solver, public Model
 				sciantix_variable[sv["HBS pore volume"]].getIncrement()
 			)
 		);
+		// std::cout << sciantix_variable[sv["HBS pore volume"]].getIncrement() << std::endl;
 		
 		// update of pore volume and pore radius after interconnection by impingement
 		if(sciantix_variable[sv["HBS pore density"]].getFinalValue())
 			sciantix_variable[sv["HBS pore volume"]].setFinalValue(
 				sciantix_variable[sv["HBS porosity"]].getFinalValue() / sciantix_variable[sv["HBS pore density"]].getFinalValue());
-
+		
+		std::cout << "dopo2" << std::endl;
+		// std::cout << sciantix_variable[sv["HBS pore density"]].getFinalValue() << std::endl;
 		sciantix_variable[sv["HBS pore radius"]].setFinalValue(0.620350491 * pow(sciantix_variable[sv["HBS pore volume"]].getFinalValue(), (1.0 / 3.0)));
 
 		// A: average (at/m^3) of Xe atoms in HBS pores

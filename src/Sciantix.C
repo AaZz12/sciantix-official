@@ -100,13 +100,19 @@ void Sciantix(int Sciantix_options[],
 	MapModel();
 	sciantix_simulation.HighBurnupStructureFormation();
 
+	std::cout << "BAAAAAN" << std::endl;
+	// std::cout << sciantix_variable[sv["HBS pore density"]].getFinalValue() << std::endl;
+
 	HighBurnupStructurePorosity();
+
 	MapModel();
 	sciantix_simulation.HighBurnupStructurePorosity();
 
 	// sciantix_simulation.HBSPoreEvolution();
 
 	FiguresOfMerit();
+
+	std::cout << sciantix_variable[sv["HBS pore density"]].getFinalValue() << std::endl;
 
 	UpdateVariables(Sciantix_variables, Sciantix_diffusion_modes);
 
