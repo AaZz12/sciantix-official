@@ -51,13 +51,13 @@ void Sciantix(int Sciantix_options[],
 	MapModel();
 	sciantix_simulation.StoichiometryDeviation(); 
 
-	HighBurnupStructureFormation();
-	MapModel();
-	sciantix_simulation.HighBurnupStructureFormation();
+	// HighBurnupStructureFormation();
+	// MapModel();
+	// sciantix_simulation.HighBurnupStructureFormation();
 
-	HighBurnupStructurePorosity();
-	MapModel();
-	sciantix_simulation.HighBurnupStructurePorosity();
+	// HighBurnupStructurePorosity();
+	// MapModel();
+	// sciantix_simulation.HighBurnupStructurePorosity();
 
 	GrainGrowth();
 	MapModel();
@@ -96,8 +96,14 @@ void Sciantix(int Sciantix_options[],
 	MapModel();
 	sciantix_simulation.InterGranularBubbleBehaviour();
 
-	HBSPoreEvolution();
+	HighBurnupStructureFormation();
 	MapModel();
+	sciantix_simulation.HighBurnupStructureFormation();
+
+	HighBurnupStructurePorosity();
+	MapModel();
+	sciantix_simulation.HighBurnupStructurePorosity();
+
 	// sciantix_simulation.HBSPoreEvolution();
 
 	FiguresOfMerit();

@@ -48,12 +48,10 @@
 #include "EnvironmentComposition.h"
 #include "UO2Thermochemistry.h"
 #include "GrainBoundaryRupture.h"
-#include "HBSPoreEvolution.h"
 
 #include "ErrorMessages.h"
 
 #include <iostream>
-
 #include <cmath>
 
 void SetModel();

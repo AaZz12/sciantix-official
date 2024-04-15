@@ -718,8 +718,8 @@ class Simulation : public Solver, public Model
 		// Restructuring rate:
 		// dalpha_r / bu = 3.54 * 2.77e-7 (1-alpha_r) b^2.54
 		double coefficient =
-			model[sm["High-burnup structure formation"]].getParameter().at(0) *
-			model[sm["High-burnup structure formation"]].getParameter().at(1) *
+			model[sm["High burnup structure formation"]].getParameter().at(0) *
+			model[sm["High burnup structure formation"]].getParameter().at(1) *
 			pow(sciantix_variable[sv["Effective burnup"]].getFinalValue(), 2.54);
 		
 		sciantix_variable[sv["Restructured volume fraction"]].setFinalValue(
@@ -737,19 +737,19 @@ class Simulation : public Solver, public Model
 		if (!int(input_variable[iv["iHighBurnupStructurePorosity"]].getValue())) return;
 
 		// porosity evolution 
-		sciantix_variable[sv["HBS porosity"]].setFinalValue(
-			solver.Integrator(
-				sciantix_variable[sv["HBS porosity"]].getInitialValue(),
-				model[sm["High-burnup structure porosity"]].getParameter().at(0),
-				sciantix_variable[sv["Burnup"]].getIncrement()
-			)
-		);
+		// sciantix_variable[sv["HBS porosity"]].setFinalValue(
+		// 	solver.Integrator(
+		// 		sciantix_variable[sv["HBS porosity"]].getInitialValue(),
+		// 		model[sm["High-burnup structure porosity"]].getParameter().at(0),
+		// 		sciantix_variable[sv["Burnup"]].getIncrement()
+		// 	)
+		// );
 
-		if(sciantix_variable[sv["HBS porosity"]].getFinalValue() > 0.15)
-			sciantix_variable[sv["HBS porosity"]].setFinalValue(0.15);
+		// if(sciantix_variable[sv["HBS porosity"]].getFinalValue() > 0.15)
+		// 	sciantix_variable[sv["HBS porosity"]].setFinalValue(0.15);
 
 		// evolution of pore number density via pore nucleation and re-solution
-		if(sciantix_variable[sv["HBS porosity"]].getFinalValue())
+		// if(sciantix_variable[sv["HBS porosity"]].getFinalValue())
 			sciantix_variable[sv["HBS pore density"]].setFinalValue(
 				solver.Decay(
 						sciantix_variable[sv["HBS pore density"]].getInitialValue(),
@@ -758,13 +758,18 @@ class Simulation : public Solver, public Model
 						physics_variable[pv["Time step"]].getFinalValue()
 					)
 				);
-		else
-			sciantix_variable[sv["HBS pore density"]].setFinalValue(0.0);
+		// else
+			// sciantix_variable[sv["HBS pore density"]].setFinalValue(0.0);
+
+		// HBS porosity (/) = HBS pore density (pores / m3) * HBS pore volume (m3 / pore)
+		sciantix_variable[sv["HBS porosity"]].setFinalValue(
+			sciantix_variable[sv["HBS pore density"]].getFinalValue() * sciantix_variable[sv["HBS pore volume"]].getFinalValue()
+		);
 
 		// calculation of pore volume based on porosity and pore number density	
-		if(sciantix_variable[sv["HBS pore density"]].getFinalValue())
-			sciantix_variable[sv["HBS pore volume"]].setFinalValue(
-				sciantix_variable[sv["HBS porosity"]].getFinalValue() / sciantix_variable[sv["HBS pore density"]].getFinalValue());
+		// if(sciantix_variable[sv["HBS pore density"]].getFinalValue())
+		// 	sciantix_variable[sv["HBS pore volume"]].setFinalValue(
+		// 		sciantix_variable[sv["HBS porosity"]].getFinalValue() / sciantix_variable[sv["HBS pore density"]].getFinalValue());
 
 		sciantix_variable[sv["HBS pore radius"]].setFinalValue(0.620350491 * pow(sciantix_variable[sv["HBS pore volume"]].getFinalValue(), (1.0 / 3.0)));
 
@@ -789,7 +794,7 @@ class Simulation : public Solver, public Model
 
 		sciantix_variable[sv["HBS pore radius"]].setFinalValue(0.620350491 * pow(sciantix_variable[sv["HBS pore volume"]].getFinalValue(), (1.0 / 3.0)));
 
-		// average (at/m^3) of gas atoms in HBS pores
+		// A: average (at/m^3) of Xe atoms in HBS pores
 		sciantix_variable[sv["Xe in HBS pores"]].setFinalValue(
 			solver.Integrator(
 				sciantix_variable[sv["Xe in HBS pores"]].getInitialValue(),
@@ -802,11 +807,13 @@ class Simulation : public Solver, public Model
 			)
 		);		
 
+		// n (Xe at / pore) = A / N
 		if(sciantix_variable[sv["HBS pore density"]].getFinalValue())
 			sciantix_variable[sv["Xe atoms per HBS pore"]].setFinalValue(
 			sciantix_variable[sv["Xe in HBS pores"]].getFinalValue() / sciantix_variable[sv["HBS pore density"]].getFinalValue()
 		);
 
+		// B
 		sciantix_variable[sv["Xe in HBS pores - variance"]].setFinalValue(
 			solver.Integrator(
 				sciantix_variable[sv["Xe in HBS pores - variance"]].getInitialValue(),
