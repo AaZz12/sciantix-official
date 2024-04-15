@@ -45,4 +45,5 @@ void UO2()
 	matrix[index].setPoreNucleationRate();
 	matrix[index].setPoreResolutionRate();
 	matrix[index].setPoreTrappingRate();
+	matrix[index].setVolumetricFraction(1 - sciantix_variable[sv["Restructured volume fraction"]].getFinalValue());
 }

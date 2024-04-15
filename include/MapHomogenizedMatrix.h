@@ -14,37 +14,15 @@
 //                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////
 
-#include "UO2HBS.h"
+#ifndef MAP_HOMOGENIZED_MATRIX
+#define MAP_HOMOGENIZED_MATRIX
 
-void UO2HBS()
-{
-	/**
-	 * @brief This routine defines the physical proprieties of the matrix UO2HBS.
-	 * UO2HBS: UO2 in case of 100% High Burnup Structure (HBS) conditions.
-	 * 
-	 */
+#include <map>
+#include <string>
+#include "HomogenizedMatrixDeclaration.h"
 
-	matrix.emplace_back();
-	int index = int(matrix.size()) - 1;
-	
-	matrix[index].setName("UO2HBS");
-	matrix[index].setRef("\n\t");
-	matrix[index].setTheoreticalDensity(10960.0); // (kg/m3)
-	matrix[index].setLatticeParameter(5.47e-10);
-	matrix[index].setGrainBoundaryMobility(0);
-	matrix[index].setSurfaceTension(0.7); // (N/m)
-	matrix[index].setFFinfluenceRadius(1.0e-9); // (m)
-	matrix[index].setFFrange(6.0e-6); // (m)
-	matrix[index].setSchottkyVolume(4.09e-29);
-	matrix[index].setOIS(7.8e-30);
-	matrix[index].setSemidihedralAngle(0.0);
-	matrix[index].setGrainBoundaryThickness(0.0);
-	matrix[index].setLenticularShapeFactor(0.168610764);
-	matrix[index].setGrainRadius(150e-9); // (m)
-	matrix[index].setHealingTemperatureThreshold(1273.15); // K
-	matrix[index].setGrainBoundaryVacancyDiffusivity(5); // (m2/s)
-	matrix[index].setPoreNucleationRate();
-	matrix[index].setPoreResolutionRate();
-	matrix[index].setPoreTrappingRate();
-	matrix[index].setVolumetricFraction(sciantix_variable[sv["Restructured volume fraction"]].getFinalValue());
-}
+extern std::map<std::string, int> homa;
+
+void MapHomogenizedMatrix();
+
+#endif

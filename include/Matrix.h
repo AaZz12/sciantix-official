@@ -42,6 +42,7 @@ protected:
 	double pore_nucleation_rate;
 	double pore_resolution_rate;
 	double pore_trapping_rate;
+	double volumetric_fraction;
 
 public:
 	
@@ -244,6 +245,18 @@ public:
 		 * 
 		 */
 		return healing_temperature_threshold;
+	}
+
+	void setVolumetricFraction(double vf)
+	{
+		/// Member function to set the matrix volumetric fraction
+		volumetric_fraction = vf;
+	}
+
+	double getVolumetricFraction()
+	{
+		/// Member function to get the matrix volumetric fraction
+		return volumetric_fraction;
 	}
 
 	Matrix() { }
