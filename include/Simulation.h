@@ -47,9 +47,11 @@
 class Simulation : public Solver, public Model
 {
 	public:
+		std::vector<PhysicsVariable>& physics_variable = GetPhysicsVariables();
 
 	void Burnup()
 	{
+
 		/// @brief Burnup uses the solver Integrator to computes the fuel burnup from the local power density.
 		/// This method is called in Sciantix.cpp, after the definition of the Burnup model.
 		

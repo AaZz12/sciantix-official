@@ -20,7 +20,8 @@ std::map<std::string, int> pv;
 
 void MapPhysicsVariable()
 {
-	for (std::vector<PhysicsVariable>::size_type i = 0; i != physics_variable.size(); ++i)
-		pv[physics_variable[i].getName()] = i;
+    auto& physics_variable = GetPhysicsVariables(); // Get reference to the static vector
+    
+    for (std::vector<PhysicsVariable>::size_type i = 0; i != physics_variable.size(); ++i)
+        pv[physics_variable[i].getName()] = i;
 }
-

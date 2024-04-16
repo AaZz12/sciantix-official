@@ -18,6 +18,8 @@
 
 void GrainGrowth()
 {
+    std::vector<PhysicsVariable>& physics_variable = GetPhysicsVariables();
+
 	model.emplace_back();
 
 	int model_index = int(model.size()) - 1;

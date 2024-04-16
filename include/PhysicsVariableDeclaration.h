@@ -20,9 +20,6 @@
 #include <vector>
 #include "PhysicsVariable.h"
 
-/// PhysicsVariableDeclaration.h
-
-extern std::vector<PhysicsVariable> physics_variable;
+std::vector<PhysicsVariable>& GetPhysicsVariables();
 
 #endif // PHYSICS_VARIABLE_DECLARATION_H
-

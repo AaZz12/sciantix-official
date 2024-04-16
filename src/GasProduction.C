@@ -22,6 +22,7 @@
 
 void GasProduction()
 {
+    std::vector<PhysicsVariable>& physics_variable = GetPhysicsVariables();
 
 	for (auto& system : sciantix_system)
 	{

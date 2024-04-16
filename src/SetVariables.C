@@ -26,6 +26,8 @@
 
 void SetVariables(int Sciantix_options[], double Sciantix_history[], double Sciantix_variables[], double Sciantix_scaling_factors[], double Sciantix_diffusion_modes[])
 {
+    std::vector<PhysicsVariable>& physics_variable = GetPhysicsVariables();
+
 	// -----------------------------------------------------------------------------------------------
 	// Input variable
 	// The vector is used to collect all user input settings relating to the choice of SCIANTIX models
@@ -174,16 +176,20 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	// ----------------
 	// Physics variable
 	// ----------------
-	
-	int pv_counter(0);
+	constexpr size_t MAX_PHYSICS_VARIABLE_SIZE = 2;
 
-	physics_variable.emplace_back();
-	physics_variable[pv_counter].setName("Time step");
-	physics_variable[pv_counter].setUOM("(s)");
-	physics_variable[pv_counter].setInitialValue(Sciantix_history[6]);
-	physics_variable[pv_counter].setFinalValue(Sciantix_history[6]);
-	physics_variable[pv_counter].setOutput(0);
-	++pv_counter;
+    if (physics_variable.size() < MAX_PHYSICS_VARIABLE_SIZE)
+	{
+		int pv_counter(0);
+
+		physics_variable.emplace_back();
+		physics_variable[pv_counter].setName("Time step");
+		physics_variable[pv_counter].setUOM("(s)");
+		physics_variable[pv_counter].setInitialValue(Sciantix_history[6]);
+		physics_variable[pv_counter].setFinalValue(Sciantix_history[6]);
+		physics_variable[pv_counter].setOutput(0);
+		++pv_counter;
+    }
 
 	// ----------------
 	// History variable

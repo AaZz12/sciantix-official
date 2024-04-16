@@ -26,4 +26,3 @@ extern std::map<std::string, int> pv;
 void MapPhysicsVariable();
 
 #endif // MAP_PHYSICS_VARIABLE_H
-

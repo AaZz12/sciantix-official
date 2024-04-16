@@ -102,7 +102,6 @@ void Sciantix(int Sciantix_options[],
 	history_variable.clear();
 	sciantix_variable.clear();
 	sciantix_system.clear();
-	physics_variable.clear();
 	model.clear();
 	material.clear();
 	gas.clear();

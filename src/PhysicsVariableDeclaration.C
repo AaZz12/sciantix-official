@@ -16,7 +16,9 @@
 
 #include "PhysicsVariableDeclaration.h"
 
-/// PhysicsVariableDeclaration.h
+static std::vector<PhysicsVariable> physics_variable;
 
-std::vector<PhysicsVariable> physics_variable;
-
+std::vector<PhysicsVariable>& GetPhysicsVariables()
+{
+    return physics_variable;
+}

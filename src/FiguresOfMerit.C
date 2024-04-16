@@ -18,6 +18,8 @@
 
 void FiguresOfMerit()
 {
+    std::vector<PhysicsVariable>& physics_variable = GetPhysicsVariables();
+
   /// Fission gas release 
   if (sciantix_variable[sv["Xe produced"]].getFinalValue() + sciantix_variable[sv["Kr produced"]].getFinalValue() > 0.0)
     sciantix_variable[sv["Fission gas release"]].setFinalValue(
