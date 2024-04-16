@@ -20,9 +20,7 @@
 #include <vector>
 #include "SciantixVariable.h"
 
-/// SciantixVariableDeclaration.h
-
-extern std::vector<SciantixVariable> sciantix_variable;
+std::vector<SciantixVariable>& GetSciantixVariables();
 
 #endif
 

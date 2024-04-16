@@ -100,7 +100,6 @@ void Sciantix(int Sciantix_options[],
 	Output();
 
 	history_variable.clear();
-	sciantix_variable.clear();
 	sciantix_system.clear();
 	model.clear();
 	material.clear();

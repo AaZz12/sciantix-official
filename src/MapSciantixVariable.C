@@ -16,15 +16,12 @@
 
 #include "MapSciantixVariable.h"
 
-/**
- * @brief This routines defines the map sv for sciantix_variable
- * 
- */
-
 std::map<std::string, int> sv;
 
 void MapSciantixVariable()
 {
-	for (std::vector<SciantixVariable>::size_type i = 0; i != sciantix_variable.size(); ++i)
-		sv[sciantix_variable[i].getName()] = i;
+    auto& sciantix_variable = GetSciantixVariables();
+    
+    for (std::vector<SciantixVariable>::size_type i = 0; i != sciantix_variable.size(); ++i)
+        sv[sciantix_variable[i].getName()] = i;
 }

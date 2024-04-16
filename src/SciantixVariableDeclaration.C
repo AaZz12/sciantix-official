@@ -16,8 +16,9 @@
 
 #include "SciantixVariableDeclaration.h"
 
-/// SciantixVariableDeclaration.h
+static std::vector<PhysicsVariable> sciantix_variable;
 
-std::vector<SciantixVariable> sciantix_variable;
-
-
+std::vector<SciantixVariable>& GetSciantixVariables()
+{
+    return sciantix_variable;
+}
