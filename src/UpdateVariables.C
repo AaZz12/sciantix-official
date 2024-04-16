@@ -20,6 +20,8 @@
 
 void UpdateVariables(double Sciantix_variables[], double Sciantix_diffusion_modes[])
 {
+    std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
+
 	Sciantix_variables[0] = sciantix_variable[sv["Grain radius"]].getFinalValue();
 	Sciantix_variables[1] = sciantix_variable[sv["Xe produced"]].getFinalValue();
 	Sciantix_variables[2] = sciantix_variable[sv["Xe in grain"]].getFinalValue();

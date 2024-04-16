@@ -248,7 +248,7 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	// ----------------------------------------------------------------------------
 	// Sciantix variable
 	// ----------------------------------------------------------------------------
-	constexpr size_t MAX_SCIANTIX_VARIABLE_SIZE = 2;
+	constexpr size_t MAX_SCIANTIX_VARIABLE_SIZE = 97;
 
     if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
 	{

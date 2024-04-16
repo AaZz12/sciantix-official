@@ -39,6 +39,8 @@ inline bool if_exist(const std::string& name)
 /// This function contains different formatting options to print the output.txt file, according to iOutput value.
 void Output()
 {
+    std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
+
 	std::string output_name = "output.txt";
 	std::fstream output_file;
 	output_file.open(output_name, std::fstream::in | std::fstream::out | std::fstream::app);

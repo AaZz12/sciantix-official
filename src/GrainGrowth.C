@@ -19,6 +19,7 @@
 void GrainGrowth()
 {
     std::vector<PhysicsVariable>& physics_variable = GetPhysicsVariables();
+    std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
 
 	model.emplace_back();
 

@@ -21,6 +21,8 @@
  */
 void UO2()
 {
+    std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
+
 	matrix.emplace_back();
 	int index = int(matrix.size()) - 1;
 

@@ -18,14 +18,7 @@
 
 void HighBurnupStructurePorosity()
 {
-    /**
-     * @brief This routine sets the model for High burnup structure porosity evolution
-	 * 
-     * @author
-     * A. Magni
-     * E. Redaelli
-     * G. Zullo
-    */
+    std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
 
 	model.emplace_back();
 	int model_index = int(model.size()) - 1;

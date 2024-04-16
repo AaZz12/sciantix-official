@@ -62,6 +62,7 @@ void System::setBubbleDiffusivity(int input_value)
 {
 	const double boltzmann_constant = 8.6173e-5; // eV
 	const double pi = CONSTANT_NUMBERS_H::MathConstants::pi;
+    std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
 
 	switch(input_value)
 	{
@@ -107,6 +108,7 @@ void System::setFissionGasDiffusivity(int input_value)
 	 * 
 	 */
 	const double boltzmann_constant = CONSTANT_NUMBERS_H::PhysicsConstants::boltzmann_constant;
+    std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
 
 	switch (input_value)
 	{
@@ -359,6 +361,7 @@ void System::setResolutionRate(int input_value)
 	 * @brief The helium intra-granular resolution rate is set according to the input_variable iResolutionRate.
 	 * 
 	 */
+    std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
 
 	const double pi = CONSTANT_NUMBERS_H::MathConstants::pi;
 	const double boltzmann_constant = CONSTANT_NUMBERS_H::PhysicsConstants::boltzmann_constant;
@@ -476,6 +479,7 @@ void System::setTrappingRate(int input_value)
 	 * 
 	 */
 	const double pi = CONSTANT_NUMBERS_H::MathConstants::pi;
+    std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
 
 	switch (input_value)
 	{
@@ -638,6 +642,7 @@ void System::setProductionRate(int input_value)
 		* scaling factor (to be set in input_scaling_factors.txt).
 		* 
 		*/
+    	std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
 
 		reference += "Case for helium production rate: Cechet et al., Nuclear Engineering and Technology, 53 (2021) 1893-1908.\n\t";
 		
@@ -672,6 +677,7 @@ void System::setProductionRate(int input_value)
 		 * @brief Production rate = cumulative yield * fission rate density * HBS volume fraction
 		 * 
 		 */
+    	std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
 
 		double alpha = sciantix_variable[sv["Restructured volume fraction"]].getFinalValue();
 

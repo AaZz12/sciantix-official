@@ -18,6 +18,8 @@
 
 void EffectiveBurnup()
 {
+    std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
+
 	model.emplace_back();
 	int model_index = int(model.size()) - 1;
 

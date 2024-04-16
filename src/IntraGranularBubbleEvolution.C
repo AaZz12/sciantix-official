@@ -19,6 +19,7 @@
 void IntraGranularBubbleEvolution()
 {
     std::vector<PhysicsVariable>& physics_variable = GetPhysicsVariables();
+    std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
 
 	/// @brief
 	/// IntraGranularBubbleEvolution builds an object Model according to the input_variable "iIntraGranularBubbleEvolution".

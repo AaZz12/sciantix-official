@@ -18,6 +18,8 @@
 
 void Burnup()
 {
+    std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
+
 	model.emplace_back();
 	int modelIndex = model.size() - 1;
 	model[modelIndex].setName("Burnup");

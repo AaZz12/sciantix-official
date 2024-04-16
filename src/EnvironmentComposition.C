@@ -19,6 +19,8 @@
 void EnvironmentComposition()
 {
     if (!input_variable[iv["iStoichiometryDeviation"]].getValue()) return;
+    
+    std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
 
     model.emplace_back();
     int model_index = int(model.size()) - 1;

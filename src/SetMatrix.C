@@ -176,6 +176,7 @@ void Matrix::setPoreNucleationRate()
 	 * This model is from @ref *Barani et al., JNM 563 (2022) 153627*.
 	 *
 	 */
+    std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
 
 	double sf_nucleation_rate_porosity = 1.25e-6; // from dburnup to dtime
 
@@ -193,6 +194,7 @@ void Matrix::setPoreResolutionRate()
 	 * This model is from @ref *Barani et al., JNM 563 (2022) 153627*.
 	 *
 	 */
+    std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
 
 	double correction_coefficient = (1.0 - exp(pow(-sciantix_variable[sv["HBS pore radius"]].getFinalValue() / (9.0e-9), 3)));
 	double b0(2.0e-23 * history_variable[hv["Fission rate"]].getFinalValue());
@@ -210,6 +212,7 @@ void Matrix::setPoreTrappingRate()
 	 * This model is from @ref *Barani et al., JNM 563 (2022) 153627*.
 	 *
 	 */
+    std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
 
 	const double pi = CONSTANT_NUMBERS_H::MathConstants::pi;
 

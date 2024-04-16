@@ -48,6 +48,7 @@ class Simulation : public Solver, public Model
 {
 	public:
 		std::vector<PhysicsVariable>& physics_variable = GetPhysicsVariables();
+    	std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
 
 	void Burnup()
 	{

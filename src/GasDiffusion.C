@@ -36,6 +36,7 @@ void GasDiffusion()
 void defineSpectralDiffusion1Equation()
 {
 	std::string reference;
+    std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
 
     for (auto& system : sciantix_system)
 	{
@@ -68,6 +69,7 @@ void defineSpectralDiffusion1Equation()
 void defineSpectralDiffusion2Equations()
 {
 	std::string reference;
+    std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
 
     for (auto& system : sciantix_system)
 	{
