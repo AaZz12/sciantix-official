@@ -32,7 +32,8 @@ protected:
 	double schottky_defect_volume;
 	double ois_volume;
 	double grain_boundary_thickness;
-	double grain_boundary_diffusivity;
+	double grain_boundary_vac_diffusivity;
+	double grain_boundary_at_diffusivity;
 	double semidihedral_angle;
 	double lenticular_shape_factor;
 	double grain_radius;
@@ -175,7 +176,14 @@ public:
 	double getGrainBoundaryVacancyDiffusivity()
 	{
 		/// Member function to get the grain-boundary vacancy diffusivity (m^2/s)
-		return grain_boundary_diffusivity;
+		return grain_boundary_vac_diffusivity;
+	}
+
+	void setGrainBoundaryAtomDiffusivity();
+	double getGrainBoundaryAtomDiffusivity()
+	{
+		/// Member function to get the grain-boundary singl-atom diffusivity (m^2/s)
+		return grain_boundary_at_diffusivity;
 	}
 
 	void setLenticularShapeFactor(double lsf)

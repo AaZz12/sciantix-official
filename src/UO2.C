@@ -41,7 +41,8 @@ void UO2()
 	matrix[index].setLenticularShapeFactor(0.168610764);
 	matrix[index].setGrainRadius(sciantix_variable[sv["Grain radius"]].getFinalValue()); // (m)
 	matrix[index].setHealingTemperatureThreshold(1273.15); // K
-	matrix[index].setGrainBoundaryVacancyDiffusivity(int(input_variable[iv["iGrainBoundaryVacancyDiffusivity"]].getValue())); // (m2/s)
+	matrix[index].setGrainBoundaryVacancyDiffusivity(1); // (m2/s)
+	matrix[index].setGrainBoundaryAtomDiffusivity(); // (m2/s)
 	matrix[index].setPoreNucleationRate();
 	matrix[index].setPoreResolutionRate();
 	matrix[index].setPoreTrappingRate();

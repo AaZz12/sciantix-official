@@ -256,9 +256,12 @@ class Simulation : public Solver, public Model
 			if(system.getRestructuredMatrix() == 0)
 			{
 				sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(
-					sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() +
+					sciantix_variable[sv[system.getGasName() + " produced in HBS"]].getFinalValue() -
 					sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
 					sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " in grain HBS"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " in HBS pores"]].getFinalValue() -
 					sciantix_variable[sv[system.getGasName() + " released"]].getInitialValue()
 				);
 
@@ -497,9 +500,12 @@ class Simulation : public Solver, public Model
 			if(system.getRestructuredMatrix() == 0)
 			{
 				sciantix_variable[sv[system.getGasName() + " released"]].setFinalValue(
-					sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() +
+					sciantix_variable[sv[system.getGasName() + " produced in HBS"]].getFinalValue() -
 					sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
 					sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " in grain HBS"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " in HBS pores"]].getFinalValue() -
 					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue()
 				);
 
@@ -681,10 +687,13 @@ class Simulation : public Solver, public Model
 			if(system.getRestructuredMatrix() == 0)
 			{
 				sciantix_variable[sv[system.getGasName() + " released"]].setFinalValue(
-					sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
-					sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() +
+					sciantix_variable[sv[system.getGasName() + " produced in HBS"]].getFinalValue() -
 					sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue() -
-					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue()
+					sciantix_variable[sv[system.getGasName() + " in grain HBS"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " in HBS pores"]].getFinalValue()
 				);
 
 				if (sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue() < 0.0)
@@ -736,6 +745,8 @@ class Simulation : public Solver, public Model
 	{
 		if (!int(input_variable[iv["iHighBurnupStructurePorosity"]].getValue())) return;
 
+		std::cout << "simulation HBS" << std::endl;
+
 		// Vacancy per HBS pore concentration
 		sciantix_variable[sv["Vacancies per HBS pore"]].setFinalValue(
 			solver.LimitedGrowth(sciantix_variable[sv["Vacancies per HBS pore"]].getInitialValue(),
@@ -743,53 +754,83 @@ class Simulation : public Solver, public Model
 				physics_variable[pv["Time step"]].getFinalValue()
 			)
 		);
-		std::cout << "ciao" << std::endl;
-		std::cout << model[sm["High burnup structure porosity"]].getParameter().at(0) << std::endl;
-		std::cout << model[sm["High burnup structure porosity"]].getParameter().at(1) << std::endl;
+		std::cout << "vac HBS i = " << sciantix_variable[sv["Vacancies per HBS pore"]].getInitialValue() << std::endl;
+		std::cout << "vac HBS f = " << sciantix_variable[sv["Vacancies per HBS pore"]].getFinalValue() << std::endl;
 
-		// std::cout << model[sm["High burnup structure porosity"]].getParameter().at(0) << std::endl;
-		// std::cout << model[sm["High burnup structure porosity"]].getParameter().at(1) << std::endl;
-		// std::cout << sciantix_variable[sv["Vacancies per HBS pore"]].getFinalValue() << std::endl;
-
-		// porosity evolution 
-		// sciantix_variable[sv["HBS porosity"]].setFinalValue(
-		// 	solver.Integrator(
-		// 		sciantix_variable[sv["HBS porosity"]].getInitialValue(),
-		// 		model[sm["High burnup structure porosity"]].getParameter().at(0),
-		// 		sciantix_variable[sv["Burnup"]].getIncrement()
-		// 	)
-		// );
-
-		// if(sciantix_variable[sv["HBS porosity"]].getFinalValue() > 0.15)
-		// 	sciantix_variable[sv["HBS porosity"]].setFinalValue(0.15);
-
-		// evolution of pore number density via pore nucleation and re-solution
-		// if(sciantix_variable[sv["HBS porosity"]].getFinalValue())
-		// std::cout << "prima" << std::endl;
-		// std::cout << sciantix_variable[sv["HBS pore density"]].getFinalValue() << std::endl;
-
-			sciantix_variable[sv["HBS pore density"]].setFinalValue(
-				solver.Decay(
-						sciantix_variable[sv["HBS pore density"]].getInitialValue(),
-						matrix[sma["UO2HBS"]].getPoreResolutionRate(),
-						matrix[sma["UO2HBS"]].getPoreNucleationRate(),
-						physics_variable[pv["Time step"]].getFinalValue()
-					)
-				);
-		// std::cout << "dopo1" << std::endl;
-		// std::cout << sciantix_variable[sv["HBS pore density"]].getFinalValue() << std::endl;
-		// else
-			// sciantix_variable[sv["HBS pore density"]].setFinalValue(0.0);
-
-		// HBS porosity (/) = HBS pore density (pores / m3) * HBS pore volume (m3 / pore)
-		sciantix_variable[sv["HBS porosity"]].setFinalValue(
-			sciantix_variable[sv["HBS pore density"]].getFinalValue() * sciantix_variable[sv["HBS pore volume"]].getFinalValue()
+		// HBS pore density
+		sciantix_variable[sv["HBS pore density"]].setFinalValue(
+			solver.Decay(
+					sciantix_variable[sv["HBS pore density"]].getInitialValue(),
+					matrix[sma["UO2HBS"]].getPoreResolutionRate(),
+					matrix[sma["UO2HBS"]].getPoreNucleationRate(),
+					physics_variable[pv["Time step"]].getFinalValue()
+			)
 		);
 
-		// calculation of pore volume based on porosity and pore number density	
-		// if(sciantix_variable[sv["HBS pore density"]].getFinalValue())
-		// 	sciantix_variable[sv["HBS pore volume"]].setFinalValue(
-		// 		sciantix_variable[sv["HBS porosity"]].getFinalValue() / sciantix_variable[sv["HBS pore density"]].getFinalValue());
+		std::cout << "N = " << sciantix_variable[sv["HBS pore density"]].getFinalValue() << std::endl;
+
+		// A: average (at/m^3) of Xe in HBS pores
+		sciantix_variable[sv["Xe in HBS pores"]].setFinalValue(
+			solver.Integrator(
+				sciantix_variable[sv["Xe in HBS pores"]].getInitialValue(),
+				2.0 * matrix[sma["UO2HBS"]].getPoreNucleationRate() + sciantix_variable[sv["HBS pore density"]].getFinalValue() * (matrix[sma["UO2HBS"]].getPoreTrappingRate() - matrix[sma["UO2HBS"]].getPoreResolutionRate()),
+				physics_variable[pv["Time step"]].getFinalValue()
+			)
+		);
+
+		// std::cout << matrix[sma["UO2HBS"]].getPoreTrappingRate() << std::endl;
+
+		// Xe in HBS pores - variance (B)
+		sciantix_variable[sv["Xe in HBS pores - variance"]].setFinalValue(
+			solver.Integrator(
+				sciantix_variable[sv["Xe in HBS pores - variance"]].getInitialValue(),
+
+				matrix[sma["UO2"]].getPoreTrappingRate() * sciantix_variable[sv["HBS pore density"]].getFinalValue() -
+				matrix[sma["UO2"]].getPoreResolutionRate() * sciantix_variable[sv["HBS pore density"]].getFinalValue() +
+				matrix[sma["UO2"]].getPoreNucleationRate() * pow((sciantix_variable[sv["Xe atoms per HBS pore"]].getFinalValue()-2.0), 2.0),
+
+				physics_variable[pv["Time step"]].getFinalValue()
+			)
+		);
+
+		// Xe atoms per HBS pore - variance (M)
+		if(sciantix_variable[sv["HBS pore density"]].getFinalValue())
+			sciantix_variable[sv["Xe atoms per HBS pore - variance"]].setFinalValue(
+				sciantix_variable[sv["Xe in HBS pores - variance"]].getFinalValue() / sciantix_variable[sv["HBS pore density"]].getFinalValue()
+			);
+
+		// mass balance
+		// sciantix_variable[sv["Xe at grain boundary"]].addValue(- sciantix_variable[sv["Xe in HBS pores"]].getFinalValue());
+		for (auto& system : sciantix_system)
+		{
+			if(system.getRestructuredMatrix() == 0)
+			{
+				sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(
+					sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() +
+					sciantix_variable[sv[system.getGasName() + " produced in HBS"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " in HBS pores"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " released"]].getFinalValue()
+				);
+
+				if (sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue() < 0.0)
+					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(0.0);
+			}
+		}
+
+		// Xe atoms per HBS pore (n)
+		// n (Xe at / pore) = A / N
+		if(sciantix_variable[sv["HBS pore density"]].getFinalValue())
+			sciantix_variable[sv["Xe atoms per HBS pore"]].setFinalValue(
+			sciantix_variable[sv["Xe in HBS pores"]].getFinalValue() / sciantix_variable[sv["HBS pore density"]].getFinalValue()
+		);
+
+		// HBS pore dimension
+		double vol(0);
+		vol += sciantix_variable[sv["Xe atoms per HBS pore"]].getFinalValue() * gas[ga["Xe"]].getVanDerWaalsVolume();
+		vol += sciantix_variable[sv["Vacancies per HBS pore"]].getFinalValue() * matrix[sma["UO2HBS"]].getSchottkyVolume();
+		sciantix_variable[sv["HBS pore volume"]].setFinalValue(vol);
 
 		sciantix_variable[sv["HBS pore radius"]].setFinalValue(0.620350491 * pow(sciantix_variable[sv["HBS pore volume"]].getFinalValue(), (1.0 / 3.0)));
 
@@ -806,54 +847,16 @@ class Simulation : public Solver, public Model
 				sciantix_variable[sv["HBS pore volume"]].getIncrement()
 			)
 		);
-		// std::cout << sciantix_variable[sv["HBS pore volume"]].getIncrement() << std::endl;
-		
-		// update of pore volume and pore radius after interconnection by impingement
-		if(sciantix_variable[sv["HBS pore density"]].getFinalValue())
-			sciantix_variable[sv["HBS pore volume"]].setFinalValue(
-				sciantix_variable[sv["HBS porosity"]].getFinalValue() / sciantix_variable[sv["HBS pore density"]].getFinalValue());
-		
-		std::cout << "dopo2" << std::endl;
-		// std::cout << sciantix_variable[sv["HBS pore density"]].getFinalValue() << std::endl;
-		sciantix_variable[sv["HBS pore radius"]].setFinalValue(0.620350491 * pow(sciantix_variable[sv["HBS pore volume"]].getFinalValue(), (1.0 / 3.0)));
 
-		// A: average (at/m^3) of Xe atoms in HBS pores
-		sciantix_variable[sv["Xe in HBS pores"]].setFinalValue(
-			solver.Integrator(
-				sciantix_variable[sv["Xe in HBS pores"]].getInitialValue(),
+		std::cout << "N 2 = " << sciantix_variable[sv["HBS pore density"]].getFinalValue() << std::endl;
+		std::cout << "pore int = " << pore_interconnection_rate << std::endl;
+		std::cout << "P V = " << sciantix_variable[sv["HBS pore volume"]].getIncrement() << std::endl;
 
-				2.0 * matrix[sma["UO2HBS"]].getPoreNucleationRate() +
-				sciantix_variable[sv["HBS pore density"]].getFinalValue() *
-				(matrix[sma["UO2HBS"]].getPoreTrappingRate() - matrix[sma["UO2HBS"]].getPoreResolutionRate()),
-
-				physics_variable[pv["Time step"]].getFinalValue()
-			)
-		);		
-
-		// n (Xe at / pore) = A / N
-		if(sciantix_variable[sv["HBS pore density"]].getFinalValue())
-			sciantix_variable[sv["Xe atoms per HBS pore"]].setFinalValue(
-			sciantix_variable[sv["Xe in HBS pores"]].getFinalValue() / sciantix_variable[sv["HBS pore density"]].getFinalValue()
+		// HBS porosity (/) = HBS pore density (pores / m3) * HBS pore volume (m3 / pore)
+		sciantix_variable[sv["HBS porosity"]].setFinalValue(
+			sciantix_variable[sv["HBS pore density"]].getFinalValue() * sciantix_variable[sv["HBS pore volume"]].getFinalValue()
 		);
-
-		// B
-		sciantix_variable[sv["Xe in HBS pores - variance"]].setFinalValue(
-			solver.Integrator(
-				sciantix_variable[sv["Xe in HBS pores - variance"]].getInitialValue(),
-
-				matrix[sma["UO2"]].getPoreTrappingRate() * sciantix_variable[sv["HBS pore density"]].getFinalValue() -
-				matrix[sma["UO2"]].getPoreResolutionRate() * sciantix_variable[sv["HBS pore density"]].getFinalValue() +
-				matrix[sma["UO2"]].getPoreNucleationRate() * pow((sciantix_variable[sv["Xe atoms per HBS pore"]].getFinalValue()-2.0), 2.0),
-
-				physics_variable[pv["Time step"]].getFinalValue()
-			)
-		);
-
-		if(sciantix_variable[sv["HBS pore density"]].getFinalValue())
-			sciantix_variable[sv["Xe atoms per HBS pore - variance"]].setFinalValue(
-				sciantix_variable[sv["Xe in HBS pores - variance"]].getFinalValue() / sciantix_variable[sv["HBS pore density"]].getFinalValue()
-			);		
-		}
+	}
 
 	void StoichiometryDeviation()
 	{
