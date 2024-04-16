@@ -417,14 +417,9 @@ class Simulation : public Solver, public Model
 				sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue() / sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue()
 			);
 
-			// Venting probability
-			sciantix_variable[sv["Intergranular venting probability"]].setFinalValue(
-				(1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()) + sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue() * sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()
-			);
-
 			double err(0);
-			if(sciantix_variable[sv["Intergranular atoms per bubble"]].getFinalValue())
-				err = sciantix_variable[sv["Intergranular atoms per bubble"]].getIncrement() / sciantix_variable[sv["Intergranular atoms per bubble"]].getFinalValue();
+			if(sciantix_variable[sv["Intergranular bubble area"]].getFinalValue())
+				err = sciantix_variable[sv["Intergranular bubble area"]].getIncrement() / sciantix_variable[sv["Intergranular bubble area"]].getFinalValue();
 			
 			std::cout << "\nFinal values" << std::endl;
 			std::cout << "at/bub  = " << sciantix_variable[sv["Intergranular atoms per bubble"]].getFinalValue() << std::endl;
@@ -487,63 +482,63 @@ class Simulation : public Solver, public Model
 		// // update vented fraction
 		// SetGPVariables();
 
-		if (sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue())
-		{
-			for (auto& system : sciantix_system)
-			{
-				double S = (sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
-					sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
-					sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue());
-				double dS = (sciantix_variable[sv[system.getGasName() + " produced"]].getIncrement() -
-					sciantix_variable[sv[system.getGasName() + " decayed"]].getIncrement() -
-					sciantix_variable[sv[system.getGasName() + " in grain"]].getIncrement());
-				double dR1 = (sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue())*dS+
-					S*sciantix_variable[sv["Intergranular vented fraction"]].getIncrement();
+		// if (sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue())
+		// {
+		// 	for (auto& system : sciantix_system)
+		// 	{
+		// 		double S = (sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
+		// 			sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
+		// 			sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue());
+		// 		double dS = (sciantix_variable[sv[system.getGasName() + " produced"]].getIncrement() -
+		// 			sciantix_variable[sv[system.getGasName() + " decayed"]].getIncrement() -
+		// 			sciantix_variable[sv[system.getGasName() + " in grain"]].getIncrement());
+		// 		double dR1 = (sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue())*dS+
+		// 			S*sciantix_variable[sv["Intergranular vented fraction"]].getIncrement();
 				
-				// double dB1 = (1. - sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue()) * dS - S * sciantix_variable[sv["Intergranular vented fraction"]].getIncrement();
-				if (dR1<=0)
-				{
-					std::cout << "warning: dR1 < 0" << std::endl;
-					dR1 = 0;
-				}
-				else
-				{
-					sciantix_variable[sv[system.getGasName() + " released"]].addValue(dR1);
-				}
+		// 		// double dB1 = (1. - sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue()) * dS - S * sciantix_variable[sv["Intergranular vented fraction"]].getIncrement();
+		// 		if (dR1<=0)
+		// 		{
+		// 			std::cout << "warning: dR1 < 0" << std::endl;
+		// 			dR1 = 0;
+		// 		}
+		// 		else
+		// 		{
+		// 			sciantix_variable[sv[system.getGasName() + " released"]].addValue(dR1);
+		// 		}
 
-				// sciantix_variable[sv[system.getGasName() + " released"]].setFinalValue(
-				// 	solver.Integrator(
-				// 			sciantix_variable[sv[system.getGasName() + " released"]].getFinalValue(),
-				// 			(sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue())*
-				// 			(sciantix_variable[sv[system.getGasName() + " produced"]].getIncrement() -
-				// 			sciantix_variable[sv[system.getGasName() + " decayed"]].getIncrement() -
-				// 			sciantix_variable[sv[system.getGasName() + " in grain"]].getIncrement())
-				// 			+(sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
-				// 			sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
-				// 			sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue())*
-				// 			sciantix_variable[sv["Intergranular vented fraction"]].getIncrement(),
-				// 			1
-				// 	)
-				// );
-			}
-		}
+		// 		// sciantix_variable[sv[system.getGasName() + " released"]].setFinalValue(
+		// 		// 	solver.Integrator(
+		// 		// 			sciantix_variable[sv[system.getGasName() + " released"]].getFinalValue(),
+		// 		// 			(sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue())*
+		// 		// 			(sciantix_variable[sv[system.getGasName() + " produced"]].getIncrement() -
+		// 		// 			sciantix_variable[sv[system.getGasName() + " decayed"]].getIncrement() -
+		// 		// 			sciantix_variable[sv[system.getGasName() + " in grain"]].getIncrement())
+		// 		// 			+(sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
+		// 		// 			sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
+		// 		// 			sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue())*
+		// 		// 			sciantix_variable[sv["Intergranular vented fraction"]].getIncrement(),
+		// 		// 			1
+		// 		// 	)
+		// 		// );
+		// 	}
+		// }
 
-		// Calculation of the gas concentration arrived at the grain boundary, by mass balance.
-		for (auto& system : sciantix_system)
-		{
-			if(system.getRestructuredMatrix() == 0)
-			{
-				sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(
-					sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
-					sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
-					sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue() -
-					sciantix_variable[sv[system.getGasName() + " released"]].getFinalValue()
-				);
+		// // Calculation of the gas concentration arrived at the grain boundary, by mass balance.
+		// for (auto& system : sciantix_system)
+		// {
+		// 	if(system.getRestructuredMatrix() == 0)
+		// 	{
+		// 		sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(
+		// 			sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
+		// 			sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
+		// 			sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue() -
+		// 			sciantix_variable[sv[system.getGasName() + " released"]].getFinalValue()
+		// 		);
 
-				if (sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue() < 0.0)
-					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(0.0);
-			}
-		}
+		// 		if (sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue() < 0.0)
+		// 			sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(0.0);
+		// 	}
+		// }
 		
 		// Intergranular gaseous swelling
 		sciantix_variable[sv["Intergranular gas swelling"]].setFinalValue(
@@ -551,6 +546,51 @@ class Simulation : public Solver, public Model
 			sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() *
 			sciantix_variable[sv["Intergranular bubble volume"]].getFinalValue()
 		);
+
+		std::cout << "	\nGasRelease" << std::endl;
+
+		// dB/dt
+		double source_rate(0.0), decay_rate(0.0);
+		
+		for (auto& system : sciantix_system)
+		{
+			if(physics_variable[pv["Time step"]].getFinalValue())
+			{
+				source_rate = (1.0 - sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue()) * (sciantix_variable[sv[system.getGasName() + " produced"]].getIncrement() - sciantix_variable[sv[system.getGasName() + " in grain"]].getIncrement() - sciantix_variable[sv[system.getGasName() + " decayed"]].getIncrement()) / physics_variable[pv["Time step"]].getFinalValue() - 
+						(sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() - sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue() - sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue()) * sciantix_variable[sv["Intergranular vented fraction"]].getIncrement() / physics_variable[pv["Time step"]].getFinalValue();
+				
+				std::cout << "Source rate = " << source_rate << std::endl;
+			}
+			sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(
+				solver.Decay(
+					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getInitialValue(),
+					decay_rate,
+					source_rate,
+					physics_variable[pv["Time step"]].getFinalValue()
+				)
+			);
+		
+		std::cout << "B_i  =    " << sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getInitialValue() << std::endl;
+		std::cout << "B_f  =    " << sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue() << std::endl;
+		std::cout << "d_B  =    " << sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getIncrement() << std::endl;
+		//sciantix_variable[sv[system.getGasName() + " at grain boundary"]].resetValue();
+		}
+
+		for (auto& system : sciantix_system)
+		{
+			if(system.getRestructuredMatrix() == 0)
+			{
+				sciantix_variable[sv[system.getGasName() + " released"]].setFinalValue(
+					sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue() -
+					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue()
+				);
+
+				if (sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue() < 0.0)
+					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(0.0);
+			}
+		}
 
 	}
 
@@ -711,6 +751,65 @@ class Simulation : public Solver, public Model
 		// }
 
 		// Calculation of the gas concentration arrived at the grain boundary, by mass balance.
+		// for (auto& system : sciantix_system)
+		// {
+		// 	if(system.getRestructuredMatrix() == 0)
+		// 	{
+		// 		sciantix_variable[sv[system.getGasName() + " released"]].setFinalValue(
+		// 			sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() -
+		// 			sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue() -
+		// 			sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue() -
+		// 			sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue()
+		// 		);
+
+		// 		if (sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue() < 0.0)
+		// 			sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(0.0);
+		// 	}
+		// }
+	}
+
+	void GrainBoundaryVenting()
+	{
+	
+		if (!int(input_variable[iv["iGrainBoundaryVenting"]].getValue())) return;
+		
+		std::cout << "	\nGasRelease" << std::endl;
+
+		// dB/dt
+		double source_rate(0.0), decay_rate(0.0);
+
+
+		// Venting probability
+		sciantix_variable[sv["Intergranular venting probability"]].setFinalValue(
+			(1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()) + sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue() * sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()
+		);
+		std::cout << "p_v  =    " << sciantix_variable[sv["Intergranular venting probability"]].getInitialValue() << std::endl;
+		
+		
+		for (auto& system : sciantix_system)
+		{
+			if(physics_variable[pv["Time step"]].getFinalValue())
+			{
+				source_rate = (1.0 - sciantix_variable[sv["Intergranular venting probability"]].getFinalValue()) * (sciantix_variable[sv[system.getGasName() + " produced"]].getIncrement() - sciantix_variable[sv[system.getGasName() + " in grain"]].getIncrement() - sciantix_variable[sv[system.getGasName() + " decayed"]].getIncrement()) / physics_variable[pv["Time step"]].getFinalValue() - 
+						(sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() - sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue() - sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue()) * sciantix_variable[sv["Intergranular venting probability"]].getIncrement() / physics_variable[pv["Time step"]].getFinalValue();
+				
+				std::cout << "Source rate = " << source_rate << std::endl;
+			}
+			sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(
+				solver.Decay(
+					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getInitialValue(),
+					decay_rate,
+					source_rate,
+					physics_variable[pv["Time step"]].getFinalValue()
+				)
+			);
+		
+		std::cout << "B_i  =    " << sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getInitialValue() << std::endl;
+		std::cout << "B_f  =    " << sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue() << std::endl;
+		std::cout << "d_B  =    " << sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getIncrement() << std::endl;
+		//sciantix_variable[sv[system.getGasName() + " at grain boundary"]].resetValue();
+		}
+
 		for (auto& system : sciantix_system)
 		{
 			if(system.getRestructuredMatrix() == 0)
@@ -725,24 +824,6 @@ class Simulation : public Solver, public Model
 				if (sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue() < 0.0)
 					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(0.0);
 			}
-		}
-	}
-
-	void GrainBoundaryVenting()
-	{
-
-		if (!int(input_variable[iv["iGrainBoundaryVenting"]].getValue())) return;
-
-		for (auto& system : sciantix_system)
-		{
-			sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(
-				solver.Integrator(
-					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue(),
-					- model[sm["Grain-boundary venting"]].getParameter().at(0),
-					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getIncrement()
-				)
-			);
-		sciantix_variable[sv[system.getGasName() + " at grain boundary"]].resetValue();
 		}
 	}
 
