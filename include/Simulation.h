@@ -105,6 +105,7 @@ class Simulation : public Solver, public Model
     	for (auto& system : sciantix_system)
 		{	
 			if(system.getRestructuredMatrix() == 0)
+			{
 				sciantix_variable[sv[system.getGasName() + " produced"]].setFinalValue(
 					solver.Integrator(
 						sciantix_variable[sv[system.getGasName() + " produced"]].getInitialValue(),
@@ -112,6 +113,7 @@ class Simulation : public Solver, public Model
 						model[sm["Gas production - " + system.getName()]].getParameter().at(1)
 					)
 				);
+			}
 		}
 	}
 

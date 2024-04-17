@@ -248,783 +248,1068 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 	// ----------------------------------------------------------------------------
 	// Sciantix variable
 	// ----------------------------------------------------------------------------
-	constexpr size_t MAX_SCIANTIX_VARIABLE_SIZE = 97;
+	constexpr size_t MAX_SCIANTIX_VARIABLE_SIZE = 96;
+	int sv_counter = 0;
 
-    if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
 	{
-		int sv_counter(0);
 		sciantix_variable.emplace_back();
-		sciantix_variable[sv_counter].setName("Grain radius");
-		sciantix_variable[sv_counter].setUOM("(m)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[0]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[0]);
-		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+    	sciantix_variable[sv_counter].setName("Grain radius");
+    	sciantix_variable[sv_counter].setUOM("(m)");
+    	sciantix_variable[sv_counter].setOutput(1);
+	}
+    sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[0]);
+    sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[0]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe produced");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[1]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[1]);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[1]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[1]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe in grain");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[2]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[2]);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[2]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[2]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe in grain HBS");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[92]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[92]);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[92]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[92]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe in intragranular solution");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[3]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[3]);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[3]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[3]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe in intragranular bubbles");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[4]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[4]);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[4]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[4]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe at grain boundary");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[5]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[5]);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[5]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[5]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe released");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[6]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[6]);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[6]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[6]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe decayed");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(0.0);
-		sciantix_variable[sv_counter].setFinalValue(0.0);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(0.0);
+	sciantix_variable[sv_counter].setFinalValue(0.0);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Kr produced");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[7]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[7]);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[7]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[7]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Kr in grain");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[8]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[8]);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[8]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[8]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Kr in intragranular solution");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[9]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[9]);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[9]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[9]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Kr in intragranular bubbles");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[10]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[10]);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[10]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[10]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Kr at grain boundary");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[11]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[11]);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[11]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[11]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Kr released");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[12]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[12]);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[12]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[12]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Kr decayed");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(0.0);
-		sciantix_variable[sv_counter].setFinalValue(0.0);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(0.0);
+	sciantix_variable[sv_counter].setFinalValue(0.0);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Fission gas release");
 		sciantix_variable[sv_counter].setUOM("(/)");
-		sciantix_variable[sv_counter].setInitialValue(0.0);
-		sciantix_variable[sv_counter].setFinalValue(0.0);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(0.0);
+	sciantix_variable[sv_counter].setFinalValue(0.0);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("He produced");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[13]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[13]);
 		sciantix_variable[sv_counter].setOutput(toOutputHelium);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[13]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[13]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("He in grain");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[14]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[14]);
 		sciantix_variable[sv_counter].setOutput(toOutputHelium);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[14]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[14]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("He in intragranular solution");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[15]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[15]);
 		sciantix_variable[sv_counter].setOutput(toOutputHelium);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[15]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[15]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("He in intragranular bubbles");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[16]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[16]);
 		sciantix_variable[sv_counter].setOutput(toOutputHelium);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[16]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[16]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("He at grain boundary");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[17]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[17]);
 		sciantix_variable[sv_counter].setOutput(toOutputHelium);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[17]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[17]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("He released");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[18]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[18]);
 		sciantix_variable[sv_counter].setOutput(toOutputHelium);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[18]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[18]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("He decayed");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(0.0);
-		sciantix_variable[sv_counter].setFinalValue(0.0);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(0.0);
+	sciantix_variable[sv_counter].setFinalValue(0.0);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("He fractional release");
 		sciantix_variable[sv_counter].setUOM("(/)");
-		sciantix_variable[sv_counter].setInitialValue(0.0);
-		sciantix_variable[sv_counter].setFinalValue(0.0);
 		sciantix_variable[sv_counter].setOutput(toOutputHelium);
-		++sv_counter;
-
+	}
+	sciantix_variable[sv_counter].setInitialValue(0.0);
+	sciantix_variable[sv_counter].setFinalValue(0.0);
+	++sv_counter;
+	
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("He release rate");
 		sciantix_variable[sv_counter].setUOM("(at/m3 s)");
-		sciantix_variable[sv_counter].setInitialValue(0.0);
-		sciantix_variable[sv_counter].setFinalValue(0.0);
 		sciantix_variable[sv_counter].setOutput(toOutputHelium);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(0.0);
+	sciantix_variable[sv_counter].setFinalValue(0.0);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe133 produced");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[48]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[48]);
 		sciantix_variable[sv_counter].setOutput(toOutputRadioactiveFG);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[48]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[48]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe133 in grain");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[49]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[49]);
 		sciantix_variable[sv_counter].setOutput(toOutputRadioactiveFG);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[49]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[49]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe133 in intragranular solution");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[50]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[50]);
 		sciantix_variable[sv_counter].setOutput(toOutputRadioactiveFG);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[50]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[50]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe133 in intragranular bubbles");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[51]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[51]);
 		sciantix_variable[sv_counter].setOutput(toOutputRadioactiveFG);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[51]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[51]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe133 decayed");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[52]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[52]);
 		sciantix_variable[sv_counter].setOutput(toOutputRadioactiveFG);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[52]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[52]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe133 at grain boundary");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[53]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[53]);
 		sciantix_variable[sv_counter].setOutput(toOutputRadioactiveFG);
-		++sv_counter;
-
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[53]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[53]);
+	++sv_counter;
+	
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe133 released");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[54]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[54]);
 		sciantix_variable[sv_counter].setOutput(toOutputRadioactiveFG);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[54]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[54]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe133 R/B");
 		sciantix_variable[sv_counter].setUOM("(/)");
-		sciantix_variable[sv_counter].setInitialValue(0.0);
-		sciantix_variable[sv_counter].setFinalValue(0.0);
 		sciantix_variable[sv_counter].setOutput(toOutputRadioactiveFG);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setFinalValue(0.0);
+	sciantix_variable[sv_counter].setInitialValue(0.0);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Kr85m produced");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[57]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[57]);
 		sciantix_variable[sv_counter].setOutput(toOutputRadioactiveFG);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[57]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[57]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Kr85m in grain");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[58]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[58]);
 		sciantix_variable[sv_counter].setOutput(toOutputRadioactiveFG);
-		++sv_counter;
-
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[58]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[58]);
+	++sv_counter;
+	
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Kr85m in intragranular solution");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[59]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[59]);
 		sciantix_variable[sv_counter].setOutput(toOutputRadioactiveFG);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[59]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[59]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Kr85m in intragranular bubbles");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[60]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[60]);
 		sciantix_variable[sv_counter].setOutput(toOutputRadioactiveFG);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[60]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[60]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Kr85m decayed");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[61]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[61]);
 		sciantix_variable[sv_counter].setOutput(toOutputRadioactiveFG);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[61]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[61]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Kr85m at grain boundary");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[62]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[62]);
 		sciantix_variable[sv_counter].setOutput(toOutputRadioactiveFG);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[62]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[62]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Kr85m released");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[63]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[63]);
 		sciantix_variable[sv_counter].setOutput(toOutputRadioactiveFG);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[63]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[63]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Kr85m R/B");
 		sciantix_variable[sv_counter].setUOM("(/)");
-		sciantix_variable[sv_counter].setInitialValue(0.0);
-		sciantix_variable[sv_counter].setFinalValue(0.0);
 		sciantix_variable[sv_counter].setOutput(toOutputRadioactiveFG);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(0.0);
+	sciantix_variable[sv_counter].setFinalValue(0.0);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intragranular bubble concentration");
 		sciantix_variable[sv_counter].setUOM("(bub/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[19]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[19]);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[19]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[19]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intragranular bubble radius");
 		sciantix_variable[sv_counter].setUOM("(m)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[20]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[20]);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[20]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[20]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intragranular bubble volume");
 		sciantix_variable[sv_counter].setUOM("(m3)");
-		sciantix_variable[sv_counter].setInitialValue(0.0);
-		sciantix_variable[sv_counter].setFinalValue(0.0);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(0.0);
+	sciantix_variable[sv_counter].setFinalValue(0.0);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intragranular Xe atoms per bubble");
 		sciantix_variable[sv_counter].setUOM("(at/bub)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[21]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[21]);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[21]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[21]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intragranular Kr atoms per bubble");
 		sciantix_variable[sv_counter].setUOM("(at/bub)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[22]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[22]);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[22]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[22]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intragranular He atoms per bubble");
 		sciantix_variable[sv_counter].setUOM("(at/bub)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[23]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[23]);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[23]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[23]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intragranular atoms per bubble");
 		sciantix_variable[sv_counter].setUOM("(at/bub)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[21] + Sciantix_variables[22] + Sciantix_variables[23]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[21] + Sciantix_variables[22] + Sciantix_variables[23]);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[21] + Sciantix_variables[22] + Sciantix_variables[23]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[21] + Sciantix_variables[22] + Sciantix_variables[23]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intragranular gas swelling");
 		sciantix_variable[sv_counter].setUOM("(/)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[24]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[24]);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[24]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[24]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intergranular bubble concentration");
 		sciantix_variable[sv_counter].setUOM("(bub/m2)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[25]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[25]);
 		sciantix_variable[sv_counter].setOutput(toOutputGrainBoundary);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[25]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[25]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intergranular Xe atoms per bubble");
 		sciantix_variable[sv_counter].setUOM("(at/bub)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[26]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[26]);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[26]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[26]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intergranular Kr atoms per bubble");
 		sciantix_variable[sv_counter].setUOM("(at/bub)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[27]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[27]);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[27]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[27]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intergranular He atoms per bubble");
 		sciantix_variable[sv_counter].setUOM("(at/bub)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[28]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[28]);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[28]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[28]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intergranular atoms per bubble");
 		sciantix_variable[sv_counter].setUOM("(at/bub)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[29]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[29]);
 		sciantix_variable[sv_counter].setOutput(toOutputGrainBoundary);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[29]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[29]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intergranular vacancies per bubble");
 		sciantix_variable[sv_counter].setUOM("(vac/bub)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[30]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[30]);
 		sciantix_variable[sv_counter].setOutput(toOutputGrainBoundary);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[30]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[30]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intergranular bubble pressure");
 		sciantix_variable[sv_counter].setUOM("(MPa)");
-		sciantix_variable[sv_counter].setInitialValue(0.0);
-		sciantix_variable[sv_counter].setFinalValue(0.0);
 		sciantix_variable[sv_counter].setOutput(toOutputFracture);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(0.0);
+	sciantix_variable[sv_counter].setFinalValue(0.0);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Critical intergranular bubble pressure");
 		sciantix_variable[sv_counter].setUOM("(MPa)");
-		sciantix_variable[sv_counter].setInitialValue(0.0);
-		sciantix_variable[sv_counter].setFinalValue(0.0);
 		sciantix_variable[sv_counter].setOutput(toOutputFracture);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(0.0);
+	sciantix_variable[sv_counter].setFinalValue(0.0);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intergranular bubble radius");
 		sciantix_variable[sv_counter].setUOM("(m)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[31]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[31]);
 		sciantix_variable[sv_counter].setOutput(toOutputGrainBoundary);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[31]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[31]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intergranular bubble area");
 		sciantix_variable[sv_counter].setUOM("(m2)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[32]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[32]);
 		sciantix_variable[sv_counter].setOutput(toOutputGrainBoundary);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[32]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[32]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intergranular bubble volume");
 		sciantix_variable[sv_counter].setUOM("(m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[33]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[33]);
 		sciantix_variable[sv_counter].setOutput(toOutputGrainBoundary);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[33]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[33]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intergranular fractional coverage");
 		sciantix_variable[sv_counter].setUOM("(/)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[34]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[34]);
 		sciantix_variable[sv_counter].setOutput(toOutputGrainBoundary);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[34]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[34]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intergranular saturation fractional coverage");
 		sciantix_variable[sv_counter].setUOM("(/)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[35]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[35]);
 		sciantix_variable[sv_counter].setOutput(toOutputGrainBoundary);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[35]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[35]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intergranular gas swelling");
 		sciantix_variable[sv_counter].setUOM("(/)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[36]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[36]);
 		sciantix_variable[sv_counter].setOutput(toOutputGrainBoundary);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[36]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[36]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intergranular fractional intactness");
 		sciantix_variable[sv_counter].setUOM("(/)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[37]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[37]);
 		sciantix_variable[sv_counter].setOutput(toOutputCracking);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[37]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[37]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Burnup");
 		sciantix_variable[sv_counter].setUOM("(MWd/kgUO2)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[38]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[38]);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[38]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[38]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("FIMA");
 		sciantix_variable[sv_counter].setUOM("(%)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[69]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[69]);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[69]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[69]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Effective burnup");
 		sciantix_variable[sv_counter].setUOM("(MWd/kgUO2)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[39]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[39]);
 		sciantix_variable[sv_counter].setOutput(toOutputHighBurnupStructureFormation);
-		++sv_counter;
-
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[39]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[39]);
+	++sv_counter;
+	
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Irradiation time");
 		sciantix_variable[sv_counter].setUOM("(h)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[65]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[65]);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[65]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[65]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Fuel density");
 		sciantix_variable[sv_counter].setUOM("(kg/m3)");
 		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[40]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[40]);
-		sciantix_variable[sv_counter].setOutput(0.0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setOutput(0.0);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[40]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("U");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[41] + Sciantix_variables[42] + Sciantix_variables[43] + Sciantix_variables[44] + Sciantix_variables[45]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[41] + Sciantix_variables[42] + Sciantix_variables[43] + Sciantix_variables[44] + Sciantix_variables[45]);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[41] + Sciantix_variables[42] + Sciantix_variables[43] + Sciantix_variables[44] + Sciantix_variables[45]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[41] + Sciantix_variables[42] + Sciantix_variables[43] + Sciantix_variables[44] + Sciantix_variables[45]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("U234");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[41]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[41]);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[41]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[41]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("U235");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[42]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[42]);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[42]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[42]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("U236");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[43]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[43]);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[43]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[43]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("U237");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[44]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[44]);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[44]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[44]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("U238");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[45]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[45]);
 		sciantix_variable[sv_counter].setOutput(1);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[45]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[45]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("U");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[41] + Sciantix_variables[42] + Sciantix_variables[43] + Sciantix_variables[44] + Sciantix_variables[45]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[41] + Sciantix_variables[42] + Sciantix_variables[43] + Sciantix_variables[44] + Sciantix_variables[45]);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[41] + Sciantix_variables[42] + Sciantix_variables[43] + Sciantix_variables[44] + Sciantix_variables[45]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[41] + Sciantix_variables[42] + Sciantix_variables[43] + Sciantix_variables[44] + Sciantix_variables[45]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intergranular vented fraction");
 		sciantix_variable[sv_counter].setUOM("(/)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[46]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[46]);
 		sciantix_variable[sv_counter].setOutput(toOutputVenting);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[46]);
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[46]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intergranular venting probability");
 		sciantix_variable[sv_counter].setUOM("(/)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[47]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[47]);
 		sciantix_variable[sv_counter].setOutput(toOutputVenting);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[47]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[47]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Restructured volume fraction");
 		sciantix_variable[sv_counter].setUOM("(/)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[55]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[55]);
 		sciantix_variable[sv_counter].setOutput(toOutputHighBurnupStructureFormation);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[55]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[55]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Intragranular similarity ratio");
 		sciantix_variable[sv_counter].setUOM("(/)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[64]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[64]);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[64]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[64]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Specific power");
 		sciantix_variable[sv_counter].setUOM("(MW/kg)");
-		sciantix_variable[sv_counter].setInitialValue(0.0);
-		sciantix_variable[sv_counter].setFinalValue(0.0);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(0.0);
+	sciantix_variable[sv_counter].setFinalValue(0.0);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Gap oxygen partial pressure");
 		sciantix_variable[sv_counter].setUOM("(MPa)");
-		sciantix_variable[sv_counter].setInitialValue(0.0);
-		sciantix_variable[sv_counter].setFinalValue(0.0);
 		sciantix_variable[sv_counter].setOutput(toOutputStoichiometryDeviation);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(0.0);
+	sciantix_variable[sv_counter].setFinalValue(0.0);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Stoichiometry deviation");
 		sciantix_variable[sv_counter].setUOM("(/)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[66]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[66]);
 		sciantix_variable[sv_counter].setOutput(toOutputStoichiometryDeviation);
-		++sv_counter;
-
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[66]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[66]);
+	++sv_counter;
+	
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Equilibrium stoichiometry deviation");
 		sciantix_variable[sv_counter].setUOM("(/)");
-		sciantix_variable[sv_counter].setInitialValue(0.0);
-		sciantix_variable[sv_counter].setFinalValue(0.0);
 		sciantix_variable[sv_counter].setOutput(toOutputStoichiometryDeviation);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(0.0);
+	sciantix_variable[sv_counter].setFinalValue(0.0);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Fuel oxygen partial pressure");
 		sciantix_variable[sv_counter].setUOM("(MPa)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[67]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[67]);
 		sciantix_variable[sv_counter].setOutput(toOutputStoichiometryDeviation);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[67]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[67]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Fuel oxygen potential");
 		sciantix_variable[sv_counter].setUOM("(KJ/mol)");
-		sciantix_variable[sv_counter].setInitialValue(0.0);
-		sciantix_variable[sv_counter].setFinalValue(0.0);
 		sciantix_variable[sv_counter].setOutput(toOutputStoichiometryDeviation);
-		++sv_counter;
-
+	}
+	sciantix_variable[sv_counter].setInitialValue(0.0);
+	sciantix_variable[sv_counter].setFinalValue(0.0);
+	++sv_counter;
+	
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Specific power");
 		sciantix_variable[sv_counter].setUOM("(MW/kg)");
-		sciantix_variable[sv_counter].setInitialValue(0.0);
-		sciantix_variable[sv_counter].setFinalValue(0.0);
 		sciantix_variable[sv_counter].setOutput(0);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(0.0);
+	sciantix_variable[sv_counter].setFinalValue(0.0);
+	++sv_counter;
 
-		// ------------------------------------------------------------------------------------------------
-		// HBS-related variables
-		// ------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------------------------
+	// HBS-related variables
+	// ------------------------------------------------------------------------------------------------
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("HBS porosity");
 		sciantix_variable[sv_counter].setUOM("(/)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[56]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[56]);
 		sciantix_variable[sv_counter].setOutput(toOutputHighBurnupStructureFormation);
-		++sv_counter;
-		
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[56]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[56]);
+	++sv_counter;
+
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("HBS pore density");
 		sciantix_variable[sv_counter].setUOM("(pores/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[80]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[80]);
 		sciantix_variable[sv_counter].setOutput(toOutputHighBurnupStructureFormation);
-		++sv_counter;
-		
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[80]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[80]);
+	++sv_counter;
+
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("HBS pore volume");
 		sciantix_variable[sv_counter].setUOM("(m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[81]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[81]);
 		sciantix_variable[sv_counter].setOutput(toOutputHighBurnupStructureFormation);
-		++sv_counter;
-		
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[81]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[81]);
+	++sv_counter;
+
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("HBS pore radius");
 		sciantix_variable[sv_counter].setUOM("(m)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[82]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[82]);
 		sciantix_variable[sv_counter].setOutput(toOutputHighBurnupStructureFormation);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[82]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[82]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe in HBS pores");
 		sciantix_variable[sv_counter].setUOM("(at/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[83]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[83]);
 		sciantix_variable[sv_counter].setOutput(toOutputHighBurnupStructureFormation);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[83]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[83]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe in HBS pores - variance");
 		sciantix_variable[sv_counter].setUOM("(at^2/m3)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[85]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[85]);
 		sciantix_variable[sv_counter].setOutput(toOutputHighBurnupStructureFormation);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[85]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[85]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe atoms per HBS pore");
 		sciantix_variable[sv_counter].setUOM("(at/pore)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[86]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[86]);
 		sciantix_variable[sv_counter].setOutput(toOutputHighBurnupStructureFormation);
-		++sv_counter;
+	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[86]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[86]);
+	++sv_counter;
 
+	if (sciantix_variable.size() < MAX_SCIANTIX_VARIABLE_SIZE)
+	{
 		sciantix_variable.emplace_back();
 		sciantix_variable[sv_counter].setName("Xe atoms per HBS pore - variance");
 		sciantix_variable[sv_counter].setUOM("(at^2/pore)");
-		sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[88]);
-		sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[88]);
 		sciantix_variable[sv_counter].setOutput(toOutputHighBurnupStructureFormation);
-		++sv_counter;
 	}
+	sciantix_variable[sv_counter].setInitialValue(Sciantix_variables[88]);
+	sciantix_variable[sv_counter].setFinalValue(Sciantix_variables[88]);
+	++sv_counter;
 
 	// ------------------------------------------------------------------------------------------------
 	// ------------------------------------------------------------------------------------------------

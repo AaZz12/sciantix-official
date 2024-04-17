@@ -24,6 +24,8 @@ void Sciantix(int Sciantix_options[],
 {
 	SetVariables(Sciantix_options, Sciantix_history, Sciantix_variables, Sciantix_scaling_factors, Sciantix_diffusion_modes);
 
+	// TransferVariable(Sciantix_variables) // Function to be included:
+
 	SetGas();
 
 	SetMatrix();
