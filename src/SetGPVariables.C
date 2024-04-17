@@ -159,15 +159,17 @@ void SetGPVariables()
     if ((sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue()) > 0) // to be changed
     {
         std::ifstream input_fileU1("../GPVariables/UpdatedCorrelation_VentedFraction.txt");
+        std::ifstream input_fileD1("../GPVariables/Derivative_VentedFraction.txt");
         std::ifstream input_fileS1("../GPVariables/StandardDeviation_VentedFraction.txt");
         std::vector<std::vector<double>> matrixUpdateVentedFraction = ReadValuesFromFile(input_fileU1);
+        std::vector<std::vector<double>> matrixDerivativeVentedFraction = ReadValuesFromFile(input_fileD1);
         std::vector<std::vector<double>> matrixStdDevVentedFraction = ReadValuesFromFile(input_fileS1);
 
         // Generate vectors
         std::vector<double> Fc_vector(100);
 
         double start_Fc = 0;
-        double end_Fc = 100;
+        double end_Fc = 52;
 
         double step_Fc = (end_Fc - start_Fc) / 99;
         
@@ -183,8 +185,15 @@ void SetGPVariables()
         double VentedFractionGP = linearInterpolation(matrixUpdateVentedFraction, Fc_vector, 100*sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue());
         VentedFractionGP = VentedFractionGP/100;
 
+        double DerivativeVentedFractionGP0 = linearInterpolation(matrixDerivativeVentedFraction, Fc_vector, 100*sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue());
+
+        double DerivativeVentedFractionGP = linearInterpolation(matrixDerivativeVentedFraction, Fc_vector, 100*sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue());
+
         sciantix_variable[sv["Intergranular vented fraction"]].setInitialValue(VentedFractionGP0);
         sciantix_variable[sv["Intergranular vented fraction"]].setFinalValue(VentedFractionGP);
+        sciantix_variable[sv["Intergranular vented fraction derivative"]].setInitialValue(DerivativeVentedFractionGP0);
+        sciantix_variable[sv["Intergranular vented fraction derivative"]].setFinalValue(DerivativeVentedFractionGP);
+
 
     }
     

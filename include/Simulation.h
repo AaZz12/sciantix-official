@@ -450,7 +450,7 @@ class Simulation : public Solver, public Model
 			sciantix_variable[sv["Intergranular atoms per bubble"]].resetValue();
 			sciantix_variable[sv["Intergranular bubble area"]].resetValue();
 			sciantix_variable[sv["Intergranular bubble concentration"]].resetValue();
-			sciantix_variable[sv["Intergranular vented fraction"]].resetValue(); // forse solo per coerenza, per vedere nel log l'incremento
+			//sciantix_variable[sv["Intergranular vented fraction"]].resetValue(); // forse solo per coerenza, per vedere nel log l'incremento
 		}
 
 		// vol = 0.0;
@@ -556,6 +556,9 @@ class Simulation : public Solver, public Model
 		{
 			if(physics_variable[pv["Time step"]].getFinalValue())
 			{
+				std::cout << "Derivative = " << sciantix_variable[sv["Intergranular vented fraction derivative"]].getFinalValue()*sciantix_variable[sv["Intergranular fractional coverage"]].getIncrement()<< std::endl;
+				std::cout << "Increment = " << sciantix_variable[sv["Intergranular vented fraction"]].getIncrement() << std::endl;
+
 				source_rate = (1.0 - sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue()) * (sciantix_variable[sv[system.getGasName() + " produced"]].getIncrement() - sciantix_variable[sv[system.getGasName() + " in grain"]].getIncrement() - sciantix_variable[sv[system.getGasName() + " decayed"]].getIncrement()) / physics_variable[pv["Time step"]].getFinalValue() - 
 						(sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() - sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue() - sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue()) * sciantix_variable[sv["Intergranular vented fraction"]].getIncrement() / physics_variable[pv["Time step"]].getFinalValue();
 				
