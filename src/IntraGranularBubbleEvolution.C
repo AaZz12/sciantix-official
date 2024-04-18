@@ -49,8 +49,8 @@ void IntraGranularBubbleEvolution()
 		sciantix_variable[sv["Intragranular bubble concentration"]].setInitialValue(7.0e23);
 		sciantix_variable[sv["Intragranular bubble radius"]].setInitialValue(1.0e-9);
 
-		sciantix_variable[sv["Intragranular bubble concentration"]].setFinalValue(7.0e23);
-		sciantix_variable[sv["Intragranular bubble radius"]].setFinalValue(1.0e-9);
+		sciantix_variable[sv["Intragranular bubble concentration"]].setConstant();
+		sciantix_variable[sv["Intragranular bubble radius"]].setConstant();
 
 		parameter.push_back(0.);
 		parameter.push_back(0.);

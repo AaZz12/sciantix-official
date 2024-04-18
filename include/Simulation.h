@@ -295,13 +295,14 @@ class Simulation : public Solver, public Model
 			{
 				if (sciantix_variable[sv["Intragranular bubble concentration"]].getFinalValue() > 0.0)
 					sciantix_variable[sv["Intragranular " + system.getGasName() + " atoms per bubble"]].setFinalValue(
-						sciantix_variable[sv[system.getGasName() + " in intragranular bubbles"]].getFinalValue() /
+						sciantix_variable[sv[system.getGasName() + " in intragranular bubbles"]].getInitialValue() /
 						sciantix_variable[sv["Intragranular bubble concentration"]].getFinalValue()
 					);
 
 				else
 					sciantix_variable[sv["Intragranular " + system.getGasName() + " atoms per bubble"]].setFinalValue(0.0);
 
+				sciantix_variable[sv["Intragranular bubble volume"]].setConstant();
 				sciantix_variable[sv["Intragranular bubble volume"]].addValue(
 					system.getVolumeInLattice() * sciantix_variable[sv["Intragranular " + system.getGasName() + " atoms per bubble"]].getFinalValue()
 				);
@@ -319,7 +320,7 @@ class Simulation : public Solver, public Model
 		);
 
 		if(sciantix_variable[sv["He in intragranular bubbles"]].getInitialValue() > 0.0)
-			sciantix_variable[sv["Intragranular similarity ratio"]].setFinalValue(sqrt(sciantix_variable[sv["He in intragranular bubbles"]].getFinalValue() / sciantix_variable[sv["He in intragranular bubbles"]].getInitialValue()));
+			sciantix_variable[sv["Intragranular similarity ratio"]].setFinalValue(sqrt(sciantix_variable[sv["He in intragranular bubbles"]].getInitialValue() / sciantix_variable[sv["He in intragranular bubbles"]].getInitialValue()));
 		else
 			sciantix_variable[sv["Intragranular similarity ratio"]].setFinalValue(0.0);
 	}
