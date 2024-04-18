@@ -6,9 +6,9 @@ name: Python application test
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "doc/input_explanation" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "doc/input_explanation" ]
 
 jobs:
   build:
