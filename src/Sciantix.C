@@ -26,6 +26,8 @@ void Sciantix(int Sciantix_options[],
 
 	TransferVariables(Sciantix_variables);
 
+    // std::vector<SciantixVariable>& sciantix_variable = GetSciantixVariables();
+
 	SetGas();
 
 	SetMatrix();
@@ -98,6 +100,12 @@ void Sciantix(int Sciantix_options[],
 	FiguresOfMerit();
 
 	UpdateVariables(Sciantix_variables, Sciantix_diffusion_modes);
+
+	// std::cout << "scoamtox" << std::endl;
+	// std::cout << sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() << std::endl;
+
+	// std::cout << sciantix_variable[sv["Fuel density"]].getInitialValue() << std::endl;
+	// std::cout << sciantix_variable[sv["Fuel density"]].getFinalValue() << std::endl;
 
 	Output();
 

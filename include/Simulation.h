@@ -52,7 +52,6 @@ class Simulation : public Solver, public Model
 
 	void Burnup()
 	{
-
 		/// @brief Burnup uses the solver Integrator to computes the fuel burnup from the local power density.
 		/// This method is called in Sciantix.cpp, after the definition of the Burnup model.
 		
@@ -63,6 +62,9 @@ class Simulation : public Solver, public Model
 				physics_variable[pv["Time step"]].getFinalValue()
 			)
 		);
+
+		// std::cout << "time step" << model[sm["Burnup"]].getParameter().at(0) << std::endl;
+		// std::cout << "time step" << physics_variable[pv["Time step"]].getFinalValue() << std::endl;
 
 		if(history_variable[hv["Fission rate"]].getFinalValue() > 0.0)
 			sciantix_variable[sv["Irradiation time"]].setFinalValue(
@@ -360,6 +362,10 @@ class Simulation : public Solver, public Model
 		sciantix_variable[sv["Intergranular bubble concentration"]].setFinalValue(
 			solver.BinaryInteraction(sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue(), 2.0, dbubble_area));
 
+		// std::cout << "simulation_gb" << std::endl;
+		// std::cout << sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue() << std::endl;
+		//std::cout << sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() << std::endl;
+
 		// Conservation
 		for (auto& system : sciantix_system)
 		{
@@ -370,6 +376,7 @@ class Simulation : public Solver, public Model
 				);
 			}
 		}
+		//std::cout << sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() << std::endl;
 
 		double n_at(0);
 		for (auto& system : sciantix_system)
@@ -382,6 +389,7 @@ class Simulation : public Solver, public Model
 		sciantix_variable[sv["Intergranular vacancies per bubble"]].rescaleFinalValue(
 			sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue() / sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue()
 		);
+		//std::cout << sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() << std::endl;
 
 		vol = 0.0;
 		for (auto& system : sciantix_system)
@@ -403,6 +411,7 @@ class Simulation : public Solver, public Model
 		sciantix_variable[sv["Intergranular fractional coverage"]].setFinalValue(
 			sciantix_variable[sv["Intergranular bubble area"]].getFinalValue() *
 			sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue());
+		//std::cout << sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() << std::endl;
 
 		// Intergranular gas release
 		//                          F0
@@ -421,6 +430,8 @@ class Simulation : public Solver, public Model
 			);
 		else
 			similarity_ratio = 1.0;
+
+		// std::cout << similarity_ratio << std::endl;
 
 		if (similarity_ratio < 1.0)
 		{
@@ -452,6 +463,7 @@ class Simulation : public Solver, public Model
 					sciantix_variable[sv[system.getGasName() + " at grain boundary"]].rescaleFinalValue(pow(similarity_ratio, 2.5));
 			}
 		}
+		//std::cout << sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() << std::endl;
 
 		// Calculation of the gas concentration arrived at the grain boundary, by mass balance.
 		for (auto& system : sciantix_system)
@@ -469,6 +481,9 @@ class Simulation : public Solver, public Model
 					sciantix_variable[sv[system.getGasName() + " released"]].setFinalValue(0.0);
 			}
 		}
+
+		// std::cout << "C" << std::endl;
+		//std::cout << sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() << std::endl;
 
 		// Intergranular gaseous swelling
 		sciantix_variable[sv["Intergranular gas swelling"]].setFinalValue(

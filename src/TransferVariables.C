@@ -57,6 +57,7 @@ void TransferVariables(double Sciantix_variables[])
 	sciantix_variable[sv["Intergranular bubble volume"]].setInitialValue(Sciantix_variables[33]);
 	sciantix_variable[sv["Intergranular fractional coverage"]].setInitialValue(Sciantix_variables[34]);
 	sciantix_variable[sv["Intergranular saturation fractional coverage"]].setInitialValue(Sciantix_variables[35]);
+	sciantix_variable[sv["Intergranular saturation fractional coverage"]].setConstant();
 	sciantix_variable[sv["Intergranular gas swelling"]].setInitialValue(Sciantix_variables[36]);
 	sciantix_variable[sv["Intergranular fractional intactness"]].setInitialValue(Sciantix_variables[37]);
 	sciantix_variable[sv["Burnup"]].setInitialValue(Sciantix_variables[38]);

@@ -24,6 +24,13 @@ void Burnup()
 	int modelIndex = model.size() - 1;
 	model[modelIndex].setName("Burnup");
 
+	sciantix_variable[sv["Fuel density"]].setConstant();
+	sciantix_variable[sv["U234"]].setConstant();
+	sciantix_variable[sv["U235"]].setConstant();
+	sciantix_variable[sv["U236"]].setConstant();
+	sciantix_variable[sv["U237"]].setConstant();
+	sciantix_variable[sv["U238"]].setConstant();
+
 	double fissionRate = history_variable[hv["Fission rate"]].getFinalValue();
 	double fuelDensity = sciantix_variable[sv["Fuel density"]].getFinalValue();
 	double specificPower = fissionRate * (3.12e-17) / fuelDensity;
@@ -31,6 +38,11 @@ void Burnup()
 	double burnup = specificPower / 86400.0; // specific power in MW/kg, burnup in MWd/kg
 	sciantix_variable[sv["Specific power"]].setFinalValue(specificPower);
 	
+	// std::cout << "BURNUP" << std::endl;
+	// std::cout << fissionRate << std::endl;
+	// std::cout << fuelDensity << std::endl;
+	// std::cout << specificPower << std::endl;
+
 	std::vector<double> parameter;
 	parameter.push_back(burnup);
 
