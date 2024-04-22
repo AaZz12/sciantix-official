@@ -249,6 +249,8 @@ class Simulation : public Solver, public Model
 			sciantix_variable[sv["Residual porosity"]].getFinalValue()) * (1 - sciantix_variable[sv["Densification factor"]].getFinalValue())
 		);
 
+
+		// Da aggiungere effetto swelling
 		sciantix_variable[sv["Porosity"]].addValue(sciantix_variable[sv["Fabrication porosity"]].getIncrement());
 
 		// sciantix_variable[sv["Open porosity"]].setFinalValue(sciantix_variable[sv["Open porosity"]].getFinalValue() *

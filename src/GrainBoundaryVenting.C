@@ -106,6 +106,7 @@ void GrainBoundaryVenting()
         */
 
         double open_porosity = openPorosity(sciantix_variable[sv["Fabrication porosity"]].getFinalValue());
+        sciantix_variable[sv["Open porosity"]].setFinalValue(open_porosity);
 
         sciantix_variable[sv["Intergranular venting probability"]].setFinalValue(
                 sf_dummy *
@@ -256,7 +257,7 @@ double openPorosity(double fabrication_porosity)
             */
             if (fabrication_porosity <= 1.0)
             {   double p_open;
-				p_open = 0.028/ (1.0 + exp(-500.0 * (fabrication_porosity - 0.055))) + 0.05*fabrication_porosity;
+				p_open = 0.028 / (1.0 + exp(- 500.0 * (fabrication_porosity - 0.055))) + 0.05*fabrication_porosity;
 
                 return(p_open);
             }
