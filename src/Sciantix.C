@@ -11,7 +11,7 @@
 //  Version: 2.0                                                                    //
 //  Year: 2022                                                                      //
 //  Authors: D. Pizzocri, G. Zullo.                                                 //
-//                                                                                  //
+//                                                                       S           //
 //////////////////////////////////////////////////////////////////////////////////////
 
 #include "Sciantix.h"
@@ -35,11 +35,15 @@ void Sciantix(int Sciantix_options[],
 	Burnup();
 	MapModel();
 	sciantix_simulation.Burnup();
-
+	
 	EffectiveBurnup();
 	MapModel();
 	sciantix_simulation.EffectiveBurnup();
-
+	
+	Densification();																
+	MapModel();
+	sciantix_simulation.Densification();
+	
 	EnvironmentComposition();
 	MapModel();
 

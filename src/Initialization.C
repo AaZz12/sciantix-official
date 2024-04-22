@@ -37,7 +37,7 @@ void Initialization()
 	Sciantix_history[10] = Steampressure_input[0];
 
 	// Sciantix_variables initialization
-	Sciantix_variables[25] = 2.0e+13;  // Intergranular_bubble_concentration[0]
+	Sciantix_variables[25] = 4.0e+13;  // Intergranular_bubble_concentration[0]
 	Sciantix_variables[35] = 0.5;      // Intergranular_saturation_fractional_coverage[0]
 	Sciantix_variables[37] = 1.0;      // Intergranular_fractional_intactness[0]
 
@@ -51,8 +51,11 @@ void Initialization()
 	// Intragranular similarity ratio
 	Sciantix_variables[64] = 1.0;
 
-    // Fabrication porosity
+  // Fabrication porosity
     Sciantix_variables[68] = 1.0 - Sciantix_variables[40] / 10960.0;
+
+	// Residual porosity
+		Sciantix_variables[89] = 0.75 * Sciantix_variables[68];
 
 	// projection on diffusion modes of the initial conditions
 	double initial_condition(0.0);

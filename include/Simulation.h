@@ -40,6 +40,7 @@
 #include "MapMatrix.h"
 #include "ConstantNumbers.h"
 #include "UO2Thermochemistry.h"
+#include "Densification.h"
 
 /// @brief
 /// Derived class representing the operations of SCIANTIX. The conjunction of the models with the implemented solvers results in the simulation.
@@ -225,6 +226,33 @@ class Simulation : public Solver, public Model
 				);
 			}
 		}
+	}
+
+	void Densification()
+	{
+
+		double dens_factor = solver.Decay(
+				sciantix_variable[sv["Densification factor"]].getInitialValue(),
+				model[sm["Densification"]].getParameter().at(0),
+				model[sm["Densification"]].getParameter().at(1),
+				sciantix_variable[sv["Burnup"]].getIncrement());
+
+		if (dens_factor < 1)
+			sciantix_variable[sv["Densification factor"]].setFinalValue(dens_factor);
+		else
+			sciantix_variable[sv["Densification factor"]].setFinalValue(1);
+
+		
+
+		sciantix_variable[sv["Fabrication porosity"]].setFinalValue(
+			sciantix_variable[sv["Residual porosity"]].getFinalValue() + (sciantix_variable[sv["Fabrication porosity"]].getFinalValue() - 
+			sciantix_variable[sv["Residual porosity"]].getFinalValue()) * (1 - sciantix_variable[sv["Densification factor"]].getFinalValue())
+		);
+
+		sciantix_variable[sv["Porosity"]].addValue(sciantix_variable[sv["Fabrication porosity"]].getIncrement());
+
+		// sciantix_variable[sv["Open porosity"]].setFinalValue(sciantix_variable[sv["Open porosity"]].getFinalValue() *
+		// 																										 (1 - sciantix_variable[sv["Densification factor"]].getFinalValue()));
 	}
 
 	void GrainGrowth()

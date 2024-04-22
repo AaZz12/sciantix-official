@@ -255,20 +255,8 @@ double openPorosity(double fabrication_porosity)
              * 
             */
             if (fabrication_porosity <= 1.0)
-            {
-                double x1_step1[3] = {0.0309254289000001, 50.5545836563236, -1};
-                double b1 = -0.76352583531298012787;
-                double IW1_1 = 2.4890484320254797623;
-                double b2 = 0.030657996141059989936;
-                double LW2_1 = 1.003372825212876851;
-                double y1_step1[3] = {-1, 63.2911366167282, 0.00091428483};
-        
-
-                fabrication_porosity = (fabrication_porosity - x1_step1[0]) * x1_step1[1] + x1_step1[2];
-                    double n = b1 + IW1_1 * fabrication_porosity;
-                    double a1 = 2 / (1 + exp(-2 * n)) - 1;
-                    double a2 = b2 + LW2_1 * a1;
-                    double p_open = (a2 - y1_step1[0]) / y1_step1[1] + y1_step1[2];
+            {   double p_open;
+				p_open = 0.028/ (1.0 + exp(-500.0 * (fabrication_porosity - 0.055))) + 0.05*fabrication_porosity;
 
                 return(p_open);
             }
