@@ -76,8 +76,8 @@ class sciantix_simulation():
             values = np.array(data[1:, j], dtype=float)
 
             # looking for value to map
-            i,j = np.where(values == mapped_value)
-            # i,j = np.where(np.isclose(values, mapped_value, atol=mapped_value/10))
+            # i,j = np.where(values == mapped_value)
+            i,j = np.where(np.isclose(values, mapped_value, atol=mapped_value/10))
             i = np.array(i, dtype=int)
 
             try:
@@ -114,9 +114,9 @@ final_time = 50000
 fission_rate = 3e18
 sigma_hyd = 0
 
-name="Intergranular fractional coverage (/)"
-# name = "Fission gas release (/)"
-fgr_mapp = 0.5
+# name="Intergranular fractional coverage (/)"
+name = "Fission gas release (/)"
+fgr_mapp = 0.02
 
 # map - no athermal release
 map_saturation_fractional_coverage.writeInputSettings(0)
@@ -135,7 +135,7 @@ map_saturation_fractional_coverage.writeInputSettings(3)
 temperature3, burnup3 = map_saturation_fractional_coverage.run_sciantix(0, final_time, 650, 1800, fission_rate, sigma_hyd, step=temperature_step, variable_name=name, mapped_value=fgr_mapp)
 
 # Map: Haleden threshold
-burnup = np.linspace(0.4, 30, 100)
+burnup = np.linspace(0.4, 50, 100)
 
 plt.plot(burnup, 9800 / np.log(burnup / 0.005), label = 'Halden threshold')
 
@@ -144,8 +144,8 @@ plt.plot(burnup1, temperature1, label = 'w/ vented fraction')
 plt.plot(burnup2, temperature2, label = 'w/ athermal release - Claisse')
 plt.plot(burnup3, temperature3, label = 'w/ athermal release - ann')
 
-plt.xlim([1, 16])
-plt.ylim([1200, 1800])
+# plt.xlim([1, 16])
+# plt.ylim([1200, 1800])
 
 plt.legend()
 

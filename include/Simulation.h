@@ -587,7 +587,7 @@ class Simulation : public Solver, public Model
 		sciantix_variable[sv["Intergranular saturation fractional coverage"]].setFinalValue(
 			solver.Decay(
 				sciantix_variable[sv["Intergranular saturation fractional coverage"]].getFinalValue(),
-				model[sm["Grain-boundary micro-cracking"]].getParameter().at(1) * (1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()),
+				- model[sm["Grain-boundary micro-cracking"]].getParameter().at(1) * (1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()),
 				0.0,
 				sciantix_variable[sv["Burnup"]].getIncrement()
 			)
@@ -647,8 +647,6 @@ class Simulation : public Solver, public Model
 	{
 		if (!int(input_variable[iv["iGrainBoundaryVenting"]].getValue())) return;
 
-		// Gas is vented by subtracting a fraction of the gas concentration at grain boundaries arrived from diffusion
-		// Bf = Bf - p_v * dB
 		for (std::vector<System>::size_type i = 0; i != sciantix_system.size(); ++i)
 		{
 			sciantix_variable[sv[sciantix_system[i].getGasName() + " at grain boundary"]].setFinalValue(
@@ -664,14 +662,10 @@ class Simulation : public Solver, public Model
 
 	void HighBurnupStructureFormation()
 	{
-		/// @brief
-		/// HighBurnupStructureFormation
-		/// HighBurnupStructureFormation is used to compute the local restructured volume fraction of the fuel, in the HBS region.
-
 		if (!int(input_variable[iv["iHighBurnupStructureFormation"]].getValue())) return;
 
 		// Restructuring rate:
-		// df / bu = 3.54 * 2.77e-7 * b^2.54 - 3.54 * 2.77e-7 * b^2.54 * f
+		// dalpha_r / bu = 3.54 * 2.77e-7 (1-alpha_r) b^2.54
 		double coefficient =
 			model[sm["High-burnup structure formation"]].getParameter().at(0) *
 			model[sm["High-burnup structure formation"]].getParameter().at(1) *
