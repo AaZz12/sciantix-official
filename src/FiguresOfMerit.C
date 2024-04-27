@@ -24,6 +24,13 @@ void FiguresOfMerit()
    * 
    */
 
+  // Intergranular gaseous swelling
+		sciantix_variable[sv["Intergranular gas swelling"]].setFinalValue(
+			sciantix_variable[sv["Intergranular S/V"]].getFinalValue() *
+			sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() *
+			sciantix_variable[sv["Intergranular bubble volume"]].getFinalValue()
+		);
+
   /// Fission gas release 
   if (sciantix_variable[sv["Xe produced"]].getFinalValue() + sciantix_variable[sv["Kr produced"]].getFinalValue() > 0.0)
     sciantix_variable[sv["Fission gas release"]].setFinalValue(
