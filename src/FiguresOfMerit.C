@@ -26,6 +26,7 @@ void FiguresOfMerit()
 
   // Intergranular gaseous swelling
 		sciantix_variable[sv["Intergranular gas swelling"]].setFinalValue(
+      sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()*
 			sciantix_variable[sv["Intergranular S/V"]].getFinalValue() *
 			sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() *
 			sciantix_variable[sv["Intergranular bubble volume"]].getFinalValue()
