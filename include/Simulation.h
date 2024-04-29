@@ -391,15 +391,15 @@ class Simulation : public Solver, public Model
 		///	
 
 		///Print matrix and set 0 if nan
-		std::cout << "Matrix:" << std::endl;
+		//std::cout << "Matrix:" << std::endl;
 		for (int i = 0; i < rows; ++i) {
 			for (int j = 0; j < rows; ++j) {
 				if (std::isnan(matrixGB[i][j])) {
 					matrixGB[i][j] = 0.0;
 				}
-				std::cout << matrixGB[i][j] << "\t";
+				//std::cout << matrixGB[i][j] << "\t";
 			}
-			std::cout << std::endl;
+			//std::cout << std::endl;
 		}
 
 		
@@ -415,12 +415,12 @@ class Simulation : public Solver, public Model
 		///
 
 		///Print vector and set 0 if nan
-		std::cout << "The vector b is: \n"<<std::endl;
+		//std::cout << "The vector b is: \n"<<std::endl;
 		for (int i = 0; i < rows; ++i) {
 			if (std::isnan(initialGB[i])) {
 				initialGB[i] = 0.0;
 			}
-			std::cout << initialGB[i] << std::endl;
+			//std::cout << initialGB[i] << std::endl;
 		}
 
 		////Solution of Ax=b////
@@ -466,12 +466,17 @@ class Simulation : public Solver, public Model
 		}
 
 		//Prints out the solution vector x.
-		std::cout << "The solution vector x is: \n"<<std::endl;
+		//std::cout << "The solution vector x is: \n"<<std::endl;
 		for (int i = 0; i < rows; i++){
-			std::cout << x[i] << std::endl;
+			//std::cout << x[i] << std::endl;
 		}
 
-
+		// Verdolin
+		const double pi = CONSTANT_NUMBERS_H::MathConstants::pi;
+		double neqlim = 10;
+		double nface = 14;
+		double Nlim = 0.5*neqlim*nface /(4*pi*pow(sciantix_variable[sv["Grain radius"]].getFinalValue(),2));
+		
 		//NEW substitution
 		sciantix_variable[sv["Intergranular bubble volume"]].setFinalValue(x[0]);
 		sciantix_variable[sv["Intergranular bubble area"]].setFinalValue(x[1]);
@@ -479,13 +484,23 @@ class Simulation : public Solver, public Model
 			sciantix_variable[sv["Intergranular bubble concentration"]].setFinalValue(x[2]);
 			sciantix_variable[sv["Intergranular fractional coverage"]].setFinalValue(x[3]);
 		}
-		else
-		{
+		else{
 			sciantix_variable[sv["Intergranular bubble concentration"]].setConstant();
 			sciantix_variable[sv["Intergranular fractional coverage"]].setFinalValue(
 				sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue()*
 				sciantix_variable[sv["Intergranular bubble area"]].getFinalValue()
 			);
+			std::cout << "	\nBubble area decreases" << std::endl;
+			std::cout << "N without oneoff =    " << x[2] << std::endl;
+			std::cout << "N with oneoff =    " << sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue() << std::endl;
+		}
+
+		if (sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue()<Nlim){
+			std::cout << "	\nVerdolin limit" << std::endl;
+			std::cout << "Nlim =    " << Nlim << std::endl;
+			std::cout << "Settings: " << std::endl;
+			std::cout << "bubbles/face =    " << neqlim << std::endl;
+			std::cout << "number of faces =    " << nface << std::endl;
 		}
 
 		sciantix_variable[sv["Intergranular bubble radius"]].setFinalValue(
@@ -500,7 +515,7 @@ class Simulation : public Solver, public Model
 			(1.0 - sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()) + sciantix_variable[sv["Intergranular vented fraction"]].getFinalValue() * sciantix_variable[sv["Intergranular fractional intactness"]].getFinalValue()
 		);
 
-		std::cout << "	\nGasRelease" << std::endl;
+		//std::cout << "	\nGasRelease" << std::endl;
 
 		// dB/dt
 		double source_rate(0.0), decay_rate(0.0);
@@ -512,7 +527,7 @@ class Simulation : public Solver, public Model
 				source_rate = (1.0 - sciantix_variable[sv["Intergranular venting probability"]].getFinalValue()) * (sciantix_variable[sv[system.getGasName() + " produced"]].getIncrement() - sciantix_variable[sv[system.getGasName() + " in grain"]].getIncrement() - sciantix_variable[sv[system.getGasName() + " decayed"]].getIncrement()) / physics_variable[pv["Time step"]].getFinalValue() - 
 						(sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() - sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue() - sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue()) * sciantix_variable[sv["Intergranular venting probability"]].getIncrement() / physics_variable[pv["Time step"]].getFinalValue();
 				
-				std::cout << "Source rate = " << source_rate << std::endl;
+				//std::cout << "Source rate = " << source_rate << std::endl;
 			}
 			sciantix_variable[sv[system.getGasName() + " at grain boundary"]].setFinalValue(
 				solver.Decay(
@@ -523,8 +538,8 @@ class Simulation : public Solver, public Model
 				)
 			);
 		
-		std::cout << "B_i  =    " << sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getInitialValue() << std::endl;
-		std::cout << "B_f  =    " << sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue() << std::endl;
+		//std::cout << "B_i  =    " << sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getInitialValue() << std::endl;
+		//std::cout << "B_f  =    " << sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getFinalValue() << std::endl;
 		//std::cout << "d_B  =    " << sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getIncrement() << std::endl;
 		sciantix_variable[sv[system.getGasName() + " at grain boundary"]].resetValue();
 		}
