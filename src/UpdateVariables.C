@@ -16,13 +16,13 @@
 
 #include "UpdateVariables.h"
 
-/// UpdateVariables
-
 void UpdateVariables(double Sciantix_variables[], double Sciantix_diffusion_modes[])
 {
 	Sciantix_variables[0] = sciantix_variable[sv["Grain radius"]].getFinalValue();
 	Sciantix_variables[1] = sciantix_variable[sv["Xe produced"]].getFinalValue();
+	Sciantix_variables[100] = sciantix_variable[sv["Xe produced in HBS"]].getFinalValue();
 	Sciantix_variables[2] = sciantix_variable[sv["Xe in grain"]].getFinalValue();
+	Sciantix_variables[92] = sciantix_variable[sv["Xe in grain HBS"]].getFinalValue();
 	Sciantix_variables[3] = sciantix_variable[sv["Xe in intragranular solution"]].getFinalValue();
 	Sciantix_variables[4] = sciantix_variable[sv["Xe in intragranular bubbles"]].getFinalValue();
 	Sciantix_variables[5] = sciantix_variable[sv["Xe at grain boundary"]].getFinalValue();
@@ -44,7 +44,8 @@ void UpdateVariables(double Sciantix_variables[], double Sciantix_diffusion_mode
 	Sciantix_variables[21] = sciantix_variable[sv["Intragranular Xe atoms per bubble"]].getFinalValue();
 	Sciantix_variables[22] = sciantix_variable[sv["Intragranular Kr atoms per bubble"]].getFinalValue();
 	Sciantix_variables[23] = sciantix_variable[sv["Intragranular He atoms per bubble"]].getFinalValue();
-	Sciantix_variables[24] = sciantix_variable[sv["Intragranular gas swelling"]].getFinalValue();
+	Sciantix_variables[24] = sciantix_variable[sv["Intragranular gas bubble swelling"]].getFinalValue();
+	Sciantix_variables[68] = sciantix_variable[sv["Intragranular gas solution swelling"]].getFinalValue();
 	Sciantix_variables[25] = sciantix_variable[sv["Intergranular bubble concentration"]].getFinalValue();
 	Sciantix_variables[26] = sciantix_variable[sv["Intergranular Xe atoms per bubble"]].getFinalValue();
 	Sciantix_variables[27] = sciantix_variable[sv["Intergranular Kr atoms per bubble"]].getFinalValue();
@@ -88,9 +89,7 @@ void UpdateVariables(double Sciantix_variables[], double Sciantix_diffusion_mode
 	Sciantix_variables[65] = sciantix_variable[sv["Irradiation time"]].getFinalValue();
 	Sciantix_variables[66] = sciantix_variable[sv["Stoichiometry deviation"]].getFinalValue();
 	Sciantix_variables[67] = sciantix_variable[sv["Fuel oxygen partial pressure"]].getFinalValue();
-	Sciantix_variables[68] = sciantix_variable[sv["Fabrication porosity"]].getFinalValue();
-	Sciantix_variables[69] = sciantix_variable[sv["Open porosity"]].getFinalValue();
-	Sciantix_variables[70] = sciantix_variable[sv["Porosity"]].getFinalValue();
+	Sciantix_variables[69] = sciantix_variable[sv["FIMA"]].getFinalValue();
 	Sciantix_variables[80] = sciantix_variable[sv["HBS pore density"]].getFinalValue();
 	Sciantix_variables[81] = sciantix_variable[sv["HBS pore volume"]].getFinalValue();
 	Sciantix_variables[82] = sciantix_variable[sv["HBS pore radius"]].getFinalValue();
@@ -99,11 +98,13 @@ void UpdateVariables(double Sciantix_variables[], double Sciantix_diffusion_mode
 	Sciantix_variables[86] = sciantix_variable[sv["Xe atoms per HBS pore"]].getFinalValue();
 	Sciantix_variables[88] = sciantix_variable[sv["Xe atoms per HBS pore - variance"]].getFinalValue();
 	Sciantix_variables[89] = sciantix_variable[sv["Residual porosity"]].getFinalValue();
-	Sciantix_variables[90] = sciantix_variable[sv["Densification factor"]].getFinalValue();
+	Sciantix_variables[70] = sciantix_variable[sv["Porosity"]].getFinalValue();
+	Sciantix_variables[71] = sciantix_variable[sv["Fabrication porosity"]].getFinalValue();
+	Sciantix_variables[72] = sciantix_variable[sv["Open porosity"]].getFinalValue();
 
 	for (int i = 0; i < n_modes; ++i)
 	{
-		Sciantix_diffusion_modes[i] = modes_initial_conditions[i];
+		Sciantix_diffusion_modes[i] = modes_initial_conditions[i]; // Xe in UO2
 		Sciantix_diffusion_modes[1 * n_modes + i] = modes_initial_conditions[1 * n_modes + i];
 		Sciantix_diffusion_modes[2 * n_modes + i] = modes_initial_conditions[2 * n_modes + i];
 		Sciantix_diffusion_modes[3 * n_modes + i] = modes_initial_conditions[3 * n_modes + i];
@@ -118,5 +119,8 @@ void UpdateVariables(double Sciantix_variables[], double Sciantix_diffusion_mode
 		Sciantix_diffusion_modes[12 * n_modes + i] = modes_initial_conditions[12 * n_modes + i];
 		Sciantix_diffusion_modes[13 * n_modes + i] = modes_initial_conditions[13 * n_modes + i];
 		Sciantix_diffusion_modes[14 * n_modes + i] = modes_initial_conditions[14 * n_modes + i];
+		Sciantix_diffusion_modes[15 * n_modes + i] = modes_initial_conditions[15 * n_modes + i]; // Xe in UO2 HBS
+		Sciantix_diffusion_modes[16 * n_modes + i] = modes_initial_conditions[16 * n_modes + i]; // Xe in UO2 HBS - solution
+		Sciantix_diffusion_modes[17 * n_modes + i] = modes_initial_conditions[17 * n_modes + i]; // Xe in UO2 HBS - bubbles
 	}
 }

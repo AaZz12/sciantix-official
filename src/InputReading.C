@@ -79,17 +79,23 @@ void InputReading()
 	/// It is highly recommended checking this file, since eventual errors
 	/// are reported in it.
 
-	std::ifstream input_settings;
-	std::ifstream input_initial_conditions;
-	std::ifstream input_history;
-	std::ifstream input_scaling_factors;
-	std::ofstream input_check;
+	std::ofstream input_check("input_check.txt", std::ios::out);
 
-	input_check.open("input_check.txt", std::ios::out);
-	input_settings.open("input_settings.txt");
-	input_initial_conditions.open("input_initial_conditions.txt");
-	input_history.open("input_history.txt");
-	input_scaling_factors.open("input_scaling_factors.txt");
+	// Abort execution if any of the input files does not exist
+	std::ifstream input_settings("input_settings.txt", std::ios::in);
+	if (!input_settings)
+		ErrorMessages::MissingInputFile("input_settings.txt");
+
+	std::ifstream input_initial_conditions("input_initial_conditions.txt", std::ios::in);
+	if (!input_initial_conditions)
+		ErrorMessages::MissingInputFile("input_initial_conditions.txt");
+
+	std::ifstream input_history("input_history.txt", std::ios::in);
+	if (!input_history)
+		ErrorMessages::MissingInputFile("input_history.txt");
+	
+	// This is optional so no error if not present
+	std::ifstream input_scaling_factors("input_scaling_factors.txt", std::ios::in);
 
 	/**
 	 * @brief
@@ -203,10 +209,10 @@ void InputReading()
 	Sciantix_options[19] = ReadOneSetting("iHeliumProductionRate", input_settings, input_check);
 	Sciantix_options[20] = ReadOneSetting("iStoichiometryDeviation", input_settings, input_check);
 	Sciantix_options[21] = ReadOneSetting("iBubbleDiffusivity",input_settings,input_check);
-
+	
 	if (!input_initial_conditions.fail())
 	{
-		Sciantix_variables[0] = ReadOneParameter("Initial grain radius", input_initial_conditions, input_check);
+		Sciantix_variables[0] = ReadOneParameter("Grain radius[0]", input_initial_conditions, input_check);
 
 		std::vector<double> initial_composition_Xe;
 		initial_composition_Xe = ReadSeveralParameters("Initial composition Xe", input_initial_conditions, input_check);
@@ -276,7 +282,7 @@ void InputReading()
 		Sciantix_variables[62] = initial_composition_Kr85m[5];
 		Sciantix_variables[63] = initial_composition_Kr85m[6];
 
-		Sciantix_variables[66] = ReadOneParameter("Initial stoichiometry deviation", input_initial_conditions, input_check);
+		Sciantix_variables[66] = ReadOneParameter("Initial stoichiometry deviation[0]", input_initial_conditions, input_check);
 	}
 
 	int n = 0;

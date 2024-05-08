@@ -79,17 +79,11 @@ def do_plot(label_x, label_y, experimental_data_x, experimental_data_y, calculat
 
 	# 1st plot
 	fig, ax = plt.subplots(1,1)
-	plt.subplots_adjust(left=0.1,
-						bottom=0.1,
-						right=0.9,
-						top=0.9,
-						wspace=0.34,
-						hspace=0.4)
 
 	ax.set_xlabel(label_x)
 	ax.set_ylabel(label_y)
 	ax.plot(experimental_data_x, experimental_data_y, 'o', color = '#B3B3B3', label='Experimental')
-	ax.plot(calculations_x, calculations_y, '--', color = 'black', linewidth = 1, label='SCIANTIX 2.0')
+	ax.plot(calculations_x, calculations_y, color = 'green', linewidth = 1, label='SCIANTIX 2.0')
 	ax.set_frame_on(True)
 	ax.legend()
 	ax.legend(loc='best')
@@ -163,11 +157,14 @@ def regression_hbs(wpath, mode_HBS, mode_gold, mode_plot, folderList, number_of_
 			porosity = data[1:,porosityPos].astype(float)
 			poreRadius = data[1:,poreRadiusPos].astype(float)
 
+			# sciantix dictionary
+			sd = sciantix_dictionary('output.txt')
+
 			# Check if the user has chosen to display the various plots
 			if mode_plot == 1:
 
 				do_plot(
-					'Burnup (GWd tHM${}^{-1}$)',
+					'Effective burnup (MWd kgHM${}^{-1}$)',
 					'Pore number density (pores m${}^{-3}$)',
 					exp_pore_density[:,0],
 					exp_pore_density[:,1],
@@ -176,7 +173,7 @@ def regression_hbs(wpath, mode_HBS, mode_gold, mode_plot, folderList, number_of_
 				)
 
 				do_plot(
-					'Burnup (GWd tHM${}^{-1}$)',
+					'Effective burnup (MWd kgHM${}^{-1}$)',
 					'HBS porosity (/)',
 					exp_porosity[:,0],
 					exp_porosity[:,1],
@@ -185,14 +182,77 @@ def regression_hbs(wpath, mode_HBS, mode_gold, mode_plot, folderList, number_of_
 				)
 
 				do_plot(
-					'Burnup (GWd tHM${}^{-1}$)',
+					'Effective burnup (MWd kgHM${}^{-1}$)',
 					'Pore radius (m)',
 					exp_pore_radius[:,0],
 					exp_pore_radius[:,1],
 					burnup,
 					poreRadius
 				)
+
+				# plot: burnup - Xe grain NR + HBS (%)
+				def lassmann_fit(x, threshold=60):
+					"""
+					K. Lassmann et al. / Journal of Nuclear Materials 226 (1995) 1-8
+					"""
+					result = []
+					for value in x:
+						if value < threshold:
+							result.append(1.46e-2 * value)  # linear increase
+						else:
+							result.append(1.46e-2 * (1/0.0584 + (60 - 1/0.0584) * np.exp(-0.0584 * (value - 60)))) # exponential decrease
+					return result
+
+				bu_gwd_tu = np.linspace(0, 200, 1000)
+
+				fig, ax1 = plt.subplots()
+				eq = 4.88897e26
+
+				# Data from Walker
+				data_walker = np.genfromtxt('walker_data_1999.txt')
+				data_bu = data_walker[1:, 0]
+				data_xe = data_walker[1:, 1]
+
+				ax1.plot(bu_gwd_tu, lassmann_fit(bu_gwd_tu), color='darkorchid', linestyle='--', label='Lassmann fit (bu$_0$ = 60 GWd/tU)')
+				ax1.scatter(data_bu, data_xe, color='navy', edgecolors='black', marker='.', label='Walker data (1999)')
+				ax1.plot(sd["bu"] / 0.8814, sd["xe_ig"] / eq, color='limegreen', linestyle='-.', label='Xe in grains - non HBS')
+				ax1.plot(sd["bu"] / 0.8814, sd["xe_igHBS"] / eq, color='orangered', linestyle=':', label='Xe in grains - HBS')
+				ax1.plot(sd["bu"] / 0.8814, (sd["xe_igHBS"] + sd["xe_ig"]) / eq, color='dimgray', linestyle='-', label='Xe in grains - sum')
+				ax1.legend(loc='upper right', fontsize='medium')
+				ax1.set_xlabel('Burnup (GWd/tU)', fontsize='large')
+				ax1.set_ylabel('Xe in grains (wt%)', color='black', fontsize='large')
+				ax1.set_ylim(0, 1.75)
+				ax2 = ax1.twinx()
+				ax2.plot(sd["bu"], sd["alpha"], color='gold', linestyle='--', label='Restructured volume fraction (/)')
+				ax2.set_ylabel('Restructured volume fraction (/)', color='black', fontsize='large')
+				plt.legend(fontsize='medium')
+				plt.tight_layout()
+				plt.show()
+
+				# plot: burnup - fuel swelling
+
+				# Data from Walker
+				data_spino = np.genfromtxt('spino_swelling_data.txt')
+				data_bu = data_spino[1:, 0]
+				data_swe = data_spino[1:, 1]
 				
+				fig, ax1 = plt.subplots()
+				ax1.plot(sd["bu"] / 0.8814, 0.00303 * sd["fima"], color='indianred', linestyle='-.', label='Solid fission products (from Olander correlation)')
+				ax1.plot(sd["bu"] / 0.8814, sd["swe_igs"], color='orchid', linestyle='-.', label='SCIANTIX gas solution')
+				ax1.plot(sd["bu"] / 0.8814, sd["swe_igb"], color='darkgreen', linestyle='-.', label='SCIANTIX gas bubble')
+				ax1.plot(sd["bu"] / 0.8814, sd["swe_igs"] + sd["swe_igb"] + 0.0032 * sd["fima"], color='darkblue', linestyle='-', label='Total')
+				ax1.scatter(data_bu, data_swe, color='navy', edgecolors='black', marker='.', label='Spino et al. data (2005)')
+				ax1.legend(loc='upper right', fontsize='medium')
+				ax1.set_xlabel('Burnup (GWd/tU)', fontsize='large')
+				ax1.set_ylabel('Fuel matrix swelling (/)', color='black', fontsize='large')
+				ax1.set_xlim(0, 145)
+				ax2 = ax1.twinx()
+				ax2.plot(sd["bu"], sd["alpha"], color='gold', linestyle='--', label='Restructured volume fraction (/)')
+				ax2.set_ylabel('Restructured volume fraction (/)', color='black', fontsize='large')
+				plt.legend(fontsize='medium')
+				plt.tight_layout()
+				plt.show()
+			
 			os.chdir('..')
 
 	return folderList, number_of_tests, number_of_tests_failed

@@ -14,6 +14,9 @@
 //                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef GAS_PRODUCTION_H
+#define GAS_PRODUCTION_H
+
 #include "ModelDeclaration.h"
 #include "SystemDeclaration.h"
 #include "MapSystem.h"
@@ -22,9 +25,8 @@
 #include "MapPhysicsVariable.h"
 
 void GasProduction();
+/**
+ * Calculates the concentration of fission gas (Xe+Kr) produced by fission reactions in the fuel.
+ */
 
-
-
-
-
-
+#endif // GAS_PRODUCTION_H

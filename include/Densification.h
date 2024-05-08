@@ -14,6 +14,9 @@
 //                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef DENSIFICATION_H
+#define DENSIFICATION_H
+
 #include "SciantixVariableDeclaration.h"
 #include "MapSciantixVariable.h"
 #include "ModelDeclaration.h"
@@ -22,4 +25,13 @@
 #include "MapMatrix.h"
 
 void Densification();
+/**
+ * This function defines the SCIANTIX model *Densification*.
+ *
+ * @author
+ * A. Pagani
+ * G. Zullo
+ * 
+ */ 
 
+#endif // DENSIFICATION_H

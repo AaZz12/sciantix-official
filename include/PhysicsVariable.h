@@ -13,12 +13,11 @@
 //  Authors: D. Pizzocri, G. Zullo.                                                 //
 //                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////
+
 #ifndef PHYSICS_VARIABLE_H
 #define PHYSICS_VARIABLE_H
 
 #include "Variable.h"
-
-/// Derived class inherited by Variable
 
 class PhysicsVariable : virtual public Variable
 {
@@ -107,4 +106,4 @@ public:
 
 };
 
-#endif
+#endif // PHYSICS_VARIABLE_H

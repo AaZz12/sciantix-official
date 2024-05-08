@@ -14,6 +14,9 @@
 //                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////
 
+#ifndef GRAIN_BOUNDARY_VENTING_H
+#define GRAIN_BOUNDARY_VENTING_H
+
 #include "SciantixVariableDeclaration.h"
 #include "HistoryVariableDeclaration.h"
 #include "ModelDeclaration.h"
@@ -23,5 +26,17 @@
 #include "MapHistoryVariable.h"
 
 void GrainBoundaryVenting();
+
 double openPorosity(double fabrication_porosity);
+
 double athermalVentingFactor(double open_p, double theta, double p, double l, double bu, double T, double F);
+/**
+ * @brief This function computes the athermal venting factor with a ANN-based fitting function
+ * 
+ * @author
+ * A. Pagani
+ * G. Zullo
+ * 
+*/
+
+#endif // GRAIN_BOUNDARY_VENTING_H

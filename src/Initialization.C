@@ -37,7 +37,7 @@ void Initialization()
 	Sciantix_history[10] = Steampressure_input[0];
 
 	// Sciantix_variables initialization
-	Sciantix_variables[25] = 4.0e+13;  // Intergranular_bubble_concentration[0]
+	Sciantix_variables[25] = 2.0e+13;  // Intergranular_bubble_concentration[0]
 	Sciantix_variables[35] = 0.5;      // Intergranular_saturation_fractional_coverage[0]
 	Sciantix_variables[37] = 1.0;      // Intergranular_fractional_intactness[0]
 
@@ -51,14 +51,11 @@ void Initialization()
 	// Intragranular similarity ratio
 	Sciantix_variables[64] = 1.0;
 
-  	// Fabrication porosity
-    Sciantix_variables[68] = 1.0 - Sciantix_variables[40] / 10960.0;
-
-	// Porosity
-	Sciantix_variables[70] = Sciantix_variables[68];
+  	// Fabrication porosity = Porosity
+    Sciantix_variables[71] = Sciantix_variables[70] = 1.0 - Sciantix_variables[40] / 10960.0;
 
 	// Residual porosity
-	Sciantix_variables[89] = 0.75 * Sciantix_variables[68];
+	Sciantix_variables[89] = 0.75 * Sciantix_variables[71];
 
 	// projection on diffusion modes of the initial conditions
 	double initial_condition(0.0);
@@ -91,6 +88,10 @@ void Initialization()
 		case 12: initial_condition = Sciantix_variables[58]; break;  // Kr85m in grain
 		case 13: initial_condition = Sciantix_variables[59]; break;  // Kr85m in grain - solution
 		case 14: initial_condition = Sciantix_variables[60]; break;  // Kr85m in grain - bubbles
+		
+		case 15: initial_condition = Sciantix_variables[92]; break;  // Xe in UO2 HBS
+		case 16: initial_condition = Sciantix_variables[93]; break;  // Xe in UO2 HBS - solution
+		case 17: initial_condition = Sciantix_variables[94]; break;  // Xe in UO2 HBS - bubbles
 
 		default: initial_condition = 0.0; break;
 		}

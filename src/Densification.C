@@ -18,25 +18,17 @@
 
 void Densification()
 {	
-	/**
-	 * @brief This function defines the sciantix model *Densification*.
-	 * 
-	 *
-	 * @author A. Pagani
-	 */ 
-
 	model.emplace_back();
 	int model_index = int(model.size()) - 1;
 	model[model_index].setName("Densification");
 
 	std::vector<double> parameter;
 
-	parameter.push_back(2);	/*Decay rate*/
-	parameter.push_back(0.006*exp(0.002*history_variable[hv["Temperature"]].getFinalValue()));	/*Source term*/
-
+	parameter.push_back(2.0);
+	parameter.push_back(0.006*exp(0.002*history_variable[hv["Temperature"]].getFinalValue()));
 
 	model[model_index].setParameter(parameter);
-	model[model_index].setRef("Megafit da PVU PhD");
+	model[model_index].setRef("Fit from P. Van Uffelen PhD thesis (2002) athermal release analysis");
 }
 
 

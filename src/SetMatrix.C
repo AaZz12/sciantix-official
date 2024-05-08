@@ -18,11 +18,6 @@
 
 void SetMatrix( )
 {
-  /**
-   * @brief This routine defines the available options for fuel matrices and their properties.
-   * 
-   */
-
 	switch (int(input_variable[iv["iFuelMatrix"]].getValue()))
 	{
 		case 0: 
@@ -35,6 +30,9 @@ void SetMatrix( )
 
 		case 1: 
 		{
+			UO2();
+			MapMatrix();
+			
 			UO2HBS();
 			MapMatrix();
 
@@ -42,7 +40,7 @@ void SetMatrix( )
 		}
 		
 		default:
-			ErrorMessages::Switch("SetMatrix.cpp", "iFuelMatrix", int(input_variable[iv["iFuelMatrix"]].getValue()));
+			ErrorMessages::Switch(__FILE__, "iFuelMatrix", int(input_variable[iv["iFuelMatrix"]].getValue()));
 			break;
 	}
 }
@@ -58,7 +56,7 @@ void Matrix::setGrainBoundaryMobility(int input_value)
 		 * 
 		*/
 
-		reference += "no grain-boundary mobility.\n\t";
+		reference += ": Null grain-boundary mobility.\n\t";
 		grain_boundary_mobility = 0.0;
 
 		break;
@@ -70,7 +68,7 @@ void Matrix::setGrainBoundaryMobility(int input_value)
 		 * @brief iGrainGrowth = 1 corresponds to the Ainscough et al. (1973) grain-boundary mobility
 		 * 
 		*/
-		reference += "Ainscough et al., JNM, 49 (1973) 117-128.\n\t";
+		reference += ": Ainscough et al., JNM, 49 (1973) 117-128.\n\t";
 		grain_boundary_mobility = 1.455e-8 * exp(- 32114.5 / history_variable[hv["Temperature"]].getFinalValue());
 		break;
 	}
@@ -82,13 +80,13 @@ void Matrix::setGrainBoundaryMobility(int input_value)
 		 * 
 		*/
 
-		reference += "Van Uffelen et al. JNM, 434 (2013) 287–29.\n\t";
+		reference += ": Van Uffelen et al. JNM, 434 (2013) 287-29.\n\t";
 		grain_boundary_mobility = 1.360546875e-15 * exp(- 46524.0 / history_variable[hv["Temperature"]].getFinalValue());
 		break;
 	}
 
 	default:
-		ErrorMessages::Switch("SetMatrix.cpp", "iGrainGrowth", input_value);
+		ErrorMessages::Switch(__FILE__, "iGrainGrowth", input_value);
 		break;
 	}
 }
@@ -161,27 +159,26 @@ void Matrix::setGrainBoundaryVacancyDiffusivity(int input_value)
 		}
 
 		default:
-			ErrorMessages::Switch("SetMatrix.cpp", "iGrainBoundaryVacancyDiffusivity", input_value);
+			ErrorMessages::Switch(__FILE__, "iGrainBoundaryVacancyDiffusivity", input_value);
 			break;
-			
 	}
 }
 
 void Matrix::setPoreNucleationRate()
 {
-  /**
-   * @brief nucleation rate of HBS pores.
-   * This model is from @ref *Barani et al., JNM 563 (2022) 153627*.
-   *
-   */
+	/**
+	 * @brief nucleation rate of HBS pores.
+	 * This model is from @ref *Barani et al., JNM 563 (2022) 153627*.
+	 *
+	 */
 
-  double sf_nucleation_rate_porosity = 1.25e-6;
+	double sf_nucleation_rate_porosity = 1.25e-6; // from dburnup to dtime
 
-  pore_nucleation_rate =
-		(5.0e17 * 2.77e-7 * 3.54 * (1.0-sciantix_variable[sv["Restructured volume fraction"]].getFinalValue()) *
-    pow(sciantix_variable[sv["Effective burnup"]].getFinalValue(), 2.54));
+	pore_nucleation_rate =
+			(5.0e17 * 2.77e-7 * 3.54 * (1.0-sciantix_variable[sv["Restructured volume fraction"]].getFinalValue()) *
+		pow(sciantix_variable[sv["Effective burnup"]].getFinalValue(), 2.54));
 
-  pore_nucleation_rate *= sf_nucleation_rate_porosity;
+	pore_nucleation_rate *= sf_nucleation_rate_porosity;
 }
 
 void Matrix::setPoreResolutionRate()
@@ -203,16 +200,16 @@ void Matrix::setPoreResolutionRate()
  
 void Matrix::setPoreTrappingRate()
 {
-  /**
-   * @brief trapping rate of gas atoms in HBS pores.
-   * This model is from @ref *Barani et al., JNM 563 (2022) 153627*.
-   *
-   */
+	/**
+	 * @brief trapping rate of gas atoms in HBS pores.
+	 * This model is from @ref *Barani et al., JNM 563 (2022) 153627*.
+	 *
+	 */
 
-  const double pi = CONSTANT_NUMBERS_H::MathConstants::pi;
-	
-  pore_trapping_rate = 4.0 * pi * matrix[sma["UO2HBS"]].getGrainBoundaryVacancyDiffusivity() *
-    sciantix_variable[sv["Xe at grain boundary"]].getFinalValue() *
-    sciantix_variable[sv["HBS pore radius"]].getFinalValue() *
-    (1.0 + 1.8 * pow(sciantix_variable[sv["HBS porosity"]].getFinalValue(), 1.3));
+	const double pi = CONSTANT_NUMBERS_H::MathConstants::pi;
+
+	pore_trapping_rate = 4.0 * pi * matrix[sma["UO2HBS"]].getGrainBoundaryVacancyDiffusivity() *
+	sciantix_variable[sv["Xe at grain boundary"]].getFinalValue() *
+	sciantix_variable[sv["HBS pore radius"]].getFinalValue() *
+	(1.0 + 1.8 * pow(sciantix_variable[sv["HBS porosity"]].getFinalValue(), 1.3));
 }

@@ -10,7 +10,7 @@
 //                                                                                  //
 //  Version: 2.0                                                                    //
 //  Year: 2022                                                                      //
-//  Authors: D. Pizzocri, G. Zullo, A. Magni, E. Redaelli                           //
+//  Authors: D. Pizzocri, G. Zullo.                                                 //
 //                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////
 
@@ -18,9 +18,6 @@
 
 void HighBurnupStructureFormation()
 {
-	/// @brief
-	/// HighBurnupStructureFormation
-	/// This model describes the formation of a HBS structure in UO2 fuel.
 	model.emplace_back();
 
 	int model_index = int(model.size()) - 1;
@@ -38,7 +35,7 @@ void HighBurnupStructureFormation()
 		/// iHighBurnupStructureFormation == 0
 		/// ----------------------------------
 		///
-		/// This case corresponds to the no HBS forming in the UO2 fuel matrix.
+		/// No HBS forming in the UO2 fuel matrix.
 
 		reference += ": not considered.";
 		parameter.push_back(0.0);
@@ -78,7 +75,7 @@ void HighBurnupStructureFormation()
 	}
 
 	default:
-		ErrorMessages::Switch("HighBurnupStructureFormation.cpp", "iHighBurnupStructureFormation", int(input_variable[iv["iHighBurnupStructureFormation"]].getValue()));
+		ErrorMessages::Switch(__FILE__, "iHighBurnupStructureFormation", int(input_variable[iv["iHighBurnupStructureFormation"]].getValue()));
 		break;
 	}
 

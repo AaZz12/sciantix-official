@@ -10,9 +10,12 @@
 //                                                                                  //
 //  Version: 2.0                                                                    //
 //  Year: 2022                                                                      //
-//  Authors: G. Zullo, G. Petrosillo                                                //
+//  Authors: D. Pizzocri, G. Zullo.                                                 //
 //                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////
+
+#ifndef ENVIRONMENT_COMPOSITION_H
+#define ENVIRONMENT_COMPOSITION_H
 
 #include "SciantixVariableDeclaration.h"
 #include "HistoryVariableDeclaration.h"
@@ -20,4 +23,21 @@
 #include "MapSciantixVariable.h"
 #include "MapHistoryVariable.h"
 
-void EnvironmentComposition( );
+void EnvironmentComposition();
+/**
+ * @brief Evaluates the oxygen partial pressure in an external environment.
+ * 
+ * This function calculates the oxygen partial pressure in an environment external to the fuel,
+ * assuming the presence of pure steam without cladding or full oxidation.
+ * This estimation is used to determine the UO2 equilibrium oxygen partial pressure and stoichiometry,
+ * in connection with macroscopic models for UO2+x.
+ * 
+ * @ref Lewis et al. JNM 227 (1995) 83-109
+ * 
+ * @author
+ * G. Petrosillo
+ * G. Zullo
+ * 
+ */
+
+#endif // ENVIRONMENT_COMPOSITION_H
