@@ -181,29 +181,6 @@ void System::setFissionGasDiffusivity(int input_value)
 	case 4:
 	{
 		/**
-		 * @brief iFGDiffusionCoefficient = 4 set the xenon single-atom intragranular diffusivity equal to the expression 
-		 * in @ref *iFGDiffusionCoefficient: Ronchi, C. High Temp 45, 552-571 (2007)*.
-		 * 
-		 */
-
-		reference += "iFGDiffusionCoefficient: Ronchi, C. High Temp 45, 552-571 (2007).\n\t";
-
-		double temperature = history_variable[hv["Temperature"]].getFinalValue();
-		double fission_rate = history_variable[hv["Fission rate"]].getFinalValue();
-
-		double d1 = 7.6e-10 * exp(-4.86e-19 / (boltzmann_constant * temperature));
-		double d2 = 6.64e-25 * sqrt(fission_rate) * exp(-1.91e-19 / (boltzmann_constant * temperature));
-		double d3 = 1.2e-39 * fission_rate;
-
-		diffusivity = d1 + d2 + d3;
-		diffusivity *= sf_diffusivity;
-
-		break;
-	}
-
-	case 5:
-	{
-		/**
 		 * @brief this case is for the UO2HBS. value from @ref Barani et al. Journal of Nuclear Materials 539 (2020) 152296
 		 * 
 		 */
@@ -215,7 +192,7 @@ void System::setFissionGasDiffusivity(int input_value)
 		break;
 	}
 
-	case 6:
+	case 5:
 	{
 		/**
 		 * @brief iFGDiffusionCoefficient = 1 sets the fission gas single-atom intragranular diffusivity equal to the expression 
@@ -245,6 +222,7 @@ void System::setFissionGasDiffusivity(int input_value)
 		diffusivity = d1 + d2 + d3 + d4;
 
 		diffusivity *= sf_diffusivity;
+		reference += "Turnbull et al (1988), IWGFPT-32, Preston, UK, Sep 18-22, Lidiard, A. B. (1966). Self-diffusion of uranium in UO2. JNM, 19(1), 106–108.\n\t";
 
 		break;		
 	}
@@ -259,6 +237,29 @@ void System::setFissionGasDiffusivity(int input_value)
 
 		reference += "iFGDiffusionCoefficient: Test case: zero diffusion coefficient.\n\t";
 		diffusivity = 0.0;
+
+		break;
+	}
+
+	case 6:
+	{
+		/**
+		 * @brief iFGDiffusionCoefficient = 6 set the fission gas (xenon and krypton) single-atom intragranular diffusivity equal to the expression 
+		 * in @ref *Matthews, C., et al. (2020). JNM, 540, 152326*.
+		 * 
+		 */
+
+		reference += "iFGDiffusionCoefficient: Matthews, C., et al. (2020). JNM, 540, 152326.\n\t";
+
+		double T = history_variable[hv["Temperature"]].getFinalValue();
+		double F = history_variable[hv["Fission rate"]].getFinalValue();
+
+		double d1 = 2.22e-7 * exp(-37820.0/T) / (1.0+29.0*exp(-21346.0/T));
+		double d2 =  2.82e-22 * exp(-23202.0/T) * sqrt(F);
+		double d3 = 8.5e-40 * F;
+
+		diffusivity = d1 + d2 + d3;
+		diffusivity *= sf_diffusivity;
 
 		break;
 	}
@@ -670,7 +671,7 @@ void System::setProductionRate(int input_value)
 		break;
 	}
 
-	case 5:
+	case 4:
 	{
 		/**
 		 * @brief Production rate = cumulative yield * fission rate density * HBS volume fraction
