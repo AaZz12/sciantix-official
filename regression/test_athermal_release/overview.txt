@@ -17,7 +17,7 @@ Model	Gas diffusion - He in UO2
 Model	Gas diffusion - Xe133 in UO2	
 Model	Gas diffusion - Kr85m in UO2	
 Model	Grain-boundary micro-cracking	from Barani et al. (2017), JNM
-Model	Grain-boundary venting	Athermal release
+Model	Grain-boundary venting	not considered.
 Model	Intergranular bubble evolution	: Pastore et al., NED, 256 (2013) 75-86.
 
 Matrix	UO2	
@@ -68,7 +68,7 @@ Input setting	iGrainBoundaryVacancyDiffusivity = 1
 Input setting	iGrainBoundaryBehaviour = 1
 Input setting	iGrainBoundaryMicroCracking = 1
 Input setting	iFuelMatrix = 0
-Input setting	iGrainBoundaryVenting = 3
+Input setting	iGrainBoundaryVenting = 0
 Input setting	iRadioactiveFissionGas = 0
 Input setting	iHelium = 0
 Input setting	iHeDiffusivity = 0

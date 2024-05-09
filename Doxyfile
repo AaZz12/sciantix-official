@@ -5,7 +5,7 @@
 # 
 # Instructions:
 #		The SCIANTIX source code is usually organized in folders, for sake of simplicity.
-#			src/ contains the C++ source files (*.cpp)
+#			src/ contains the C++ source files (*.C)
 #			include / contains the C++ header files (*.h)
 #		
 #		Open a shell (e.g., a terminal) In the folder that contains this file.
