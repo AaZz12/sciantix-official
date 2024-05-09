@@ -96,4 +96,23 @@ void FiguresOfMerit()
     );
   else
     sciantix_variable[sv["Intergranular bubble pressure"]].setFinalValue(0.0);
+
+  std::cout << "p bubble = "<< sciantix_variable[sv["Intergranular bubble pressure"]].getFinalValue()* 1e6<<std::endl;
+  std::cout << "p equilibrium = "<< 2.0 * matrix[sma["UO2"]].getSurfaceTension() / sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue() -
+				history_variable[hv["Hydrostatic stress"]].getFinalValue() * 1e6<<std::endl;
+
+  //   //// Intergranular bubble pressure
+  //   std::cout<< "p_bubble =    " <<1e-6 *boltzmann_constant * history_variable[hv["Temperature"]].getFinalValue() *
+  //       sciantix_variable[sv["Intergranular atoms per bubble"]].getInitialValue() /
+  //       (sciantix_variable[sv["Intergranular vacancies per bubble"]].getInitialValue() * matrix[sma["UO2"]].getSchottkyVolume())<<std::endl;
+    
+  //   std::cout<< "p_bubbleF =    " << sciantix_variable[sv["Intergranular bubble pressure"]].getFinalValue()<<std::endl;
+  //   std::cout<<"critical p_bubble =    " <<sciantix_variable[sv["Critical intergranular bubble pressure"]].getInitialValue()<<std::endl;
+  //   std::cout<<"critical p_bubbleF =    " <<sciantix_variable[sv["Critical intergranular bubble pressure"]].getFinalValue()<<std::endl;
+  //   std::cout<<"Ratio =    " << (1e-6 *boltzmann_constant * history_variable[hv["Temperature"]].getFinalValue() *
+  //       sciantix_variable[sv["Intergranular atoms per bubble"]].getInitialValue() /
+  //       (sciantix_variable[sv["Intergranular vacancies per bubble"]].getInitialValue() * matrix[sma["UO2"]].getSchottkyVolume()))/
+  //       sciantix_variable[sv["Critical intergranular bubble pressure"]].getInitialValue()<<std::endl;
+  // }
+
 }
