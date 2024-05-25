@@ -30,7 +30,7 @@ void UO2()
 	matrix[index].setRef("\n\t");
 	matrix[index].setTheoreticalDensity(10960.0); // (kg/m3)
 	matrix[index].setGrainBoundaryMobility(int(input_variable[iv["iGrainGrowth"]].getValue()));
-	matrix[index].setSurfaceTension(0.7); // (N/m)
+	matrix[index].setSurfaceTension(0.89-1.4*1e-4*history_variable[hv["Temperature"]].getFinalValue()); // (N/m)
 	matrix[index].setFFinfluenceRadius(1.0e-9); // (m)
 	matrix[index].setFFrange(6.0e-6); // (m)
 	matrix[index].setSchottkyVolume(4.09e-29);

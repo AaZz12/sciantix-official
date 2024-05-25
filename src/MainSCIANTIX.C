@@ -44,10 +44,15 @@
 #include "TimeStepCalculation.h"
 #include <iostream>
 #include <fstream>
+#include <streambuf>
 #include <ctime>
 
 int main()
 {
+	std::ofstream logFile("output.log");
+    std::streambuf* coutBuf = std::cout.rdbuf();
+    std::cout.rdbuf(logFile.rdbuf());
+
 	InputReading();
 
 	Initialization();
@@ -90,6 +95,8 @@ int main()
 
 	Execution_file << std::setprecision(12) << std::scientific << (double)timer / CLOCKS_PER_SEC << "\t" << CLOCKS_PER_SEC << "\t" << (double)timer << "\t" << Time_step_number << std::endl;
 	Execution_file.close();
+	
+	std::cout.rdbuf(coutBuf);
 
 	return 0;
 

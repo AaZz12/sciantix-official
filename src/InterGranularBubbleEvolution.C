@@ -161,7 +161,7 @@ void InterGranularBubbleEvolution()
 		double equilibrium_pressure(0), equilibrium_term(0);
 		if (sciantix_variable[sv["Intergranular bubble radius"]].getInitialValue())
 		{
-			equilibrium_pressure = 2.0 * matrix[sma["UO2"]].getSurfaceTension() / sciantix_variable[sv["Intergranular bubble radius"]].getInitialValue() -
+			equilibrium_pressure = 2.0 * matrix[sma["UO2"]].getSurfaceTension() * (1-cos(matrix[sma["UO2"]].getSemidihedralAngle())) / sciantix_variable[sv["Intergranular bubble radius"]].getInitialValue() -
 				history_variable[hv["Hydrostatic stress"]].getFinalValue() * 1e6;
 
 			equilibrium_term = -volume_flow_rate * equilibrium_pressure /
