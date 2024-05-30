@@ -46,7 +46,7 @@ void GrainBoundaryRupture()
     // Polynomial fit for the (dimensionless) stress intensity factor
     // @ref Jernkvist 2019      : Fi = (+ 0.568Fc**2 + 0.059Fc + 0.5587)*pi
     double factor = pi * (0.568 * pow(sciantix_variable[sv["Integranular fractional coverage"]].getFinalValue(),2) + 0.059 * sciantix_variable[sv["Integranular fractional coverage"]].getFinalValue() + 0.5587);
-    double spacing = pow(pi/sciantix_variable[sv["Integranular fractional coverage"]].getFinalValue(),0.5)*sciantix_variable[sv["Integranular bubble radius"]].getFinalValue()/2;
+    double spacing = sqrt(pi/sciantix_variable[sv["Integranular fractional coverage"]].getFinalValue())*sciantix_variable[sv["Integranular bubble radius"]].getFinalValue()/2;
     double shearmodulus = E/(2*(1+nu));
     double equilibriumpressure = 2.0 * matrix[sma["UO2"]].getSurfaceTension()*(1-cos(matrix[sma["UO2"]].getSemidihedralAngle())) / sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue() -
 				history_variable[hv["Hydrostatic stress"]].getFinalValue() * 1e6;
@@ -61,6 +61,8 @@ void GrainBoundaryRupture()
     sciantix_variable[sv["Critical intergranular bubble pressure"]].setFinalValue(critical_bubble_pressure * 1e-6);
     sciantix_variable[sv["Equilibrium bubble pressure"]].setFinalValue(equilibriumpressure * 1e-6);
     if (history_variable[hv["Temperature"]].getIncrement()!=0){
+        std::cout << "Surface tension (J/m2) = "<< matrix[sma["UO2"]].getSurfaceTension() <<std::endl;
+        std::cout << "Elastic modulus (MPa) = "<< E*1e-6 <<std::endl;
         std::cout << "Capillary pressure = "<< 2.0 * matrix[sma["UO2"]].getSurfaceTension() / sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue() <<std::endl;
         std::cout << "Capillary pressure by  (Jernkvist 2020) = "<< 2.0 * matrix[sma["UO2"]].getSurfaceTension()*(1-cos(matrix[sma["UO2"]].getSemidihedralAngle()))/ sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue() <<std::endl;
         std::cout << "Critical pressure by J2019: "<<critical_bubble_pressure<<std::endl;

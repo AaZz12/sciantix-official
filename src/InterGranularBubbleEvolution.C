@@ -50,45 +50,6 @@ void InterGranularBubbleEvolution()
 
 	case 1:
 	{
-		// Gas is distributed among bubbles
-		// n(at/bub) = c(at/m3) / (N(bub/m2) S/V(1/m))
-
-
-		// int ngas = gas.size();
-		// int rows = 5+ngas;
-		// std::vector<double> initialx(rows, 0.0);
-
-		
-		// std::vector<double> B0;
-
-		// for (auto& system : sciantix_system)
-		// {
-		// 	B0.push_back(sciantix_variable[sv[system.getGasName() + " at grain boundary"]].getInitialValue());
-		// }
-
-		// for (int row=0;row<ngas;++row)
-		// {
-		// 	initialx[row]=B0[row];
-		// }
-		// initialx[ngas]=(sciantix_variable[sv["Intergranular bubble volume"]].getInitialValue());
-		// initialx[ngas+1]=(sciantix_variable[sv["Intergranular bubble area"]].getInitialValue());
-		// initialx[ngas+2]=(sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue());
-		// initialx[ngas+3]=(sciantix_variable[sv["Intergranular fractional coverage"]].getInitialValue());
-		// initialx[ngas+4]=(sciantix_variable[sv["Intergranular vented fraction"]].getInitialValue());
-
-		// for (int j = 0; j < rows; ++j) {
-		// 	// Check if the element is NaN
-		// 	if (std::isnan(initialx[j])) {
-		// 		// Replace NaN with zero
-		// 		initialx[j] = 0.0;
-		// 	}
-		// }
-
-		// std::cout << "The vector xo is: \n"<<std::endl;
-		// for (size_t i = 0; i < initialx.size(); ++i) {
-		// 	std::cout << initialx[i] << std::endl;
-		// }
-
 		double n_at(0);
 		for (auto& system : sciantix_system)
 		{
