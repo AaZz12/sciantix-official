@@ -105,7 +105,7 @@ void FiguresOfMerit()
   // double nu =  matrix[sma["UO2"]].getPoissonRatio();
   // double G_gb =  matrix[sma["UO2"]].getGrainBoundaryFractureEnergy();
 
-  // double spacing = pow(CONSTANT_NUMBERS_H::MathConstants::pi/sciantix_variable[sv["Integranular fractional coverage"]].getFinalValue(),0.5)*sciantix_variable[sv["Integranular bubble radius"]].getFinalValue()/2;
+  // double spacing = pow(CONSTANT_NUMBERS_H::MathConstants::pi/sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue(),0.5)*sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue()/2;
   // double shearmodulus = E/(2*(1+nu));
   // double equilibriumpressure = 2.0 * matrix[sma["UO2"]].getSurfaceTension()*(1-cos(matrix[sma["UO2"]].getSemidihedralAngle()))/ sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue() -
 	// 		history_variable[hv["Hydrostatic stress"]].getFinalValue() * 1e6;
