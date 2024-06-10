@@ -26,4 +26,7 @@ void SetGas()
 	
 	Helium();
 	MapGas();
+
+	Iodine();
+	MapGas();
 }

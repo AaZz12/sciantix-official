@@ -28,6 +28,10 @@
 #include "Kr85m_in_UO2.h"
 #include "He_in_UO2.h"
 #include "Xe_in_UO2HBS.h"
+#include "I131_in_UO2.h"
+#include "I133_in_UO2.h"
+#include "I_in_UO2.h"
+
 
 #include <vector>
 

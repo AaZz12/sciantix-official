@@ -893,9 +893,12 @@ class Simulation : public Solver, public Model
 		if(gas_name == "Xe")
 			return &modes_initial_conditions[0];
 		else if(gas_name == "Kr")
+
 			return &modes_initial_conditions[3 * 40];
+
 		else if(gas_name == "He")
 			return &modes_initial_conditions[6 * 40];
+
 		else if(gas_name == "Xe133")
 			return &modes_initial_conditions[9 * 40];
 
@@ -904,6 +907,15 @@ class Simulation : public Solver, public Model
 			
 		else if (gas_name == "Xe in HBS")
 			return &modes_initial_conditions[15 * 40];
+		
+		else if (gas_name == "I")
+			return &modes_initial_conditions[18 * 40];
+
+		else if (gas_name == "I131")
+			return &modes_initial_conditions[21 * 40];
+		
+		else if (gas_name == "I133")
+			return &modes_initial_conditions[24 * 40];
 
 		else
 		{
@@ -931,6 +943,15 @@ class Simulation : public Solver, public Model
 			
 		else if (gas_name == "Xe in HBS")
 			return &modes_initial_conditions[16 * 40];
+
+		else if (gas_name == "I")
+			return &modes_initial_conditions[20 * 40];
+
+		else if (gas_name == "I131")
+			return &modes_initial_conditions[23 * 40];
+		
+		else if (gas_name == "I133")
+			return &modes_initial_conditions[26 * 40];
 		else
 		{
 			std::cerr << "Error: Invalid gas name \"" << gas_name << "\" in Simulation::getDiffusionModesSolution." << std::endl;
@@ -954,6 +975,15 @@ class Simulation : public Solver, public Model
 
 		else if (gas_name == "Kr85m")
 			return &modes_initial_conditions[14 * 40];
+
+		else if (gas_name == "I")
+			return &modes_initial_conditions[19 * 40];
+
+		else if (gas_name == "I131")
+			return &modes_initial_conditions[22 * 40];
+		
+		else if (gas_name == "I133")
+			return &modes_initial_conditions[25 * 40];
 
 		else
 		{
