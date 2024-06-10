@@ -24,6 +24,8 @@ void Sciantix(int Sciantix_options[],
 {
 	SetVariables(Sciantix_options, Sciantix_history, Sciantix_variables, Sciantix_scaling_factors, Sciantix_diffusion_modes);
 
+	// std::cout << "egalite" << std::endl;
+
 	Simulation sciantix_simulation;
 	
 	// sciantix_simulation.SheathTemperatureUpdate();
@@ -37,7 +39,7 @@ void Sciantix(int Sciantix_options[],
 	// sciantix_simulation.PressureEvolution();
 	// sciantix_simulation.GasDecay();
 
-	FiguresOfMerit();
+	// FiguresOfMerit();
 
 	UpdateVariables(Sciantix_variables, Sciantix_diffusion_modes);
 
@@ -45,8 +47,5 @@ void Sciantix(int Sciantix_options[],
 
 	history_variable.clear();
 	sciantix_variable.clear();
-	sciantix_system.clear();
 	physics_variable.clear();
-	model.clear();
-	gas.clear();
 }

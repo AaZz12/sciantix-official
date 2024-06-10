@@ -68,8 +68,8 @@ int main()
 		Sciantix_history[0] = Sciantix_history[1];
 		Sciantix_history[1] = InputInterpolation(Time_h, Time_input, Temperature_input, Input_history_points);
 
-		std::cout << Time_h << std::endl;
-		std::cout << Time_end_h << std::endl;
+		// std::cout << Time_h << std::endl;
+		// std::cout << Time_end_h << std::endl;
 
 		// release rate
 		Sciantix_history[2] = Sciantix_history[3];
@@ -83,13 +83,13 @@ int main()
 		// std::cout << Time_end_h << std::endl;
 
 		dTime_h = TimeStepCalculation();
-		Sciantix_history[8] = dTime_h * 3600;
+		Sciantix_history[6] = dTime_h * 3600;
 
 		if (Time_h < Time_end_h)
 		{
 			Time_step_number++;
 			Time_h += dTime_h;
-			Time_s += Sciantix_history[8];
+			Time_s += Sciantix_history[6];
 		}
 		else break;
 	}

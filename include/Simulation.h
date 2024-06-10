@@ -87,6 +87,9 @@ class Simulation : public Solver, public Model
 
 	void GasInGap()
 	{
+
+		std::cout << history_variable[sv["Release rate from fuel"]].getFinalValue() << std::endl;
+
 		// dN / dt = q - (L+E)N
 		sciantix_variable[sv["Xe gap"]].setFinalValue(
 			solver.Decay(

@@ -96,7 +96,11 @@ void InputReading()
 	
 	// This is optional so no error if not present
 	std::ifstream input_scaling_factors("input_scaling_factors.txt", std::ios::in);
-	
+
+	Sciantix_options[0] = ReadOneSetting("iOutput", input_settings, input_check);
+	Sciantix_options[1] = ReadOneSetting("iOption2", input_settings, input_check);
+	Sciantix_options[2] = ReadOneSetting("iOption3", input_settings, input_check);
+
 	if (!input_initial_conditions.fail())
 	{
 		std::vector<double> initial_composition_Xe;
@@ -112,13 +116,13 @@ void InputReading()
 	int n = 0;
 	while (!input_history.eof())
 	{
+		input_history >> Time_input[n];
 		input_history >> Temperature_input[n];
 		input_history >> Release_rate_fuel_input[n];
-		input_history >> Time_input[n];
 
+		input_check << Time_input[n] << "\t";
 		input_check << Temperature_input[n] << "\t";
 		input_check << Release_rate_fuel_input[n] << "\t";
-		input_check << Time_input[n] << "\t";
 
 		input_check << std::endl;
 
@@ -132,6 +136,9 @@ void InputReading()
 	
 	Time_end_h = Time_input[Input_history_points - 1];
 	Time_end_s = Time_end_h * 3600.0;
+
+
+	// std::cout << Time_end_h << std::endl;
 
 	Sciantix_scaling_factors[0] = 1.0;
 	Sciantix_scaling_factors[1] = 1.0;
