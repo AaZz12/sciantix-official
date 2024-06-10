@@ -39,14 +39,14 @@ void SetSystem()
 			Kr85m_in_UO2();
 			MapSystem();
 
-			I_in_UO2();
-			MapSystem();
+			// I_in_UO2();
+			// MapSystem();
 
 			I131_in_UO2();
 			MapSystem();
 
-			I133_in_UO2();
-			MapSystem();
+			// I133_in_UO2();
+			// MapSystem();
 						
 			break;
 		}

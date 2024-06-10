@@ -71,6 +71,8 @@ void Sciantix(int Sciantix_options[],
 	MapModel();
 	sciantix_simulation.GasProduction();
 
+	// std::cout << sciantix_variable[sv["I131 produced"]].getFinalValue() << std::endl;
+
 	sciantix_simulation.GasDecay();
 
 	IntraGranularBubbleEvolution();

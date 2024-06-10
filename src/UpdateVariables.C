@@ -99,12 +99,12 @@ void UpdateVariables(double Sciantix_variables[], double Sciantix_diffusion_mode
 	Sciantix_variables[85] = sciantix_variable[sv["Xe in HBS pores - variance"]].getFinalValue();
 	Sciantix_variables[86] = sciantix_variable[sv["Xe atoms per HBS pore"]].getFinalValue();
 	Sciantix_variables[88] = sciantix_variable[sv["Xe atoms per HBS pore - variance"]].getFinalValue();
-	Sciantix_variables[101] = sciantix_variable[sv["I produced"]].getFinalValue();
-	Sciantix_variables[102] = sciantix_variable[sv["I in grain"]].getFinalValue();
-	Sciantix_variables[103] = sciantix_variable[sv["I in intragranular solution"]].getFinalValue();
-	Sciantix_variables[104] = sciantix_variable[sv["I in intragranular bubbles"]].getFinalValue();
-	Sciantix_variables[105] = sciantix_variable[sv["I at grain boundary"]].getFinalValue();
-	Sciantix_variables[106] = sciantix_variable[sv["I released"]].getFinalValue();	
+	// Sciantix_variables[101] = sciantix_variable[sv["I produced"]].getFinalValue();
+	// Sciantix_variables[102] = sciantix_variable[sv["I in grain"]].getFinalValue();
+	// Sciantix_variables[103] = sciantix_variable[sv["I in intragranular solution"]].getFinalValue();
+	// Sciantix_variables[104] = sciantix_variable[sv["I in intragranular bubbles"]].getFinalValue();
+	// Sciantix_variables[105] = sciantix_variable[sv["I at grain boundary"]].getFinalValue();
+	// Sciantix_variables[106] = sciantix_variable[sv["I released"]].getFinalValue();	
 	Sciantix_variables[107] = sciantix_variable[sv["I131 produced"]].getFinalValue();
 	Sciantix_variables[108] = sciantix_variable[sv["I131 in grain"]].getFinalValue();
 	Sciantix_variables[109] = sciantix_variable[sv["I131 in intragranular solution"]].getFinalValue();
@@ -112,13 +112,13 @@ void UpdateVariables(double Sciantix_variables[], double Sciantix_diffusion_mode
 	Sciantix_variables[111] = sciantix_variable[sv["I131 decayed"]].getFinalValue();
 	Sciantix_variables[112] = sciantix_variable[sv["I131 at grain boundary"]].getFinalValue();
 	Sciantix_variables[113] = sciantix_variable[sv["I131 released"]].getFinalValue();
-	Sciantix_variables[114] = sciantix_variable[sv["I133 produced"]].getFinalValue();
-	Sciantix_variables[115] = sciantix_variable[sv["I133 in grain"]].getFinalValue();
-	Sciantix_variables[116] = sciantix_variable[sv["I133 in intragranular solution"]].getFinalValue();
-	Sciantix_variables[117] = sciantix_variable[sv["I133 in intragranular bubbles"]].getFinalValue();
-	Sciantix_variables[118] = sciantix_variable[sv["I133 decayed"]].getFinalValue();
-	Sciantix_variables[119] = sciantix_variable[sv["I133 at grain boundary"]].getFinalValue();
-	Sciantix_variables[120] = sciantix_variable[sv["I133 released"]].getFinalValue();
+	// Sciantix_variables[114] = sciantix_variable[sv["I133 produced"]].getFinalValue();
+	// Sciantix_variables[115] = sciantix_variable[sv["I133 in grain"]].getFinalValue();
+	// Sciantix_variables[116] = sciantix_variable[sv["I133 in intragranular solution"]].getFinalValue();
+	// Sciantix_variables[117] = sciantix_variable[sv["I133 in intragranular bubbles"]].getFinalValue();
+	// Sciantix_variables[118] = sciantix_variable[sv["I133 decayed"]].getFinalValue();
+	// Sciantix_variables[119] = sciantix_variable[sv["I133 at grain boundary"]].getFinalValue();
+	// Sciantix_variables[120] = sciantix_variable[sv["I133 released"]].getFinalValue();
 
 	for (int i = 0; i < n_modes; ++i)
 	{
