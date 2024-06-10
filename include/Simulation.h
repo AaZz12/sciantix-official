@@ -726,6 +726,26 @@ class Simulation : public Solver, public Model
 
 		if (!input_variable[iv["iGrainBoundaryMicroCracking"]].getValue()) return;
 
+		// InterGranularBubbleBehaviour();
+		// GrainBoundaryRupture();
+		// const double boltzmann_constant = CONSTANT_NUMBERS_H::PhysicsConstants::boltzmann_constant;
+    	// const double pi = CONSTANT_NUMBERS_H::MathConstants::pi;
+	
+		// double n_at(0);
+		// for (auto& system : sciantix_system)
+		// {
+		// 	if (gas[ga[system.getGasName()]].getDecayRate() == 0.0 && system.getRestructuredMatrix() == 0)
+		// 	{	
+		// 		double source = sciantix_variable[sv[system.getGasName() + " produced"]].getFinalValue() - sciantix_variable[sv[system.getGasName() + " in grain"]].getFinalValue() - sciantix_variable[sv[system.getGasName() + " decayed"]].getFinalValue();
+				
+		// 		n_at += source/(sciantix_variable[sv["Intergranular bubble concentration"]].getInitialValue()*sciantix_variable[sv["Intergranular S/V"]].getFinalValue());
+		// 	}
+		// }
+
+		// double bubble_pressure = (boltzmann_constant*history_variable[hv["Temperature"]].getFinalValue() *
+      	// 	n_at / (sciantix_variable[sv["Intergranular vacancies per bubble"]].getFinalValue() * matrix[sma["UO2"]].getSchottkyVolume()));
+    
+
 		// ODE for the intergranular fractional intactness: this equation accounts for the reduction of the intergranular fractional intactness following a temperature transient
 		// df / dT = - dm/dT f
 		sciantix_variable[sv["Intergranular fractional intactness"]].setFinalValue(
@@ -735,6 +755,19 @@ class Simulation : public Solver, public Model
 				history_variable[hv["Temperature"]].getIncrement()
 			)
 		);
+		// double tau = 2.0;
+
+		// if (sciantix_variable[sv["Critical intergranular bubble pressure"]].getFinalValue() <= sciantix_variable[sv["Equilibrium bubble pressure"]].getFinalValue()){
+		// 	sciantix_variable[sv["Intergranular fractional intactness"]].setFinalValue(
+		// 		sciantix_variable[sv["Intergranular fractional intactness"]].getInitialValue()+
+		// 		(1/tau)*physics_variable[pv["Time step"]].getFinalValue()*
+		// 		1e6*(sciantix_variable[sv["Critical intergranular bubble pressure"]].getFinalValue()-sciantix_variable[sv["Equilibrium bubble pressure"]].getFinalValue())
+		// 		/bubble_pressure
+		// 	);
+		// }
+		// else{
+		// 	sciantix_variable[sv["Intergranular fractional intactness"]].setConstant();
+		// }
 
 		// ODE for the intergranular fractional intactness: this equation accounts for the healing of the intergranular fractional intactness with burnup
 		// df / dBu = - h f + h
