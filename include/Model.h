@@ -26,7 +26,6 @@
 #include "HistoryVariable.h"
 #include "SciantixVariable.h"
 #include "InputVariable.h"
-#include "Matrix.h"
 #include "Gas.h"
 #include "System.h"
 

@@ -19,10 +19,8 @@
 #include <string>
 #include <vector>
 #include "SetVariables.h"
-#include "MaterialDeclaration.h"
 #include "SetGas.h"
 #include "SetModel.h"
-#include "SetMatrix.h"
 #include "SetSystem.h"
 #include "UpdateVariables.h"
 #include "Output.h"

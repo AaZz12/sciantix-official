@@ -144,7 +144,7 @@ void Output()
 		/**
 		 * Printing the matrix
 		 */
-		for (auto& matrix_ : matrix)
+		/**for (auto& matrix_ : matrix)
 		{
 			overview_file << "Matrix" << "\t";
 			overview_file << matrix_.getName() << "\t";
@@ -170,6 +170,7 @@ void Output()
 		}
 
 		overview_file << "\n";
+		 */
 	}
 	overview_file.close();
 }

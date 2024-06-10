@@ -27,29 +27,12 @@ void Initialization()
 	// Sciantix_history initialization
 	Sciantix_history[0] = Temperature_input[0];
 	Sciantix_history[1] = Temperature_input[0];
-	Sciantix_history[2] = Fissionrate_input[0];
-	Sciantix_history[3] = Fissionrate_input[0];
-	Sciantix_history[4] = Hydrostaticstress_input[0];
-	Sciantix_history[5] = Hydrostaticstress_input[0];
-	Sciantix_history[6] = 0.0;
-	
-	Sciantix_history[9] = Steampressure_input[0];
-	Sciantix_history[10] = Steampressure_input[0];
-
-	// Sciantix_variables initialization
-	Sciantix_variables[25] = 2.0e+13;  // Intergranular_bubble_concentration[0]
-	Sciantix_variables[35] = 0.5;      // Intergranular_saturation_fractional_coverage[0]
-	Sciantix_variables[37] = 1.0;      // Intergranular_fractional_intactness[0]
-
-	// https://pubchem.ncbi.nlm.nih.gov/compound/Uranium-235
-	Sciantix_variables[41] *= Sciantix_variables[40] * 6.022e+24 * 0.8815 / 234.04095; // U-234
-	Sciantix_variables[42] *= Sciantix_variables[40] * 6.022e+24 * 0.8815 / 235.04393; // U-235
-	Sciantix_variables[43] *= Sciantix_variables[40] * 6.022e+24 * 0.8815 / 236.04557; // U-236
-	Sciantix_variables[44] *= Sciantix_variables[40] * 6.022e+24 * 0.8815 / 237.04873; // U-237
-	Sciantix_variables[45] *= Sciantix_variables[40] * 6.022e+24 * 0.8815 / 238.05079; // U-238
-
-	// Intragranular similarity ratio
-	Sciantix_variables[64] = 1.0;
+	Sciantix_history[2] = Release_rate_fuel_input[0];
+	Sciantix_history[3] = Release_rate_fuel_input[0];
+	Sciantix_history[4] = Time_input[0];
+	Sciantix_history[5] = Time_step_number;
+	Sciantix_history[6] = Steampressure_input[0];
+	Sciantix_history[7] = Steampressure_input[0];
 
 	// projection on diffusion modes of the initial conditions
 	double initial_condition(0.0);

@@ -23,75 +23,17 @@ void Sciantix(int Sciantix_options[],
 	double Sciantix_diffusion_modes[])
 {
 	SetVariables(Sciantix_options, Sciantix_history, Sciantix_variables, Sciantix_scaling_factors, Sciantix_diffusion_modes);
-
-	SetGas();
-
-	SetMatrix();
-
-	SetSystem();
+	//SetSystem();
 
 	Simulation sciantix_simulation;
-
-	Burnup();
+	sciantix_simulation.SheathTemperatureUpdate();
 	MapModel();
-	sciantix_simulation.Burnup();
-
-	EffectiveBurnup();
-	MapModel();
-	sciantix_simulation.EffectiveBurnup();
-
-	EnvironmentComposition();
-	MapModel();
-
-	UO2Thermochemistry();
-	MapModel();
-	sciantix_simulation.UO2Thermochemistry();
-
-	StoichiometryDeviation();
-	MapModel();
-	sciantix_simulation.StoichiometryDeviation(); 
-
-	HighBurnupStructureFormation();
-	MapModel();
-	sciantix_simulation.HighBurnupStructureFormation();
-
-	HighBurnupStructurePorosity();
-	MapModel();
-	sciantix_simulation.HighBurnupStructurePorosity();
-
-	GrainGrowth();
-	MapModel();
-	sciantix_simulation.GrainGrowth();
-
-	GrainBoundarySweeping();
-	MapModel();
-	sciantix_simulation.GrainBoundarySweeping();
-
-	GasProduction();
-	MapModel();
-	sciantix_simulation.GasProduction();
-
+	sciantix_simulation.CoolantRadiolysis();
+	sciantix_simulation.ZircaloyOxidation();
+	sciantix_simulation.PressureEvolution();
 	sciantix_simulation.GasDecay();
-
-	IntraGranularBubbleEvolution();
-	MapModel();
-	sciantix_simulation.IntraGranularBubbleBehaviour();
-
-	GasDiffusion();
-	MapModel();
-	sciantix_simulation.GasDiffusion();
-
-	GrainBoundaryMicroCracking();
-	MapModel();
-	sciantix_simulation.GrainBoundaryMicroCracking();
-
-	GrainBoundaryVenting();
-	MapModel();
-	sciantix_simulation.GrainBoundaryVenting();
-
-	InterGranularBubbleEvolution();
-	MapModel();
-	sciantix_simulation.InterGranularBubbleBehaviour();
+	sciantix_simulation.GasInGap();
+	sciantix_simulation.GasInCoolant();
 
 	FiguresOfMerit();
 
@@ -104,7 +46,5 @@ void Sciantix(int Sciantix_options[],
 	sciantix_system.clear();
 	physics_variable.clear();
 	model.clear();
-	material.clear();
 	gas.clear();
-	matrix.clear();
 }

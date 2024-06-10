@@ -187,32 +187,12 @@ void InputReading()
 	 * 	1= active
 	 */
 
-	Sciantix_options[0] = ReadOneSetting("iGrainGrowth", input_settings, input_check);
-	Sciantix_options[1] = ReadOneSetting("iFGDiffusionCoefficient", input_settings, input_check);
-	Sciantix_options[2] = ReadOneSetting("iDiffusionSolver", input_settings, input_check);
-	Sciantix_options[3] = ReadOneSetting("iIntraGranularBubbleEvolution", input_settings, input_check);
-	Sciantix_options[4] = ReadOneSetting("iResolutionRate", input_settings, input_check);
-	Sciantix_options[5] = ReadOneSetting("iTrappingRate", input_settings, input_check);
-	Sciantix_options[6] = ReadOneSetting("iNucleationRate", input_settings, input_check);
-	Sciantix_options[7] = ReadOneSetting("iOutput", input_settings, input_check);
-	Sciantix_options[8] = ReadOneSetting("iGrainBoundaryVacancyDiffusivity", input_settings, input_check);
-	Sciantix_options[9] = ReadOneSetting("iGrainBoundaryBehaviour", input_settings, input_check);
-	Sciantix_options[10] = ReadOneSetting("iGrainBoundaryMicroCracking", input_settings, input_check);
-	Sciantix_options[11] = ReadOneSetting("iFuelMatrix", input_settings, input_check);
-	Sciantix_options[12] = ReadOneSetting("iGrainBoundaryVenting", input_settings, input_check);
 	Sciantix_options[13] = ReadOneSetting("iRadioactiveFissionGas", input_settings, input_check);
 	Sciantix_options[14] = ReadOneSetting("iHelium", input_settings, input_check);
-	Sciantix_options[15] = ReadOneSetting("iHeDiffusivity", input_settings, input_check);
-	Sciantix_options[16] = ReadOneSetting("iGrainBoundarySweeping", input_settings, input_check);
-	Sciantix_options[17] = ReadOneSetting("iHighBurnupStructureFormation", input_settings, input_check);
-	Sciantix_options[18] = ReadOneSetting("iHighBurnupStructurePorosity", input_settings, input_check);
 	Sciantix_options[19] = ReadOneSetting("iHeliumProductionRate", input_settings, input_check);
-	Sciantix_options[20] = ReadOneSetting("iStoichiometryDeviation", input_settings, input_check);
-	Sciantix_options[21] = ReadOneSetting("iBubbleDiffusivity",input_settings,input_check);
 	
 	if (!input_initial_conditions.fail())
 	{
-		Sciantix_variables[0] = ReadOneParameter("Grain radius[0]", input_initial_conditions, input_check);
 
 		std::vector<double> initial_composition_Xe;
 		initial_composition_Xe = ReadSeveralParameters("Initial composition Xe", input_initial_conditions, input_check);
@@ -240,25 +220,6 @@ void InputReading()
 		Sciantix_variables[16] = initial_composition_He[3];
 		Sciantix_variables[17] = initial_composition_He[4];
 		Sciantix_variables[18] = initial_composition_He[5];
-
-		std::vector<double> initial_intragranular_bubbles;
-		initial_intragranular_bubbles = ReadSeveralParameters("Initial intragranular bubbles", input_initial_conditions, input_check);
-		Sciantix_variables[19] = initial_intragranular_bubbles[0];
-		Sciantix_variables[20] = initial_intragranular_bubbles[1];
-
-		Sciantix_variables[38] = ReadOneParameter("Burn_up[0]", input_initial_conditions, input_check);
-		Sciantix_variables[39] = ReadOneParameter("Effective_burn_up[0]", input_initial_conditions, input_check);
-		Sciantix_variables[65] = ReadOneParameter("Irradiation_time[0]", input_initial_conditions, input_check);
-		Sciantix_variables[40] = ReadOneParameter("Fuel_density[0]", input_initial_conditions, input_check);
-
-		std::vector<double> initial_composition_U;
-		initial_composition_U = ReadSeveralParameters("Initial composition U", input_initial_conditions, input_check);
-
-		Sciantix_variables[41] = initial_composition_U[0]; // U-234
-		Sciantix_variables[42] = initial_composition_U[1]; // U-235
-		Sciantix_variables[43] = initial_composition_U[2]; // U-236
-		Sciantix_variables[44] = initial_composition_U[3]; // U-237
-		Sciantix_variables[45] = initial_composition_U[4]; // U-238
 
 		std::vector<double> initial_composition_Xe133;
 		initial_composition_Xe133 = ReadSeveralParameters("Initial composition Xe133", input_initial_conditions, input_check);
@@ -288,18 +249,17 @@ void InputReading()
 	int n = 0;
 	while (!input_history.eof())
 	{
-		input_history >> Time_input[n];
 		input_history >> Temperature_input[n];
-		input_history >> Fissionrate_input[n];
-		input_history >> Hydrostaticstress_input[n];
+		input_history >> Release_rate_fuel_input[n];
+		input_history >> Time_input[n];
 
 		if(Sciantix_options[20] > 0)
 			input_history >> Steampressure_input[n];
 
-		input_check << Time_input[n] << "\t";
+		
 		input_check << Temperature_input[n] << "\t";
-		input_check << Fissionrate_input[n] << "\t";
-		input_check << Hydrostaticstress_input[n] << "\t";
+		input_check << Release_rate_fuel_input[n] << "\t";
+		input_check << Time_input[n] << "\t";
 
 		if(Sciantix_options[20] > 0)
 			input_check << Steampressure_input[n] << "\t";
@@ -312,8 +272,7 @@ void InputReading()
 
 	Time_input.resize(Input_history_points);
 	Temperature_input.resize(Input_history_points);
-	Fissionrate_input.resize(Input_history_points);
-	Hydrostaticstress_input.resize(Input_history_points);
+	Release_rate_fuel_input.resize(Input_history_points);
 		
 	if(Sciantix_options[20] > 0)
 		Steampressure_input.resize(Input_history_points);
@@ -323,15 +282,7 @@ void InputReading()
 
 	if (!input_scaling_factors.fail())
 	{
-		Sciantix_scaling_factors[0] = ReadOneParameter("sf_resolution_rate", input_scaling_factors, input_check);
-		Sciantix_scaling_factors[1] = ReadOneParameter("sf_trapping_rate", input_scaling_factors, input_check);
-		Sciantix_scaling_factors[2] = ReadOneParameter("sf_nucleation_rate", input_scaling_factors, input_check);
-		Sciantix_scaling_factors[3] = ReadOneParameter("sf_diffusivity", input_scaling_factors, input_check);
-		Sciantix_scaling_factors[4] = ReadOneParameter("sf_temperature", input_scaling_factors, input_check);
-		Sciantix_scaling_factors[5] = ReadOneParameter("sf_fission_rate", input_scaling_factors, input_check);
-		Sciantix_scaling_factors[6] = ReadOneParameter("sf_cent_parameter", input_scaling_factors, input_check);
 		Sciantix_scaling_factors[7] = ReadOneParameter("sf_helium_production_rate", input_scaling_factors, input_check);
-		Sciantix_scaling_factors[8] = ReadOneParameter("sf_dummy", input_scaling_factors, input_check);
 	}
 	else
 	{

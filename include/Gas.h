@@ -14,11 +14,31 @@
 //                                                                                  //
 //////////////////////////////////////////////////////////////////////////////////////
 
+
+#ifndef MATERIAL_H
+#define MATERIAL_H
+
+#include <string>
+#include "Entity.h"
+#include "math.h"
+#include "FuelElement.h"
+
+/// Derived class for the materials used in SCIANTIX (e.g., fuel matrix, fission gas, etc.).
+
+class Material : virtual public Entity
+{
+public:
+	Material() { }
+	~Material() { }
+
+protected:
+	std::string name;
+};
+
+#endif // MATERIAL_H
+
 #ifndef GAS_H
 #define GAS_H
-
-#include "Material.h"
-
 /// Derived class for the fission gases (e.g., xenon, krypton, helium).
 class Gas : virtual public Material
 {
@@ -28,6 +48,9 @@ protected:
 	double van_der_waals_volume;
 	double decay_rate;
 	double precursor_factor;
+	double release_rate_coefficient;
+	double concentration_in_gap;
+	double concentration_in_coolant;
 
 public:
 	void setAtomicNumber(int y)
@@ -94,6 +117,24 @@ public:
 		 * 
 		 */
 		return precursor_factor;
+	}
+
+	void setReleaseRateCoefficient()
+	{
+		/**
+		 * @brief Member function to set the value of the release rate coefficient, for inert noble gas, with a mid-rod defect, in s^-1. (lenght of the fuel element is taken at 4m)
+		 * 
+		 */
+		double release_rate_coefficient(2*7.14*pow(10,-6)/4);
+	}
+
+	double getReleaseRateCoefficient()
+	{
+		/**
+		 * @brief Member function to get the value of the release rate coefficient.
+		 * 
+		 */
+		return release_rate_coefficient;
 	}
 	
 	Gas() { }

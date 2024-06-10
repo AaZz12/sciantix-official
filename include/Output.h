@@ -33,7 +33,6 @@
 #include "InputVariableDeclaration.h"
 #include "MapHistoryVariable.h"
 #include "MapInputVariable.h"
-#include "MatrixDeclaration.h"
 
 void Output();
 
