@@ -59,12 +59,15 @@ void GrainBoundaryRupture()
         (1 / factor) * sciantix_variable[sv["Fracture toughness"]].getFinalValue()* sqrt(1/(pi*sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue())) * 1/stressintensification;    
     double critical_bubble_pressure_second = equilibriumpressure - 
         sciantix_variable[sv["Fracture toughness"]].getFinalValue()*sqrt(1/(pi*sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue()))*(pi/(stressintensification*2) - 1/factor);    
+    double critical_bubble_pressure_third = equilibriumpressure + 
+        sciantix_variable[sv["Fracture toughness"]].getFinalValue()*sqrt(pi/sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue())*(1/stressintensification)*
+        (1-2/(factor*pi));    
     
     double bubble_pressure = (boltzmann_constant*history_variable[hv["Temperature"]].getFinalValue() *
       sciantix_variable[sv["Intergranular atoms per bubble"]].getFinalValue() /
       (sciantix_variable[sv["Intergranular vacancies per bubble"]].getFinalValue() * matrix[sma["UO2"]].getSchottkyVolume()));
     
-    sciantix_variable[sv["Critical intergranular bubble pressure"]].setFinalValue(critical_bubble_pressure_second * 1e-6);
+    sciantix_variable[sv["Critical intergranular bubble pressure"]].setFinalValue(critical_bubble_pressure_third * 1e-6);
     sciantix_variable[sv["Fracture stress"]].setFinalValue((1e-6 / factor) * sciantix_variable[sv["Fracture toughness"]].getFinalValue()* (1/(pi*sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue())) * 1/stressintensification);
     sciantix_variable[sv["Equilibrium bubble pressure"]].setFinalValue(equilibriumpressure * 1e-6);
     
