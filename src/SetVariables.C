@@ -1244,12 +1244,6 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 		modes_initial_conditions[18 * n_modes + i] = Sciantix_diffusion_modes[18 * n_modes + i];
 		modes_initial_conditions[19 * n_modes + i] = Sciantix_diffusion_modes[19 * n_modes + i];
 		modes_initial_conditions[20 * n_modes + i] = Sciantix_diffusion_modes[20 * n_modes + i]; // I
-		modes_initial_conditions[21 * n_modes + i] = Sciantix_diffusion_modes[21 * n_modes + i];
-		modes_initial_conditions[22 * n_modes + i] = Sciantix_diffusion_modes[22 * n_modes + i];
-		modes_initial_conditions[23 * n_modes + i] = Sciantix_diffusion_modes[23 * n_modes + i]; // I131
-		modes_initial_conditions[24 * n_modes + i] = Sciantix_diffusion_modes[24 * n_modes + i];
-		modes_initial_conditions[25 * n_modes + i] = Sciantix_diffusion_modes[25 * n_modes + i];
-		modes_initial_conditions[26 * n_modes + i] = Sciantix_diffusion_modes[26 * n_modes + i]; // I133
 	}
 
 	// ---------------

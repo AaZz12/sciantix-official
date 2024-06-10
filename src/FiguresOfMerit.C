@@ -59,13 +59,13 @@ void FiguresOfMerit()
 
   // Release-to-birth ratio: I133
   // Note that R/B is not defined with a null fission rate.
-  if (sciantix_variable[sv["I133 produced"]].getFinalValue() - sciantix_variable[sv["I133 decayed"]].getFinalValue() > 0.0)
-    sciantix_variable[sv["I133 R/B"]].setFinalValue(
-      sciantix_variable[sv["I133 released"]].getFinalValue() /
-      (sciantix_variable[sv["I133 produced"]].getFinalValue() - sciantix_variable[sv["I133 decayed"]].getFinalValue())
-    );
-  else
-    sciantix_variable[sv["I133 R/B"]].setFinalValue(0.0);
+  // if (sciantix_variable[sv["I133 produced"]].getFinalValue() - sciantix_variable[sv["I133 decayed"]].getFinalValue() > 0.0)
+  //   sciantix_variable[sv["I133 R/B"]].setFinalValue(
+  //     sciantix_variable[sv["I133 released"]].getFinalValue() /
+  //     (sciantix_variable[sv["I133 produced"]].getFinalValue() - sciantix_variable[sv["I133 decayed"]].getFinalValue())
+  //   );
+  // else
+  //   sciantix_variable[sv["I133 R/B"]].setFinalValue(0.0);
 
   // Helium fractional release
   if (sciantix_variable[sv["He produced"]].getFinalValue() > 0.0)
