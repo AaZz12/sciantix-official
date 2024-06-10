@@ -31,21 +31,14 @@ extern long long int Time_step_number;
 extern double  Time_h, dTime_h, Time_end_h;
 extern double  Time_s, Time_end_s;
 extern double  Number_of_time_steps_per_interval;
-extern double  Release_rate_from_fuel;
 
 extern std::ofstream Output_file;
 extern std::ofstream Execution_file;
 
 extern int Input_history_points;
 extern int Temperature_input_points;
-extern int Fissionrate_input_points;
-extern int Stempressure_input_points;
 extern int Release_rate_fuel_points;
 extern std::vector<double> Time_temperature_input;
-extern std::vector<double> Time_fissionrate_input;
-extern std::vector<double> Time_steampressure_input;
 extern std::vector<double> Time_input;
 extern std::vector<double> Temperature_input;
-extern std::vector<double> Fissionrate_input;
-extern std::vector<double> Steampressure_input;
 extern std::vector<double> Release_rate_fuel_input;

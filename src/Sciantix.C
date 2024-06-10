@@ -23,17 +23,19 @@ void Sciantix(int Sciantix_options[],
 	double Sciantix_diffusion_modes[])
 {
 	SetVariables(Sciantix_options, Sciantix_history, Sciantix_variables, Sciantix_scaling_factors, Sciantix_diffusion_modes);
-	//SetSystem();
 
 	Simulation sciantix_simulation;
-	sciantix_simulation.SheathTemperatureUpdate();
-	MapModel();
-	sciantix_simulation.CoolantRadiolysis();
-	sciantix_simulation.ZircaloyOxidation();
-	sciantix_simulation.PressureEvolution();
-	sciantix_simulation.GasDecay();
+	
+	// sciantix_simulation.SheathTemperatureUpdate();
+	// MapModel();
+
 	sciantix_simulation.GasInGap();
-	sciantix_simulation.GasInCoolant();
+
+	// sciantix_simulation.GasInCoolant();
+	// sciantix_simulation.CoolantRadiolysis();
+	// sciantix_simulation.ZircaloyOxidation();
+	// sciantix_simulation.PressureEvolution();
+	// sciantix_simulation.GasDecay();
 
 	FiguresOfMerit();
 

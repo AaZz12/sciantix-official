@@ -87,32 +87,43 @@ class Simulation : public Solver, public Model
 
 	void GasInGap()
 	{
-		for (auto& system : sciantix_system)
-		{
-			if (sciantix_variable[sv["Gap pressure"]].getFinalValue() > 4 && gas[ga[system.getGasName()]].getName() != "Hydrogen") //estimation of the limit gap presssure from Veschunov
-			{
-				sciantix_variable[sv[system.getGasName() + "concentration gap"]].setFinalValue(
-					solver.Decay(
-						sciantix_variable[sv[system.getGasName() + "concentration gap"]].getInitialValue(),
-						gas[ga[system.getGasName()]].getDecayRate() + gas[ga[system.getGasName()]].getReleaseRateCoefficient(),
-						history_variable[sv["Release rate from fuel"]].getFinalValue(),
-						physics_variable[pv["Time step"]].getFinalValue()
-						)
-				);
-			}
-			else
-			{
-				sciantix_variable[sv[system.getGasName() + "concentration gap"]].setFinalValue(
-					solver.Decay(
-						sciantix_variable[sv[system.getGasName() + "concentration gap"]].getInitialValue(),
-						gas[ga[system.getGasName()]].getDecayRate() + gas[ga[system.getGasName()]].getReleaseRateCoefficient(),
-						0,
-						physics_variable[pv["Time step"]].getFinalValue()
-						)
-				);
-			}
+		// dN / dt = q - (L+E)N
+		sciantix_variable[sv["Xe gap"]].setFinalValue(
+			solver.Decay(
+					sciantix_variable[sv["Xe gap"]].getInitialValue(),
+					1.0e-5,
+					history_variable[sv["Release rate from fuel"]].getFinalValue(), // release rate from the fuel
+					physics_variable[pv["Time step"]].getFinalValue()
+				)
+			);
 
-		}
+
+		// for (auto& system : sciantix_system)
+		// {
+		// 	if (sciantix_variable[sv["Gap pressure"]].getFinalValue() > 4 && gas[ga[system.getGasName()]].getName() != "Hydrogen") //estimation of the limit gap presssure from Veschunov
+		// 	{
+		// 		sciantix_variable[sv[system.getGasName() + "concentration gap"]].setFinalValue(
+		// 			solver.Decay(
+		// 				sciantix_variable[sv[system.getGasName() + "concentration gap"]].getInitialValue(),
+		// 				gas[ga[system.getGasName()]].getDecayRate() + gas[ga[system.getGasName()]].getReleaseRateCoefficient(),
+		// 				history_variable[sv["Release rate from fuel"]].getFinalValue(),
+		// 				physics_variable[pv["Time step"]].getFinalValue()
+		// 				)
+		// 		);
+		// 	}
+		// 	else
+		// 	{
+		// 		sciantix_variable[sv[system.getGasName() + "concentration gap"]].setFinalValue(
+		// 			solver.Decay(
+		// 				sciantix_variable[sv[system.getGasName() + "concentration gap"]].getInitialValue(),
+		// 				gas[ga[system.getGasName()]].getDecayRate() + gas[ga[system.getGasName()]].getReleaseRateCoefficient(),
+		// 				0,
+		// 				physics_variable[pv["Time step"]].getFinalValue()
+		// 				)
+		// 		);
+		// 	}
+
+		// }
 	}
 
 	void GasInCoolant()

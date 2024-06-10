@@ -27,69 +27,10 @@ void Initialization()
 	// Sciantix_history initialization
 	Sciantix_history[0] = Temperature_input[0];
 	Sciantix_history[1] = Temperature_input[0];
+
 	Sciantix_history[2] = Release_rate_fuel_input[0];
 	Sciantix_history[3] = Release_rate_fuel_input[0];
+	
 	Sciantix_history[4] = Time_input[0];
 	Sciantix_history[5] = Time_step_number;
-	Sciantix_history[6] = Steampressure_input[0];
-	Sciantix_history[7] = Steampressure_input[0];
-
-	// projection on diffusion modes of the initial conditions
-	double initial_condition(0.0);
-	double projection_remainder(0.0);
-	double reconstructed_solution(0.0);
-	int iteration(0), iteration_max(20), n(0), np1(1), n_modes(40), k(0), K(20);
-	double projection_coeff(0.0);
-	projection_coeff = -sqrt(8.0 / pi);
-
-	for (k = 0; k < K; ++k)
-	{
-		switch (k)
-		{
-		case 0: initial_condition = Sciantix_variables[2];  break;  // Xe in grain
-		case 1: initial_condition = Sciantix_variables[3];  break;  // Xe in grain - solution
-		case 2: initial_condition = Sciantix_variables[4];  break;  // Xe in grain - bubbles
-
-		case 3: initial_condition = Sciantix_variables[8];  break;  // Kr in grain
-		case 4: initial_condition = Sciantix_variables[9];  break;  // Kr in grain - solution
-		case 5: initial_condition = Sciantix_variables[10]; break;  // Kr in grain - bubbles
-
-		case 6: initial_condition = Sciantix_variables[14]; break;  // He in grain
-		case 7: initial_condition = Sciantix_variables[15]; break;  // He in grain - solution
-		case 8: initial_condition = Sciantix_variables[16]; break;  // He in grain - bubbles
-
-		case 9: initial_condition = Sciantix_variables[49]; break;  // Xe133 in grain
-		case 10: initial_condition = Sciantix_variables[50]; break;  // Xe133 in grain - solution
-		case 11: initial_condition = Sciantix_variables[51]; break;  // Xe133 in grain - bubbles
-
-		case 12: initial_condition = Sciantix_variables[58]; break;  // Kr85m in grain
-		case 13: initial_condition = Sciantix_variables[59]; break;  // Kr85m in grain - solution
-		case 14: initial_condition = Sciantix_variables[60]; break;  // Kr85m in grain - bubbles
-		
-		case 15: initial_condition = Sciantix_variables[92]; break;  // Xe in UO2 HBS
-		case 16: initial_condition = Sciantix_variables[93]; break;  // Xe in UO2 HBS - solution
-		case 17: initial_condition = Sciantix_variables[94]; break;  // Xe in UO2 HBS - bubbles
-
-		default: initial_condition = 0.0; break;
-		}
-
-		projection_remainder = initial_condition;
-		for (iteration = 0; iteration < iteration_max; ++iteration)
-		{
-			reconstructed_solution = 0.0;
-			for (n = 0; n < n_modes; ++n)
-			{
-				np1 = n + 1;
-				const double n_coeff = pow(-1.0, np1) / np1;
-				Sciantix_diffusion_modes[k * n_modes + n] += projection_coeff * n_coeff * projection_remainder;
-				reconstructed_solution += projection_coeff * n_coeff * Sciantix_diffusion_modes[k * n_modes + n] * 3.0 / (4.0 * pi);
-			}
-			projection_remainder = initial_condition - reconstructed_solution;
-		}
-	}
-
-	// Warnings
-	if(Sciantix_variables[38] > 0.0 && Sciantix_variables[65] == 0.0)
-		std::cout << "WARNING - FIMA calculation: Initial fuel burnup > 0 but null initial irradiation time. Check initial irradiation time." << std::endl;
-
 }

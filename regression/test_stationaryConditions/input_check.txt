@@ -1,0 +1,27 @@
+iRadioactiveFissionGas = 1
+iHelium = 1
+iHeliumProductionRate = 1
+Initial composition Xe0 = 0
+Initial composition Xe1 = 0
+Initial composition Xe2 = 0
+Initial composition Xe3 = 0
+Initial composition Xe4 = 0
+Initial composition Xe5 = 0
+Initial composition Kr0 = 0
+Initial composition Kr1 = 0
+Initial composition Kr2 = 0
+Initial composition Kr3 = 0
+Initial composition Kr4 = 0
+Initial composition Kr5 = 0
+Initial composition He0 = 0
+Initial composition He1 = 0
+Initial composition He2 = 0
+Initial composition He3 = 0
+Initial composition He4 = 0
+Initial composition He5 = 0
+Initial composition Xe1330 = 0
+Initial composition Xe1331 = 0
+Initial composition Kr85m0 = 0
+Initial stoichiometry deviation[0] = 0
+0	1000	1e+22	
+10	1000	1e+22	

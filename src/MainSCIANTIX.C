@@ -60,28 +60,36 @@ int main()
 
 	timer = clock();
 
+	// std::cout << "france" << std::endl;
+
 	while (Time_h <= Time_end_h)
 	{
+		// temperature
 		Sciantix_history[0] = Sciantix_history[1];
 		Sciantix_history[1] = InputInterpolation(Time_h, Time_input, Temperature_input, Input_history_points);
+
+		std::cout << Time_h << std::endl;
+		std::cout << Time_end_h << std::endl;
+
+		// release rate
 		Sciantix_history[2] = Sciantix_history[3];
 		Sciantix_history[3] = InputInterpolation(Time_h, Time_input, Release_rate_fuel_input, Input_history_points);
-		if (Sciantix_history[3] < 0.0) Sciantix_history[3] = 0.0;
+
 		Sciantix_history[4] = Time_h;
 		Sciantix_history[5] = static_cast<double>(Time_step_number);
-		Sciantix_history[6] = Sciantix_history[7];
-		Sciantix_history[7] = InputInterpolation(Time_h, Time_input, Steampressure_input, Input_history_points);
 
 		Sciantix(Sciantix_options, Sciantix_history, Sciantix_variables, Sciantix_scaling_factors, Sciantix_diffusion_modes);
+		// std::cout << Time_h << std::endl;
+		// std::cout << Time_end_h << std::endl;
 
 		dTime_h = TimeStepCalculation();
-		Sciantix_history[6] = dTime_h * 3600;
+		Sciantix_history[8] = dTime_h * 3600;
 
 		if (Time_h < Time_end_h)
 		{
 			Time_step_number++;
 			Time_h += dTime_h;
-			Time_s += Sciantix_history[6];
+			Time_s += Sciantix_history[8];
 		}
 		else break;
 	}
