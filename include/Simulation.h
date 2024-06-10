@@ -491,6 +491,8 @@ class Simulation : public Solver, public Model
 			}
 		}
 
+		// threshold to put I131 at grain boundary = 0
+
 		// Calculation of the gas concentration arrived at the grain boundary, by mass balance.
 		for (auto& system : sciantix_system)
 		{
