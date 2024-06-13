@@ -406,9 +406,9 @@ void SetVariables(int Sciantix_options[], double Sciantix_history[], double Scia
 
 	sciantix_variable.emplace_back();
 	sciantix_variable[sv_counter].setName("He gap");
-	sciantix_variable[sv_counter].setUOM("(m-3)");
-	sciantix_variable[sv_counter].setInitialValue(sciantix_variable[sv["Gap pressure"]].getInitialValue()/(PhysicsConstants::boltzmann_constant*sciantix_variable[sv["Temperature"]].getInitialValue()));
-	sciantix_variable[sv_counter].setFinalValue(sciantix_variable[sv["Gap pressure"]].getInitialValue()/(PhysicsConstants::boltzmann_constant*sciantix_variable[sv["Temperature"]].getInitialValue()));
+	sciantix_variable[sv_counter].setUOM("(at/m3)");
+	sciantix_variable[sv_counter].setInitialValue((Sciantix_variables[5] * 1e06)/(PhysicsConstants::boltzmann_constant * Sciantix_history[0] * Sciantix_scaling_factors[4]));
+	sciantix_variable[sv_counter].setFinalValue((Sciantix_variables[5] * 1e06)/(PhysicsConstants::boltzmann_constant * Sciantix_history[0] * Sciantix_scaling_factors[4]));
 	sciantix_variable[sv_counter].setOutput(1);
 	++sv_counter;
 
