@@ -55,7 +55,7 @@ void Initialization()
 	double initial_condition(0.0);
 	double projection_remainder(0.0);
 	double reconstructed_solution(0.0);
-	int iteration(0), iteration_max(20), n(0), np1(1), n_modes(40), k(0), K(20);
+	int iteration(0), iteration_max(23), n(0), np1(1), n_modes(40), k(0), K(23);
 	double projection_coeff(0.0);
 	projection_coeff = -sqrt(8.0 / pi);
 
@@ -87,9 +87,13 @@ void Initialization()
 		case 16: initial_condition = Sciantix_variables[93]; break;  // Xe in UO2 HBS - solution
 		case 17: initial_condition = Sciantix_variables[94]; break;  // Xe in UO2 HBS - bubbles
 
-		case 18: initial_condition = Sciantix_variables[108]; break;  // I131 in grain
-		case 19: initial_condition = Sciantix_variables[109]; break;  // I131 in grain - solution
-		case 20: initial_condition = Sciantix_variables[110]; break;  // I131 in grain - bubbles
+		case 18: initial_condition = Sciantix_variables[102]; break;  // I in grain
+		case 19: initial_condition = Sciantix_variables[103]; break;  // I in grain - solution
+		case 20: initial_condition = Sciantix_variables[104]; break;  // I in grain - bubbles
+
+		case 21: initial_condition = Sciantix_variables[108]; break;  // I131 in grain
+		case 22: initial_condition = Sciantix_variables[109]; break;  // I131 in grain - solution
+		case 23: initial_condition = Sciantix_variables[110]; break;  // I131 in grain - bubbles
 
 		default: initial_condition = 0.0; break;
 		}

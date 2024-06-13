@@ -40,6 +40,7 @@
 #include "MapMatrix.h"
 #include "ConstantNumbers.h"
 #include "UO2Thermochemistry.h"
+#include "IodineReleaseTreshold.h"
 
 /// @brief
 /// Derived class representing the operations of SCIANTIX. The conjunction of the models with the implemented solvers results in the simulation.
@@ -913,6 +914,9 @@ class Simulation : public Solver, public Model
 		else if (gas_name == "I131")
 			return &modes_initial_conditions[18 * 40];
 
+		else if(gas_name == "I")
+			return &modes_initial_conditions[21 * 40];
+
 		else
 		{
 			std::cerr << "Error: Invalid gas name \"" << gas_name << "\" in Simulation::getDiffusionModes." << std::endl;
@@ -942,6 +946,9 @@ class Simulation : public Solver, public Model
 
 		else if (gas_name == "I131")
 			return &modes_initial_conditions[19 * 40];
+
+		else if(gas_name == "I")
+			return &modes_initial_conditions[22 * 40];
 		
 		else
 		{
@@ -969,13 +976,24 @@ class Simulation : public Solver, public Model
 
 		else if (gas_name == "I131")
 			return &modes_initial_conditions[20 * 40];
-		
+
+		else if(gas_name == "I")
+			return &modes_initial_conditions[23 * 40];		
 
 		else
 		{
 			std::cerr << "Error: Invalid gas name \"" << gas_name << "\" in Simulation::getDiffusionModesBubbles." << std::endl;
 			return nullptr;
 		}
+	}
+
+	void IodineReleaseTreshold()
+	{
+		if (history_variable[hv["Temperature"]].getFinalValue() > 1300)
+			{
+			sciantix_variable[sv["I at grain boundary"]].setFinalValue(0);
+			sciantix_variable[sv["I131 at grain boundary"]].setFinalValue(0);
+			}	
 	}
 
 	Simulation() {}

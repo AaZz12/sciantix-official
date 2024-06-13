@@ -26,7 +26,5 @@
 #	initial Kr85m (at/m3) produced, intragranular, intragranular in solution, intragranular in bubbles, decayed, grain boundary, released
 0.0	0.0	0.0	0.0	0.0	0.0 0.0
 #	initial I131 (at/m3) produced, intragranular, intragranular in solution, intragranular in bubbles, decayed, grain boundary, released
-0.0	0.0	0.0	0.0	0.0	0.0 0.0
-#	initial I133 (at/m3) produced, intragranular, intragranular in solution, intragranular in bubbles, decayed, grain boundary, released
 0.0
 #   initial fuel stoichiometry deviation (\)

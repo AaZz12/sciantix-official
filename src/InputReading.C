@@ -302,17 +302,6 @@ void InputReading()
 		Sciantix_variables[112] = initial_composition_I131[5];
 		Sciantix_variables[113] = initial_composition_I131[6];
 
-		std::vector<double> initial_composition_I133;
-		initial_composition_I133 = ReadSeveralParameters("Initial composition I133", input_initial_conditions, input_check);
-
-		Sciantix_variables[114] = initial_composition_I133[0];
-		Sciantix_variables[115] = initial_composition_I133[1];
-		Sciantix_variables[116] = initial_composition_I133[2];
-		Sciantix_variables[117] = initial_composition_I133[3];
-		Sciantix_variables[118] = initial_composition_I133[4];
-		Sciantix_variables[119] = initial_composition_I133[5];
-		Sciantix_variables[120] = initial_composition_I133[6];
-
 		Sciantix_variables[66] = ReadOneParameter("Initial stoichiometry deviation[0]", input_initial_conditions, input_check);
 	}
 

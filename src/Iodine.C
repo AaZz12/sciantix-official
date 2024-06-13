@@ -14,15 +14,6 @@ void Iodine()
 
 	++index;
 	gas.emplace_back();
-	gas[index].setName("I133");
-	gas[index].setAtomicNumber(53);
-	gas[index].setMassNumber(133);
-	gas[index].setVanDerWaalsVolume(9.33e-29);
-	gas[index].setDecayRate(9.25e-6);
-	gas[index].setPrecursorFactor(1);
-
-	++index;
-	gas.emplace_back();
 	gas[index].setName("I131");
 	gas[index].setAtomicNumber(53);
 	gas[index].setMassNumber(131);

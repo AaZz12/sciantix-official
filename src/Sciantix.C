@@ -70,9 +70,6 @@ void Sciantix(int Sciantix_options[],
 	GasProduction();
 	MapModel();
 	sciantix_simulation.GasProduction();
-
-	// std::cout << sciantix_variable[sv["I131 produced"]].getFinalValue() << std::endl;
-
 	sciantix_simulation.GasDecay();
 
 	IntraGranularBubbleEvolution();
@@ -94,6 +91,10 @@ void Sciantix(int Sciantix_options[],
 	InterGranularBubbleEvolution();
 	MapModel();
 	sciantix_simulation.InterGranularBubbleBehaviour();
+
+	IodineReleaseTreshold();
+	MapModel();
+	sciantix_simulation.IodineReleaseTreshold();
 
 	FiguresOfMerit();
 

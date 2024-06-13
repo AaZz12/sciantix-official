@@ -77,13 +77,6 @@ Initial composition I1313 = 0
 Initial composition I1314 = 0
 Initial composition I1315 = 0
 Initial composition I1316 = 0
-Initial composition I1330 = 0
-Initial composition I1331 = 0
-Initial composition I1332 = 0
-Initial composition I1333 = 0
-Initial composition I1334 = 0
-Initial composition I1335 = 0
-Initial composition I1336 = 0
 Initial stoichiometry deviation[0] = 0
 0	1373	1e+19	0	
 5500	1373	1e+19	0	
