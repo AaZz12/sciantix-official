@@ -103,14 +103,18 @@ void InputReading()
 
 	if (!input_initial_conditions.fail())
 	{
-		std::vector<double> initial_composition_Xe;
-		initial_composition_Xe = ReadSeveralParameters("Initial composition Xe", input_initial_conditions, input_check);
-		Sciantix_variables[1] = initial_composition_Xe[0];
-		Sciantix_variables[2] = initial_composition_Xe[1];
-		Sciantix_variables[3] = initial_composition_Xe[2];
-		Sciantix_variables[4] = initial_composition_Xe[3];
-		Sciantix_variables[5] = initial_composition_Xe[4];
-		Sciantix_variables[6] = initial_composition_Xe[5];
+		std::vector<double> initial_conditions;
+		initial_conditions = ReadSeveralParameters("Initial conditions", input_initial_conditions, input_check);
+		Sciantix_variables[1] = initial_conditions[0]; //Xe gap
+		Sciantix_variables[2] = initial_conditions[1]; //Xe decayed
+		Sciantix_variables[3] = initial_conditions[2]; //Xe released
+		std::cout << " fin Xe" << std::endl;
+		Sciantix_variables[4] = initial_conditions[3]; //release to coolant
+		std::cout << " fin release" << std::endl;
+		Sciantix_variables[5] = initial_conditions[4]; //gap pressure
+		std::cout << " fin pressure" << std::endl;
+		Sciantix_variables[6] = initial_conditions[5]; //gap volume
+		std::cout << " fin volume" << std::endl;
 	}
 
 	int n = 0;

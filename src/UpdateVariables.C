@@ -22,9 +22,10 @@ void UpdateVariables(double Sciantix_variables[], double Sciantix_diffusion_mode
 {
 	std::cout << sciantix_variable[sv["Xe gap"]].getFinalValue() << std::endl;
 
-	Sciantix_variables[0] = sciantix_variable[sv["Xe gap"]].getFinalValue();
-	Sciantix_variables[1] = sciantix_variable[sv["Xe decayed"]].getFinalValue();
-	Sciantix_variables[2] = sciantix_variable[sv["Xe released"]].getFinalValue();
-	Sciantix_variables[3] = sciantix_variable[sv["Release to coolant"]].getFinalValue();
-	Sciantix_variables[4] = sciantix_variable[sv["Gap pressure"]].getFinalValue();
+	Sciantix_variables[1] = sciantix_variable[sv["Xe gap"]].getFinalValue();
+	Sciantix_variables[2] = sciantix_variable[sv["Xe decayed"]].getFinalValue();
+	Sciantix_variables[3] = sciantix_variable[sv["Xe released"]].getFinalValue();
+	Sciantix_variables[4] = sciantix_variable[sv["Release to coolant"]].getFinalValue();
+	Sciantix_variables[5] = sciantix_variable[sv["Gap pressure"]].getFinalValue();
+	Sciantix_variables[6] = sciantix_variable[sv["Gap volume"]].getFinalValue();
 }

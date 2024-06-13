@@ -1,11 +1,11 @@
 iOutput = 1
 iOption2 = 1
 iOption3 = 1
-Initial composition Xe0 = 0
-Initial composition Xe1 = 0
-Initial composition Xe2 = 0
-Initial composition Xe3 = 0
-Initial composition Xe4 = 0
-Initial composition Xe5 = 0
+Initial conditions0 = 0
+Initial conditions1 = 0
+Initial conditions2 = 0
+Initial conditions3 = 0
+Initial conditions4 = 1
+Initial conditions5 = 1.5e-05
 0	1000	1e+22	
 10	1000	1e+22	
