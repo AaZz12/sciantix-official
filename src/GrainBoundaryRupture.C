@@ -39,46 +39,64 @@ void GrainBoundaryRupture()
     const double pi = CONSTANT_NUMBERS_H::MathConstants::pi;
 
 
-    double E =  matrix[sma["UO2"]].getElasticModulus() * 1e6;
+    double E =  matrix[sma["UO2"]].getElasticModulus() * 1e6; // Pa
     double nu =  matrix[sma["UO2"]].getPoissonRatio();
-    double G_gb =  matrix[sma["UO2"]].getGrainBoundaryFractureEnergy();
+    double G_gb =  matrix[sma["UO2"]].getGrainBoundaryFractureEnergy(); // J/m2
 
-    // Polynomial fit for the (dimensionless) stress intensity factor
-    // @ref Jernkvist 2019      : Fi = (+ 0.568Fc**2 + 0.059Fc + 0.5587)*pi
-    //double factor = pi * (0.568 * pow(sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue(),2) + 0.059 * sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue() + 0.5587);
-    double factor = sqrt(4*pow(sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue(), -0.5)-4);
-    double stressintensification = 1 + 2*sin(matrix[sma["UO2"]].getSemidihedralAngle())/(1-cos(matrix[sma["UO2"]].getSemidihedralAngle()));
-    //std::cout << stressintensification <<std::endl;
-        
+    // Fracture toughness
+    // K_IC = sqrt(elasticmodulus*grainboundaryenergy/(1-poissonratio**2))
     sciantix_variable[sv["Fracture toughness"]].setFinalValue(sqrt(E * G_gb / (1.0 - pow(nu, 2))) * 1e-6); // (MPa m0.5)
     
+    // Stress intensification at GB tip
+    // kt = 1 + crackdiameter / crackheight
+    double stressintensification = 1 + 2*sin(matrix[sma["UO2"]].getSemidihedralAngle())/(1-cos(matrix[sma["UO2"]].getSemidihedralAngle()));
+    //double stressintensification = 1;
+    std::cout << "Stress intensification factor ="<< stressintensification <<std::endl;
+
+    // Equilibrium pressure by capillary pressure and hydrostatic stress
+    // P = (2*effective_surface_tension)/bubble radius + Phydrostatic
     double equilibriumpressure = 2.0 * matrix[sma["UO2"]].getSurfaceTension()*(1-cos(matrix[sma["UO2"]].getSemidihedralAngle())) / sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue() -
-				history_variable[hv["Hydrostatic stress"]].getFinalValue() * 1e6;
+				history_variable[hv["Hydrostatic stress"]].getFinalValue() * 1e6; //Pa
+    sciantix_variable[sv["Equilibrium bubble pressure"]].setFinalValue(equilibriumpressure * 1e-6);
+
+    // JERNKVIST 2019
+
+    // Polynomial fit for the (dimensionless) stress intensity factor
+    // @ref Jernkvist 2019: Fi = (+ 0.568Fc**2 + 0.059Fc + 0.5587)
+    double factorJ = (0.568 * pow(sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue(),2) + 0.059 * sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue() + 0.5587);
     
-    double critical_bubble_pressure = equilibriumpressure + 
-        (1 / factor) * sciantix_variable[sv["Fracture toughness"]].getFinalValue()* sqrt(1/(pi*sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue())) * 1/stressintensification;    
-    double critical_bubble_pressure_second = equilibriumpressure - 
-        sciantix_variable[sv["Fracture toughness"]].getFinalValue()*sqrt(1/(pi*sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue()))*(pi/(stressintensification*2) - 1/factor);    
-    double critical_bubble_pressure_third = equilibriumpressure + 
-        sciantix_variable[sv["Fracture toughness"]].getFinalValue()*sqrt(pi/sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue())*(1/stressintensification)*
-        (1-2/(factor*pi));    
+    // Pcrit = Peq + (1/(pi*F))*Kic*sqrt(pi/radius)*(1/kt)  //Pa
+    double critical_bubble_pressureJ = equilibriumpressure + 
+        (1 / (pi*factorJ)) * sciantix_variable[sv["Fracture toughness"]].getFinalValue()*1e6* sqrt(pi/(sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue())) * 1/stressintensification;    
+   
+    // THIS WORK
+
+    // Geometrical factor accounting for fractional coverage of the grain face
+    // F = 2*(sqrt(1/sqrt(Fc)-1)
+    double factor = 2*sqrt(pow(sciantix_variable[sv["Intergranular fractional coverage"]].getFinalValue(), -0.5)-1);
     
-    double bubble_pressure = (boltzmann_constant*history_variable[hv["Temperature"]].getFinalValue() *
+    // Pcrit = Peq + (1-2/(pi*F))*Kic*sqrt(pi/radius)*(1/kt) //Pa
+    double geometrical_factor = 0.38;
+    double fracture_stress = sciantix_variable[sv["Fracture toughness"]].getFinalValue()*1e6*sqrt(pi/sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue())*(1/stressintensification)*(geometrical_factor)*(1-1/(factor*pi*geometrical_factor));
+    double critical_bubble_pressure = equilibriumpressure + fracture_stress;    //Pa
+    
+    sciantix_variable[sv["Fracture stress"]].setFinalValue(fracture_stress*1e-6); //MPa
+    sciantix_variable[sv["Critical intergranular bubble pressure"]].setFinalValue(critical_bubble_pressure*1e-6); //MPa
+    
+    
+    double bubble_pressure = (boltzmann_constant*history_variable[hv["Temperature"]].getFinalValue() * //Pa
       sciantix_variable[sv["Intergranular atoms per bubble"]].getFinalValue() /
       (sciantix_variable[sv["Intergranular vacancies per bubble"]].getFinalValue() * matrix[sma["UO2"]].getSchottkyVolume()));
     
-    sciantix_variable[sv["Critical intergranular bubble pressure"]].setFinalValue(critical_bubble_pressure_third * 1e-6);
-    sciantix_variable[sv["Fracture stress"]].setFinalValue((1e-6 / factor) * sciantix_variable[sv["Fracture toughness"]].getFinalValue()* (1/(pi*sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue())) * 1/stressintensification);
-    sciantix_variable[sv["Equilibrium bubble pressure"]].setFinalValue(equilibriumpressure * 1e-6);
     
     if (history_variable[hv["Temperature"]].getIncrement()!=0){
         std::cout << "Surface tension (J/m2) = "<< matrix[sma["UO2"]].getSurfaceTension() <<std::endl;
-        std::cout << "Elastic modulus (MPa) = "<< E*1e-6 <<std::endl;
-        std::cout << "Capillary pressure = "<< 2.0 * matrix[sma["UO2"]].getSurfaceTension() / sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue() <<std::endl;
-        std::cout << "Capillary pressure by  (Jernkvist 2020) = "<< 2.0 * matrix[sma["UO2"]].getSurfaceTension()*(1-cos(matrix[sma["UO2"]].getSemidihedralAngle()))/ sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue() <<std::endl;
-        std::cout << "Critical pressure 1: "<<critical_bubble_pressure<<std::endl;
-        std::cout << "Critical pressure 2: "<<critical_bubble_pressure_second<<std::endl;
-        std::cout << "Bubble pressure: "<<bubble_pressure<<std::endl;
+        std::cout << "Elastic modulus (GPa) = "<< E*1e-9 <<std::endl;
+        std::cout << "Capillary pressure (Pa) = "<< 2.0 * matrix[sma["UO2"]].getSurfaceTension() / sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue() <<std::endl;
+        std::cout << "Capillary pressure by  (Jernkvist 2020, Pa) = "<< 2.0 * matrix[sma["UO2"]].getSurfaceTension()*(1-cos(matrix[sma["UO2"]].getSemidihedralAngle()))/ sciantix_variable[sv["Intergranular bubble radius"]].getFinalValue() <<std::endl;
+        std::cout << "Critical pressure (Pa): "<<critical_bubble_pressure<<std::endl;
+        std::cout << "Critical pressure Jernkvist (Pa): "<<critical_bubble_pressureJ<<std::endl;
+        std::cout << "Bubble pressure (Pa): "<<bubble_pressure<<std::endl;
     }
     
     parameter.push_back(critical_bubble_pressure);
