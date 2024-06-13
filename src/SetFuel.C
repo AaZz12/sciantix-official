@@ -22,7 +22,13 @@ void SetFuel()
 {
     switch (int(input_variable[iv["iFuel"]].getValue()))
     {
+
     case 0:
+    {
+        Standard_Fuel();
+    }
+
+    case 1:
     {
         Standard_Fuel();
     }
@@ -32,7 +38,8 @@ void SetFuel()
     }
 }
 
-double weightedAverage(const std::vector<double>& w, const std::vector<double>& v) {
+double weightedAverage(const std::vector<double>& w, const std::vector<double>& v) 
+{
     // Check if the vectors have the same dimensions
     if (w.size() != v.size()) {
         throw std::invalid_argument("Vectors must have the same dimensionality");
@@ -46,28 +53,21 @@ double weightedAverage(const std::vector<double>& w, const std::vector<double>& 
     return weighted_average;
 }
 
-void Fuel::setHomoVolumeInLattice(int input_value)
-{   
-    switch(input_value)
-    {
-        case 0:
-        {   
-            std::vector<double> weights = {matrix[sma["UO2"]].getSchottkyVolume(), matrix[sma["UO2HBS"]].getSchottkyVolume()};
-            std::vector<double> values = {fuel[fu["Standard_Fuel"]].getVolumetricFractionOne(), fuel[fu["Standard_Fuel"]].getVolumetricFractionTwo()};
-            homo_volume_in_lattice = weightedAverage(weights, values);
-        }
-    }
-}
+void Fuel::setHomogenizedElasticModulus(int input_value)
+{
+	switch (input_value)
+	{
+	case 0:
+	{
+		/**
+		 * @brief setHomogenizedElasticModulus = 0 stands for homogenization for UO2 + UO2 HBS (da completare)
+		 * 
+		*/
 
-void Fuel::setHomoProductionRate(int input_value)
-{   
-    switch(input_value)
-    {
-        case 0:
-        {   
-            std::vector<double> weights = {sciantix_system[sy["Xe_in_UO2"]].getProductionRate(), sciantix_system[sy["Xe_in_UO2HBS"]].getProductionRate()};
-            std::vector<double> values = {fuel[fu["Standard_Fuel"]].getVolumetricFractionOne(), fuel[fu["Standard_Fuel"]].getVolumetricFractionTwo()};
-            homo_volume_in_lattice = weightedAverage(weights, values);
-        }
+		reference += ": Null grain-boundary mobility.\n\t";
+		grain_boundary_mobility = 0.0;
+
+		break;
+	}
     }
 }

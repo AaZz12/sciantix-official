@@ -42,6 +42,6 @@ void UO2()
 	matrix[index].setPoreNucleationRate();
 	matrix[index].setPoreResolutionRate();
 	matrix[index].setPoreTrappingRate();
-	matrix[index].setElasticModulus(0);
+	matrix[index].setElasticModulus(1);
 	matrix[index].setPoissonRatio(0);
 }
