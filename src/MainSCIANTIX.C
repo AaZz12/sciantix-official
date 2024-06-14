@@ -48,15 +48,20 @@
 
 void logExecutionTime(double timer, int time_step_number);
 
-int main()
+int main(int argc, char** argv)
 {
-	InputReading();
+
+    const std::string testFilePath = argv[1];
+
+	InputReading(testFilePath);
 
 	Initialization();
 
-	remove("output.txt");
+	std::string outputPath = testFilePath + "output.txt";
 
-	Execution_file.open("execution.txt", std::ios::out);
+	remove(outputPath.c_str());
+
+	Execution_file.open(testFilePath + "execution.txt", std::ios::out);
 
 	timer = clock();
 
@@ -74,7 +79,7 @@ int main()
 		Sciantix_history[9] = Sciantix_history[10];
 		Sciantix_history[10] = InputInterpolation(Time_h, Time_input, Steampressure_input, Input_history_points);
 
-		Sciantix(Sciantix_options, Sciantix_history, Sciantix_variables, Sciantix_scaling_factors, Sciantix_diffusion_modes);
+		Sciantix(Sciantix_options, Sciantix_history, Sciantix_variables, Sciantix_scaling_factors, Sciantix_diffusion_modes, testFilePath);
 
 		dTime_h = TimeStepCalculation();
 		Sciantix_history[6] = dTime_h * 3600;

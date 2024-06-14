@@ -21,4 +21,4 @@
 #include <vector>
 #include <numeric>
 
-void InputReading();
+void InputReading(const std::string testFilePath);
