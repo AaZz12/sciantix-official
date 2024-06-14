@@ -51,7 +51,7 @@ void logExecutionTime(double timer, int time_step_number);
 int main(int argc, char** argv)
 {
 
-    const std::string testFilePath = argv[1];
+    std::string testFilePath = argv[1];
 
 	InputReading(testFilePath);
 
