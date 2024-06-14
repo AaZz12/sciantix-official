@@ -46,11 +46,23 @@
 #include <fstream>
 #include <ctime>
 
+
+/**
+ * \brief Logs the execution time of the simulation.
+ * @param timer The total execution time measured in seconds.
+ * @param time_step_number The total number of time steps executed during the simulation.
+ */
 void logExecutionTime(double timer, int time_step_number);
 
+
+/**
+ * \brief Main entry point for the SCIANTIX program.
+ * @param argc Number of command-line arguments.
+ * @param argv Array of command-line arguments, where argv[1] is expected to be the path to the input file.
+ * @return Returns 0 upon successful completion of the program.
+ */
 int main(int argc, char** argv)
 {
-
     std::string testFilePath = argv[1];
 
 	InputReading(testFilePath);
@@ -100,6 +112,7 @@ int main(int argc, char** argv)
 
 	return 0;
 }
+
 
 void logExecutionTime(double timer, int time_step_number)
 {
